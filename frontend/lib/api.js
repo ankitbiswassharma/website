@@ -1,7 +1,31 @@
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:8000/api/v1";
+const configuredApiBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL?.trim();
+
+function isLocalhostUrl(url) {
+  return /^https?:\/\/(localhost|127\.0\.0\.1)(:\d+)?/i.test(url);
+}
+
+function isBrowserOnLocalhost() {
+  if (typeof window === "undefined") {
+    return true;
+  }
+
+  return ["localhost", "127.0.0.1"].includes(window.location.hostname);
+}
+
+function getApiBaseUrl() {
+  if (!configuredApiBaseUrl) {
+    return "/api/v1";
+  }
+
+  if (typeof window !== "undefined" && isLocalhostUrl(configuredApiBaseUrl) && !isBrowserOnLocalhost()) {
+    return "/api/v1";
+  }
+
+  return configuredApiBaseUrl.replace(/\/$/, "");
+}
 
 export function buildApiUrl(path) {
-  return `${API_BASE_URL}${path}`;
+  return `${getApiBaseUrl()}${path}`;
 }
 
 export async function apiJson(path, options = {}) {

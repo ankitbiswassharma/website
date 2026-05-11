@@ -31,6 +31,10 @@ export const metadata = {
   },
   description:
     "We build custom ERP, automation systems, dashboards, CRM workflows, and web or mobile apps tailored to real business operations.",
+  icons: {
+    icon: "/favicon.svg",
+    shortcut: "/favicon.ico",
+  },
 };
 
 export default async function RootLayout({ children }) {

@@ -11,6 +11,7 @@ class Settings(BaseSettings):
     api_v1_prefix: str = "/api/v1"
     backend_port: int = Field(default=8000, alias="BACKEND_PORT")
     frontend_url: str = Field(default="http://localhost:3000", alias="FRONTEND_URL")
+    cors_origins: str = Field(default="", alias="CORS_ORIGINS")
     api_base_url: str = Field(default="http://localhost:8000", alias="API_BASE_URL")
     database_url: str = Field(
         default="postgresql+psycopg://postgres:postgres@localhost:5432/muskit_platform",
@@ -72,6 +73,22 @@ class Settings(BaseSettings):
     @property
     def quotation_storage_dir(self) -> Path:
         return Path(__file__).resolve().parents[1] / "storage" / "quotations"
+
+    @property
+    def cors_allowed_origins(self) -> list[str]:
+        default_origins = {
+            self.frontend_url,
+            "http://localhost:3000",
+            "http://127.0.0.1:3000",
+            "https://muskit.in",
+            "https://www.muskit.in",
+        }
+        configured_origins = {
+            origin.strip().rstrip("/")
+            for origin in self.cors_origins.split(",")
+            if origin.strip()
+        }
+        return sorted(default_origins | configured_origins)
 
     @property
     def smtp_enabled(self) -> bool:
