@@ -28,7 +28,6 @@ class Settings(BaseSettings):
     admin_otp_cooldown_seconds: int = Field(default=60, alias="ADMIN_OTP_COOLDOWN_SECONDS")
     admin_otp_max_attempts: int = Field(default=5, alias="ADMIN_OTP_MAX_ATTEMPTS")
     admin_session_ttl_hours: int = Field(default=24, alias="ADMIN_SESSION_TTL_HOURS")
-    allow_dev_otp_fallback: bool = Field(default=False, alias="ALLOW_DEV_OTP_FALLBACK")
 
     smtp_host: str = Field(default="", validation_alias=AliasChoices("SMTP_HOST", "MAIL_HOST", "MAIL_SERVER"))
     smtp_port: int = Field(default=587, validation_alias=AliasChoices("SMTP_PORT", "MAIL_PORT"))
@@ -126,16 +125,12 @@ class Settings(BaseSettings):
         if requested_provider == "sendgrid":
             return "sendgrid" if self.sendgrid_enabled else "none"
         if requested_provider == "smtp":
-            return "smtp" if self.smtp_enabled else ("sendgrid" if self.sendgrid_enabled else "none")
+            return "smtp" if self.smtp_enabled else "none"
         if self.sendgrid_enabled:
             return "sendgrid"
         if self.smtp_enabled:
             return "smtp"
         return "none"
-
-    @property
-    def admin_otp_dev_fallback_enabled(self) -> bool:
-        return self.allow_dev_otp_fallback or self.app_env.lower() != "production"
 
     @property
     def razorpay_enabled(self) -> bool:

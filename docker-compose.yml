@@ -33,7 +33,15 @@ services:
       API_BASE_URL: https://muskit.in
       DATABASE_URL: postgresql+psycopg://postgres:postgres@db:5432/muskit_platform
       ADMIN_SESSION_SECRET: change-this-local-secret
-      ALLOW_DEV_OTP_FALLBACK: "false"
+      EMAIL_PROVIDER: smtp
+      SMTP_HOST: ${SMTP_HOST:-smtpout.secureserver.net}
+      SMTP_PORT: ${SMTP_PORT:-465}
+      SMTP_ENCRYPTION: ${SMTP_ENCRYPTION:-ssl}
+      SMTP_USER: ${SMTP_USER:?Set SMTP_USER to your GoDaddy email address}
+      SMTP_PASSWORD: ${SMTP_PASSWORD:?Set SMTP_PASSWORD to your GoDaddy SMTP password}
+      SMTP_FROM: ${SMTP_FROM:-}
+      SMTP_FROM_ADDRESS: ${SMTP_FROM_ADDRESS:-}
+      SMTP_FROM_NAME: ${SMTP_FROM_NAME:-Musk-IT}
     ports:
       - "8000:8000"
     volumes:

@@ -16,9 +16,8 @@ class AdminOtpRequestOut(BaseModel):
     masked_email: str
     expires_in_seconds: int
     otp_digits: int
-    delivery_mode: Literal["email", "development"] = "email"
+    delivery_mode: Literal["email"] = "email"
     message: str | None = None
-    dev_otp: str | None = None
 
 
 class AdminOtpVerifyIn(BaseModel):

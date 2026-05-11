@@ -80,26 +80,15 @@ class AuthService:
             payload={"event": "admin_otp_request", "requested_ip": requested_ip},
         )
         if not email_result.success:
-            if not settings.admin_otp_dev_fallback_enabled:
-                raise HTTPException(
-                    status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
-                    detail="Could not send OTP email. Check SMTP settings and try again.",
-                )
-
-            logger.warning(
-                "SMTP delivery failed for admin OTP; using development fallback for %s",
+            logger.error(
+                "SMTP delivery failed for admin OTP for %s: %s",
                 normalized_email,
+                email_result.error_message or email_result.status,
             )
-            db.commit()
-            return {
-                "challenge_id": challenge_id,
-                "masked_email": mask_email(settings.admin_email),
-                "expires_in_seconds": settings.admin_otp_expires_minutes * 60,
-                "otp_digits": settings.admin_otp_digits,
-                "delivery_mode": "development",
-                "message": "SMTP delivery failed. Using development OTP fallback.",
-                "dev_otp": otp,
-            }
+            raise HTTPException(
+                status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+                detail="Could not send OTP email. Check SMTP settings and try again.",
+            )
 
         db.commit()
         return {
@@ -109,7 +98,6 @@ class AuthService:
             "otp_digits": settings.admin_otp_digits,
             "delivery_mode": "email",
             "message": f"OTP sent to {mask_email(settings.admin_email)}.",
-            "dev_otp": None,
         }
 
     def verify_otp(self, db: Session, *, email: str, challenge_id: str, otp: str):

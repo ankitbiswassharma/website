@@ -14,7 +14,6 @@ export default function useAdminSession() {
   const [otp, setOtp] = useState("");
   const [challengeId, setChallengeId] = useState("");
   const [otpDigits, setOtpDigits] = useState(6);
-  const [devOtp, setDevOtp] = useState("");
   const [authError, setAuthError] = useState("");
   const [authMessage, setAuthMessage] = useState("");
   const [authLoading, setAuthLoading] = useState(false);
@@ -32,7 +31,6 @@ export default function useAdminSession() {
     setToken("");
     setOtp("");
     setChallengeId("");
-    setDevOtp("");
     setAuthError("");
     setAuthMessage("");
   }
@@ -108,7 +106,6 @@ export default function useAdminSession() {
     setAuthLoading(true);
     setAuthError("");
     setAuthMessage("");
-    setDevOtp("");
 
     try {
       const response = await apiJson("/admin/auth/request-otp", {
@@ -118,16 +115,6 @@ export default function useAdminSession() {
 
       setChallengeId(response.challenge_id);
       setOtpDigits(response.otp_digits);
-      setDevOtp(response.dev_otp || "");
-
-      if (response.delivery_mode === "development" && response.dev_otp) {
-        setOtp(response.dev_otp);
-        setAuthMessage(
-          response.message || `SMTP delivery failed. Use development OTP ${response.dev_otp}.`
-        );
-        return;
-      }
-
       setAuthMessage(response.message || `OTP sent to ${response.masked_email}.`);
     } catch (error) {
       setAuthError(error.message);
@@ -154,7 +141,6 @@ export default function useAdminSession() {
       setToken(response.token);
       setOtp("");
       setChallengeId("");
-      setDevOtp("");
       setAuthMessage("Login successful.");
     } catch (error) {
       setAuthError(error.message);
@@ -181,7 +167,6 @@ export default function useAdminSession() {
     setOtp,
     challengeId,
     otpDigits,
-    devOtp,
     authError,
     authMessage,
     authLoading,

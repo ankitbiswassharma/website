@@ -14,11 +14,6 @@ export default function AdminLoginCard({
 
         {session.authMessage ? <div className="success-box">{session.authMessage}</div> : null}
         {session.authError ? <div className="error-box">{session.authError}</div> : null}
-        {session.devOtp ? (
-          <div className="success-box">
-            Development OTP: <strong>{session.devOtp}</strong>
-          </div>
-        ) : null}
 
         <div className="stack-sm">
           <div className="field">

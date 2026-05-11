@@ -46,7 +46,6 @@ export default function DashboardApp() {
   const [otp, setOtp] = useState("");
   const [challengeId, setChallengeId] = useState("");
   const [otpDigits, setOtpDigits] = useState(6);
-  const [devOtp, setDevOtp] = useState("");
   const [authError, setAuthError] = useState("");
   const [authMessage, setAuthMessage] = useState("");
   const [authLoading, setAuthLoading] = useState(false);
@@ -139,7 +138,6 @@ export default function DashboardApp() {
     setAuthLoading(true);
     setAuthError("");
     setAuthMessage("");
-    setDevOtp("");
     try {
       const response = await apiJson("/admin/auth/request-otp", {
         method: "POST",
@@ -147,15 +145,7 @@ export default function DashboardApp() {
       });
       setChallengeId(response.challenge_id);
       setOtpDigits(response.otp_digits);
-      setDevOtp(response.dev_otp || "");
-      if (response.delivery_mode === "development" && response.dev_otp) {
-        setOtp(response.dev_otp);
-        setAuthMessage(
-          response.message || `SMTP delivery failed. Use development OTP ${response.dev_otp}.`
-        );
-      } else {
-        setAuthMessage(response.message || `OTP sent to ${response.masked_email}.`);
-      }
+      setAuthMessage(response.message || `OTP sent to ${response.masked_email}.`);
     } catch (error) {
       setAuthError(error.message);
     } finally {
@@ -178,7 +168,6 @@ export default function DashboardApp() {
       window.localStorage.setItem("muskit_admin_token", response.token);
       setToken(response.token);
       setOtp("");
-      setDevOtp("");
       setAuthMessage("Login successful.");
     } catch (error) {
       setAuthError(error.message);
@@ -361,11 +350,6 @@ export default function DashboardApp() {
           </p>
           {authMessage ? <div className="success-box">{authMessage}</div> : null}
           {authError ? <div className="error-box">{authError}</div> : null}
-          {devOtp ? (
-            <div className="success-box">
-              Development OTP: <strong>{devOtp}</strong>
-            </div>
-          ) : null}
           <div className="stack-sm">
             <div className="field">
               <label>Admin email</label>
