@@ -2,7 +2,6 @@ import Link from "next/link";
 
 import {
   engagementSignals,
-  heroProducts,
   heroProofStats,
   platformHighlights,
 } from "@/lib/site-data";
@@ -10,35 +9,28 @@ import {
 export default function Hero() {
   return (
     <section className="hero">
-      <div className="hero-glow hero-glow-a" />
-      <div className="hero-glow hero-glow-b" />
       <div className="hero-grid-lines" />
       <div className="shell hero-grid">
         <div className="hero-copy">
-          <div className="eyebrow">Engineering ERP for Infrastructure & EPC</div>
+          <div className="eyebrow">Enterprise ERP, CRM & Workflow Platforms</div>
           <h1>
-            Enterprise Software That Feels
+            Operating Systems For
             <br />
-            <span>Built For Real Execution</span>
+            <span>High-Value Companies</span>
           </h1>
           <p>
-            Musk-IT is positioned as a serious operational platform: governed workflows,
-            engineering-grade screens, and product presentation designed for high-value
-            infrastructure, industrial, and execution-heavy teams.
+            Musk-IT designs serious business software for teams that need governed
+            operations, management visibility, controlled approvals, and production-grade
+            digital workflows across office, field, finance, and leadership.
           </p>
           <div className="hero-actions">
             <Link className="button button-primary" href="/contact">
-              Access Enterprise
+              Request Consultation
             </Link>
             <Link className="button button-ghost" href="/modules">
-              View Modules
+              Explore Modules
             </Link>
           </div>
-          <ul className="bullet-list">
-            {platformHighlights.map((item) => (
-              <li key={item}>{item}</li>
-            ))}
-          </ul>
           <div className="hero-signal-rail">
             {engagementSignals.map((item) => (
               <span className="hero-signal-chip" key={item}>
@@ -46,6 +38,11 @@ export default function Hero() {
               </span>
             ))}
           </div>
+          <ul className="hero-check-list">
+            {platformHighlights.map((item) => (
+              <li key={item}>{item}</li>
+            ))}
+          </ul>
           <div className="hero-proof-grid">
             {heroProofStats.map((item) => (
               <article className="hero-proof-card" key={item.value}>
@@ -55,42 +52,79 @@ export default function Hero() {
             ))}
           </div>
         </div>
-        <div className="hero-panel">
-          <div className="card card-showcase hero-showcase-stage">
-            <div className="showcase-stage-copy stack-sm">
-              <div className="eyebrow">What We Build</div>
-              <h3>Operational product surfaces, not generic dashboard filler</h3>
-              <p>
-                Screens designed for engineers, management, and teams that need revision control,
-                approvals, cost visibility, and governed execution flow.
-              </p>
+
+        <div className="hero-product-console" aria-label="Enterprise product preview">
+          <div className="console-topbar">
+            <div>
+              <span className="console-kicker">Musk-IT Command Centre</span>
+              <strong>Operations Control Tower</strong>
             </div>
-            <div className="showcase-grid">
-              {heroProducts.map((item) => (
-                <article className="showcase-item" key={item.value}>
-                  <div className="showcase-media">
-                    <img alt={item.alt} loading="lazy" src={item.image} />
-                  </div>
-                  <div className="showcase-copy">
-                    <strong>{item.value}</strong>
-                    <span>{item.label}</span>
-                  </div>
-                </article>
-              ))}
-            </div>
-            <div className="hero-showcase-pulse" />
+            <span className="console-status">Live Governance</span>
           </div>
-          <div className="card card-journey">
-            <div className="stack-sm">
-              <div className="eyebrow">Platform Positioning</div>
-              <h3>What makes the product feel expensive</h3>
+
+          <div className="console-grid">
+            <div className="console-panel console-panel-main">
+              <div className="console-panel-head">
+                <span>Execution Index</span>
+                <strong>94%</strong>
+              </div>
+              <div className="console-bars" aria-hidden="true">
+                <span style={{ height: "46%" }} />
+                <span style={{ height: "72%" }} />
+                <span style={{ height: "58%" }} />
+                <span style={{ height: "86%" }} />
+                <span style={{ height: "64%" }} />
+                <span style={{ height: "91%" }} />
+                <span style={{ height: "76%" }} />
+              </div>
             </div>
-            <ol className="journey-list">
-              <li>Sharper product hierarchy with darker, enterprise-first surfaces</li>
-              <li>Screen design led by workflow clarity instead of decorative blocks</li>
-              <li>Premium interaction states, motion, and component consistency</li>
-              <li>Messaging focused on governed operations and execution control</li>
-            </ol>
+
+            <div className="console-panel">
+              <span className="console-label">Pending approvals</span>
+              <strong>18</strong>
+              <small>4 critical items need leadership review</small>
+            </div>
+
+            <div className="console-panel">
+              <span className="console-label">Commercial exposure</span>
+              <strong>2.8%</strong>
+              <small>Deviation risk under configured threshold</small>
+            </div>
+
+            <div className="console-panel console-panel-wide">
+              <div className="console-panel-head">
+                <span>Workflow pipeline</span>
+                <strong>1,284 actions</strong>
+              </div>
+              <div className="pipeline-track" aria-hidden="true">
+                <span />
+                <span />
+                <span />
+                <span />
+              </div>
+              <div className="pipeline-labels">
+                <span>Captured</span>
+                <span>Approved</span>
+                <span>Issued</span>
+                <span>Closed</span>
+              </div>
+            </div>
+
+            <div className="console-panel console-activity">
+              <span className="console-label">Recent control events</span>
+              <div className="activity-row">
+                <span />
+                <p>BOQ revision approved by commercial head</p>
+              </div>
+              <div className="activity-row">
+                <span />
+                <p>Site report escalated to project director</p>
+              </div>
+              <div className="activity-row">
+                <span />
+                <p>Payment milestone released for review</p>
+              </div>
+            </div>
           </div>
         </div>
       </div>

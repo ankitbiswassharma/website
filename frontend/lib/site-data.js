@@ -29,21 +29,21 @@ export const contactDetails = {
 };
 
 export const platformHighlights = [
-  "BOQ, drawings, approvals, reporting, and execution visibility inside one governed product layer",
-  "Web and mobile workflows for engineers, project teams, leadership, and field operations",
-  "Operational screens designed for live decision-making rather than generic dashboard noise",
+  "ERP, CRM, approvals, reporting, payments, and field workflows inside one governed product layer",
+  "Role-based web and mobile access for owners, leadership, managers, office teams, and field staff",
+  "Operational dashboards designed for accountable decisions, not generic presentation metrics",
 ];
 
 export const heroProofStats = [
-  { value: "Infra ERP", label: "Execution systems designed for infrastructure and EPC teams" },
-  { value: "Web + Mobile", label: "Role-specific access across site, office, and management" },
-  { value: "Governed Flow", label: "Approvals, revisions, and reporting kept inside one controlled workflow" },
+  { value: "ERP + CRM", label: "Custom operating platforms for execution-heavy organisations" },
+  { value: "Web + Mobile", label: "Controlled access across office, site, finance, and leadership" },
+  { value: "Governed Flow", label: "Approvals, revisions, reporting, and audit trail in one system" },
 ];
 
 export const engagementSignals = [
-  "Engineering-led product thinking",
-  "Role-based control and approvals",
-  "Deployment-ready enterprise architecture",
+  "Founder-led product architecture",
+  "Role-based enterprise control",
+  "Deployment-ready software delivery",
 ];
 
 export const heroProducts = [
