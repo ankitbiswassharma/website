@@ -1,0 +1,25 @@
+{% extends "base_email.html" %}
+{% from "_macros.html" import intro, panel, cta, closing %}
+{% set shell_kicker = "Payment Link Ready" %}
+{% set shell_title = "Your secure payment link is ready" %}
+{% set shell_subtitle = "You can now review the payment summary and complete the transaction securely." %}
+{% set accent_color = "#16a34a" %}
+
+{% block body %}
+  {{ intro(lead.full_name, payment_message) }}
+
+  {% call panel("Payment Summary", "", accent_color, "#f8fafc") %}
+    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="margin:0;border:1px solid #dbe5f0;border-radius:16px;overflow:hidden;background:#ffffff;">
+      <tr><td style="padding:10px 14px;border-bottom:1px solid #e2e8f0;font-size:12px;font-weight:800;letter-spacing:0.12em;text-transform:uppercase;color:#64748b;width:38%;">Quotation</td><td style="padding:10px 14px;border-bottom:1px solid #e2e8f0;font-size:14px;line-height:1.7;color:#0f172a;">{{ quotation.quotation_number }}</td></tr>
+      <tr><td style="padding:10px 14px;border-bottom:1px solid #e2e8f0;font-size:12px;font-weight:800;letter-spacing:0.12em;text-transform:uppercase;color:#64748b;">Amount</td><td style="padding:10px 14px;border-bottom:1px solid #e2e8f0;font-size:14px;line-height:1.7;color:#0f172a;">{{ quotation.currency }} {{ quotation.total_amount }}</td></tr>
+      <tr><td style="padding:10px 14px;font-size:12px;font-weight:800;letter-spacing:0.12em;text-transform:uppercase;color:#64748b;">Order Reference</td><td style="padding:10px 14px;font-size:14px;line-height:1.7;color:#0f172a;">{{ payment.razorpay_order_id }}</td></tr>
+    </table>
+  {% endcall %}
+
+  {{ cta(payment_page_url, "Open Secure Payment Page", accent_color) }}
+
+  <p style="margin:0 0 18px;font-size:14px;line-height:1.8;color:#475569;">
+    If you have any questions before paying, contact {{ admin_name }} at {{ admin_phone }}.
+  </p>
+  {{ closing(company_name) }}
+{% endblock %}

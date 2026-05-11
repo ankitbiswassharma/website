@@ -1,0 +1,123 @@
+<svg width="1600" height="1100" viewBox="0 0 1600 1100" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="68" y1="96" x2="1516" y2="1018" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#F7FBFF"/>
+      <stop offset="1" stop-color="#ECF5FF"/>
+    </linearGradient>
+    <linearGradient id="screen" x1="548" y1="222" x2="1278" y2="798" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FFFFFF"/>
+      <stop offset="1" stop-color="#F5F8FE"/>
+    </linearGradient>
+    <linearGradient id="phone" x1="848" y1="400" x2="1068" y2="838" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FFFFFF"/>
+      <stop offset="1" stop-color="#F3F7FF"/>
+    </linearGradient>
+    <filter id="shadow" x="214" y="122" width="1216" height="888" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+      <feFlood flood-opacity="0" result="BackgroundImageFix"/>
+      <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+      <feOffset dy="30"/>
+      <feGaussianBlur stdDeviation="44"/>
+      <feColorMatrix type="matrix" values="0 0 0 0 0.0431373 0 0 0 0 0.133333 0 0 0 0 0.309804 0 0 0 0.16 0"/>
+      <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow"/>
+      <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow" result="shape"/>
+    </filter>
+    <style>
+      .ui { font-family: Arial, Helvetica, sans-serif; }
+      .title { fill: #0D1830; font-size: 28px; font-weight: 700; }
+      .body { fill: #5F718A; font-size: 16px; font-weight: 500; }
+      .label { fill: #8694A9; font-size: 14px; font-weight: 600; }
+      .metric { fill: #0B1325; font-size: 22px; font-weight: 700; }
+      .small { fill: #8694A9; font-size: 13px; font-weight: 500; }
+      .nav { fill: #4B617D; font-size: 16px; font-weight: 600; }
+    </style>
+  </defs>
+
+  <rect width="1600" height="1100" rx="88" fill="url(#bg)"/>
+  <circle cx="1338" cy="182" r="174" fill="#0F5EF7" fill-opacity="0.12"/>
+  <circle cx="268" cy="204" r="182" fill="#16C27A" fill-opacity="0.1"/>
+
+  <g filter="url(#shadow)" class="ui">
+    <rect x="438" y="170" width="860" height="620" rx="40" fill="#1A1A1A"/>
+    <rect x="456" y="188" width="824" height="584" rx="28" fill="url(#screen)"/>
+    <rect x="456" y="188" width="824" height="56" rx="28" fill="#F4F7FC"/>
+    <circle cx="490" cy="216" r="9" fill="#E2E9F5"/>
+    <circle cx="520" cy="216" r="9" fill="#E2E9F5"/>
+    <circle cx="550" cy="216" r="9" fill="#E2E9F5"/>
+    <text x="588" y="221" class="title" font-size="18">Acme Corp</text>
+    <g class="nav">
+      <text x="824" y="221">Dashboard</text>
+      <text x="948" y="221">Analytics</text>
+      <text x="1064" y="221">Projects</text>
+      <text x="1162" y="221">Tasks</text>
+    </g>
+
+    <text x="510" y="300" class="title">Welcome back, Sarah.</text>
+    <text x="510" y="330" class="body">Here is what is happening across your projects today.</text>
+
+    <rect x="510" y="360" width="146" height="96" rx="22" fill="#FFFFFF"/>
+    <rect x="674" y="360" width="146" height="96" rx="22" fill="#FFFFFF"/>
+    <rect x="838" y="360" width="146" height="96" rx="22" fill="#FFFFFF"/>
+    <rect x="1002" y="360" width="146" height="96" rx="22" fill="#FFFFFF"/>
+    <text x="536" y="392" class="label">Projects</text>
+    <text x="536" y="430" class="metric">24</text>
+    <text x="536" y="448" fill="#16C27A" font-size="14" font-weight="700">+12%</text>
+    <text x="700" y="392" class="label">Tasks Completed</text>
+    <text x="700" y="430" class="metric">68%</text>
+    <text x="700" y="448" fill="#16C27A" font-size="14" font-weight="700">+8%</text>
+    <text x="864" y="392" class="label">Team Members</text>
+    <text x="864" y="430" class="metric">16</text>
+    <text x="864" y="448" fill="#16C27A" font-size="14" font-weight="700">+4%</text>
+    <text x="1028" y="392" class="label">Budget Used</text>
+    <text x="1028" y="430" class="metric">$48,250</text>
+    <text x="1028" y="448" fill="#16C27A" font-size="14" font-weight="700">-5%</text>
+
+    <rect x="510" y="484" width="416" height="240" rx="28" fill="#FFFFFF"/>
+    <rect x="950" y="484" width="298" height="240" rx="28" fill="#FFFFFF"/>
+    <text x="542" y="520" class="title" font-size="20">Project Overview</text>
+    <path d="M554 680H890" stroke="#DCE6F3" stroke-width="8" stroke-linecap="round"/>
+    <path d="M568 668V552" stroke="#DCE6F3" stroke-width="8" stroke-linecap="round"/>
+    <path d="M600 646C628 620 654 596 680 588C708 580 736 598 764 560C792 522 820 512 848 504" stroke="#0F5EF7" stroke-width="10" stroke-linecap="round"/>
+    <path d="M600 662C628 650 654 644 680 630C708 616 736 592 764 602C792 612 820 606 848 594" stroke="#3BBBEA" stroke-width="10" stroke-linecap="round"/>
+    <path d="M600 682C628 676 654 668 680 670C708 672 736 660 764 660C792 660 820 652 848 646" stroke="#7B7DF7" stroke-width="10" stroke-linecap="round"/>
+    <g class="small">
+      <text x="594" y="706">Jan</text>
+      <text x="650" y="706">Feb</text>
+      <text x="706" y="706">Mar</text>
+      <text x="762" y="706">Apr</text>
+      <text x="818" y="706">May</text>
+    </g>
+
+    <text x="980" y="520" class="title" font-size="20">Tasks</text>
+    <g class="small">
+      <text x="1010" y="566">Design system update</text>
+      <text x="1190" y="566" fill="#0F5EF7" font-weight="700">In Progress</text>
+      <text x="1010" y="606">API integration</text>
+      <text x="1190" y="606" fill="#0F5EF7" font-weight="700">In Progress</text>
+      <text x="1010" y="646">User testing</text>
+      <text x="1190" y="646" fill="#16C27A" font-weight="700">Review</text>
+      <text x="1010" y="686">Project documentation</text>
+      <text x="1190" y="686" fill="#16C27A" font-weight="700">Done</text>
+    </g>
+    <circle cx="986" cy="560" r="7" fill="#0F5EF7"/>
+    <circle cx="986" cy="600" r="7" fill="#3BBBEA"/>
+    <circle cx="986" cy="640" r="7" fill="#F59E0B"/>
+    <circle cx="986" cy="680" r="7" fill="#16C27A"/>
+
+    <rect x="322" y="422" width="178" height="388" rx="44" fill="#101825"/>
+    <rect x="336" y="440" width="150" height="352" rx="34" fill="url(#phone)"/>
+    <rect x="386" y="454" width="48" height="6" rx="3" fill="#C6D4E8"/>
+    <text x="360" y="500" class="title" font-size="18">Dashboard</text>
+    <rect x="358" y="524" width="106" height="86" rx="18" fill="#FFFFFF"/>
+    <text x="372" y="550" class="label">Total Revenue</text>
+    <text x="372" y="580" class="metric" font-size="18">$4,320k</text>
+    <text x="430" y="580" fill="#16C27A" font-size="12" font-weight="700">+12%</text>
+    <path d="M370 648H450" stroke="#DDE6F4" stroke-width="6" stroke-linecap="round"/>
+    <path d="M374 644V604" stroke="#DDE6F4" stroke-width="6" stroke-linecap="round"/>
+    <path d="M384 636L400 624L418 630L434 614L448 620" stroke="#0F5EF7" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+    <rect x="358" y="668" width="106" height="96" rx="18" fill="#FFFFFF"/>
+    <text x="372" y="696" class="label">Team Progress</text>
+    <text x="372" y="728" class="metric" font-size="18">68%</text>
+    <circle cx="438" cy="724" r="18" stroke="#DDE6F4" stroke-width="8"/>
+    <path d="M438 706A18 18 0 0 1 455 724" stroke="#3BBBEA" stroke-width="8" stroke-linecap="round"/>
+  </g>
+</svg>

@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Terms & Conditions | Musk-IT</title>
+  <meta name="description" content="Terms and Conditions for the Musk-IT AI Project Execution Platform.">
+  <link rel="icon" href="images/favicon.ico">
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:          #f5f7fb;
+      --bg2:         #edf4ff;
+      --bg3:         #ffffff;
+      --surface:     #ffffff;
+      --surface2:    #f4f8ff;
+      --border:      rgba(11,34,79,0.08);
+      --border2:     rgba(11,34,79,0.12);
+      --accent:      #0f5ef7;
+      --text:        #081226;
+      --text2:       #55657d;
+      --text3:       #7c8da5;
+      --font-head:   'Syne', sans-serif;
+      --font-body:   'DM Sans', sans-serif;
+    }
+
+    html { scroll-behavior: smooth; }
+    body { background:
+      radial-gradient(circle at top left, rgba(15,94,247,0.16), transparent 22%),
+      radial-gradient(circle at 80% 10%, rgba(20,184,106,0.12), transparent 18%),
+      var(--bg); color: var(--text); font-family: var(--font-body); font-size: 15px; line-height: 1.6; overflow-x: hidden; }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { opacity: 0.85; }
+
+    /* ─── NAV ─── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+      background: rgba(255,255,255,0.78); border-bottom: 1px solid var(--border);
+      padding: 0 2rem; height: 60px; display: flex; align-items: center;
+    }
+    .nav-inner { max-width: 1160px; width: 100%; margin: auto; display: flex; align-items: center; justify-content: space-between; }
+    .logo { font-family: var(--font-head); font-size: 20px; font-weight: 800; letter-spacing: -0.5px; text-decoration: none; }
+    .logo span:first-child { color: var(--text); }
+    .logo span:last-child  { color: var(--accent); }
+    .nav-links { display: flex; align-items: center; gap: 4px; }
+    .nav-links a { font-size: 13px; color: var(--text2); padding: 6px 10px; border-radius: 6px; transition: color 0.2s, background 0.2s; font-weight: 400; text-decoration: none; }
+    .nav-links a:hover { color: var(--text); background: rgba(255,255,255,0.05); opacity: 1; }
+    .btn-nav { background: var(--accent) !important; color: #fff !important; padding: 7px 16px !important; border-radius: 7px !important; font-weight: 500 !important; font-size: 13px !important; }
+    .btn-nav:hover { opacity: 0.88 !important; }
+    .nav-toggle { display: none; background: none; border: none; cursor: pointer; padding: 6px; color: var(--text2); flex-direction: column; gap: 5px; }
+    .nav-toggle span { display: block; width: 22px; height: 2px; background: currentColor; border-radius: 2px; }
+
+    /* ─── PAGE LAYOUT ─── */
+    .page-wrap {
+      max-width: 1160px; margin: 0 auto;
+      padding: 100px 2rem 80px;
+      display: grid; grid-template-columns: 220px 1fr;
+      gap: 56px; align-items: start;
+    }
+
+    /* ─── SIDEBAR ─── */
+    .legal-sidebar { position: sticky; top: 80px; }
+    .sidebar-label { font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--text3); font-weight: 600; margin-bottom: 12px; }
+    .sidebar-nav { list-style: none; }
+    .sidebar-nav li { margin-bottom: 2px; }
+    .sidebar-nav a {
+      font-size: 13px; color: var(--text2); padding: 6px 10px;
+      border-radius: 6px; display: block; text-decoration: none;
+      transition: color 0.15s, background 0.15s;
+      border-left: 2px solid transparent;
+    }
+    .sidebar-nav a:hover { color: var(--text); background: rgba(255,255,255,0.04); opacity: 1; }
+    .sidebar-nav a.active { color: var(--accent); border-left-color: var(--accent); background: rgba(59,139,247,0.06); }
+    .sidebar-divider { height: 1px; background: var(--border); margin: 16px 0; }
+    .sidebar-meta-label { font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--text3); font-weight: 600; margin-bottom: 10px; }
+    .sidebar-meta-val { font-size: 13px; color: var(--text2); margin-bottom: 14px; }
+    .sidebar-contact { background: rgba(59,139,247,0.06); border: 1px solid rgba(59,139,247,0.18); border-radius: 10px; padding: 16px; margin-top: 20px; }
+    .sidebar-contact p { font-size: 12px; color: var(--text2); line-height: 1.65; margin-bottom: 10px; }
+    .sidebar-contact a { font-size: 13px; color: var(--accent); display: block; text-decoration: none; }
+
+    /* ─── LEGAL CONTENT ─── */
+    .legal-content { min-width: 0; }
+
+    .legal-header { margin-bottom: 48px; padding-bottom: 28px; border-bottom: 1px solid var(--border); }
+    .legal-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: rgba(59,139,247,0.12); border: 1px solid rgba(59,139,247,0.25);
+      color: var(--accent); font-size: 12px; font-weight: 500;
+      padding: 4px 12px; border-radius: 20px; margin-bottom: 16px; letter-spacing: 0.3px;
+    }
+    .legal-title { font-family: var(--font-head); font-size: clamp(28px, 4vw, 40px); font-weight: 800; letter-spacing: -1px; color: var(--text); margin-bottom: 12px; }
+    .legal-updated { font-size: 13px; color: var(--text3); }
+    .legal-intro { font-size: 15px; color: var(--text2); line-height: 1.8; max-width: 640px; margin-top: 16px; }
+
+    /* Sections */
+    .legal-section { margin-bottom: 44px; padding-bottom: 44px; border-bottom: 1px solid var(--border); }
+    .legal-section:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+
+    .section-num { font-family: var(--font-head); font-size: 11px; color: var(--accent); font-weight: 700; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 6px; }
+
+    .legal-section h2 {
+      font-family: var(--font-head); font-size: clamp(18px, 2.5vw, 22px);
+      font-weight: 700; letter-spacing: -0.3px;
+      color: var(--text); margin-bottom: 14px;
+    }
+
+    .legal-section p {
+      font-size: 14px; color: var(--text2); line-height: 1.85;
+      margin-bottom: 12px; max-width: 680px;
+    }
+    .legal-section p:last-child { margin-bottom: 0; }
+    .legal-section p strong { color: var(--text); font-weight: 500; }
+
+    .legal-list { list-style: none; margin: 12px 0; }
+    .legal-list li {
+      font-size: 14px; color: var(--text2); line-height: 1.75;
+      padding: 8px 0; border-bottom: 1px solid var(--border);
+      display: flex; align-items: flex-start; gap: 12px;
+    }
+    .legal-list li:last-child { border-bottom: none; }
+    .ll-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--accent); flex-shrink: 0; margin-top: 9px; }
+
+    /* Callout */
+    .legal-callout {
+      background: rgba(59,139,247,0.06); border: 1px solid rgba(59,139,247,0.18);
+      border-radius: 10px; padding: 16px 20px; margin: 16px 0;
+      display: flex; gap: 12px; align-items: flex-start;
+    }
+    .lc-icon { font-size: 15px; flex-shrink: 0; margin-top: 1px; }
+    .lc-body { font-size: 13px; color: #8BB8F7; line-height: 1.7; }
+    .lc-body strong { color: var(--accent); display: block; margin-bottom: 4px; font-weight: 600; }
+
+    /* Contact block */
+    .contact-block {
+      background: var(--surface); border: 1px solid var(--border2);
+      border-radius: 12px; padding: 22px 24px; margin-top: 14px;
+    }
+    .contact-row { display: flex; gap: 12px; align-items: center; padding: 8px 0; border-bottom: 1px solid var(--border); }
+    .contact-row:last-child { border-bottom: none; }
+    .cr-label { font-size: 12px; color: var(--text3); min-width: 56px; }
+    .cr-val   { font-size: 14px; color: var(--text2); }
+    .cr-val a { color: var(--accent); text-decoration: none; }
+
+    /* ─── FOOTER ─── */
+    footer { border-top: 1px solid var(--border); padding: 40px 2rem; text-align: center; }
+    .footer-inner { max-width: 1160px; margin: auto; }
+    .footer-links { display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; margin-bottom: 20px; }
+    .footer-links a { font-size: 13px; color: var(--text3); transition: color 0.2s; text-decoration: none; }
+    .footer-links a:hover { color: var(--text2); opacity: 1; }
+    .footer-copy { font-size: 12px; color: var(--text3); }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 860px) {
+      .page-wrap { grid-template-columns: 1fr; padding-top: 80px; }
+      .legal-sidebar { position: static; }
+    }
+    @media (max-width: 640px) {
+      .nav-links { display: none; }
+      .nav-toggle { display: flex; }
+      .nav-links.open { display: flex; flex-direction: column; position: absolute; top: 60px; left: 0; right: 0; background: rgba(4,7,15,0.97); padding: 16px; border-bottom: 1px solid var(--border); gap: 4px; }
+    }
+  </style>
+</head>
+
+<body>
+
+<!-- ══════════ NAV ══════════ -->
+<nav>
+  <div class="nav-inner">
+    <a href="/" class="logo"><span>Musk</span><span>-IT</span></a>
+    <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">
+      <span></span><span></span><span></span>
+    </button>
+    <div class="nav-links" id="navLinks">
+      <a href="/features">Features</a>
+      <a href="/modules">Modules</a>
+      <a href="/licensing">Licensing</a>
+      <a href="/blog">Blog</a>
+      <a href="/about">About</a>
+      <a href="/contact">Contact</a>
+    </div>
+  </div>
+</nav>
+
+
+<!-- ══════════ PAGE ══════════ -->
+<div class="page-wrap">
+
+  <!-- SIDEBAR -->
+  <aside class="legal-sidebar">
+    <div class="sidebar-label">On this page</div>
+    <ul class="sidebar-nav">
+      <li><a href="#description"   class="active">1. Description of Service</a></li>
+      <li><a href="#accounts">2. User Accounts</a></li>
+      <li><a href="#acceptable-use">3. Acceptable Use</a></li>
+      <li><a href="#ip">4. Intellectual Property</a></li>
+      <li><a href="#data">5. Project Data</a></li>
+      <li><a href="#availability">6. Service Availability</a></li>
+      <li><a href="#liability">7. Limitation of Liability</a></li>
+      <li><a href="#payments">8. Subscription & Payments</a></li>
+      <li><a href="#termination">9. Termination</a></li>
+      <li><a href="#changes">10. Changes to Terms</a></li>
+      <li><a href="#contact">11. Contact</a></li>
+    </ul>
+
+    <div class="sidebar-divider"></div>
+
+    <div class="sidebar-meta-label">Document Info</div>
+    <div class="sidebar-meta-val">Last updated: March 2026</div>
+    <div class="sidebar-meta-val" style="margin-top:-8px;">Version 1.0</div>
+
+    <div class="sidebar-contact">
+      <p>Questions about these Terms?</p>
+      <a href="mailto:ankitbiswassharma@muskit.in">Contact us →</a>
+    </div>
+  </aside>
+
+  <!-- CONTENT -->
+  <main class="legal-content">
+
+    <div class="legal-header">
+      <div class="legal-badge">Legal</div>
+      <div class="legal-title">Terms &amp; Conditions</div>
+      <div class="legal-updated">Last updated: March 2026</div>
+      <p class="legal-intro">
+        These Terms and Conditions govern the use of the Musk-IT website and the
+        Musk-IT AI Project Execution Platform available at <strong>muskit.in</strong>.
+        By accessing or using our platform, you agree to comply with these Terms.
+        If you do not agree, you should not use the service.
+      </p>
+    </div>
+
+    <!-- 1 -->
+    <div class="legal-section" id="description">
+      <div class="section-num">Section 01</div>
+      <h2>Description of Service</h2>
+      <p>
+        Musk-IT provides a cloud-based software platform designed to support
+        project execution management for EPC and infrastructure organizations.
+        Features may evolve or change as the product develops.
+      </p>
+      <ul class="legal-list">
+        <li><div class="ll-dot"></div>BOQ management and quantity tracking</li>
+        <li><div class="ll-dot"></div>Execution dashboards with SPI, CPI and earned value analytics</li>
+        <li><div class="ll-dot"></div>Resource planning and utilization monitoring</li>
+        <li><div class="ll-dot"></div>AI-based analytics and delay forecasting</li>
+        <li><div class="ll-dot"></div>Project monitoring, reporting and drawing control tools</li>
+      </ul>
+    </div>
+
+    <!-- 2 -->
+    <div class="legal-section" id="accounts">
+      <div class="section-num">Section 02</div>
+      <h2>User Accounts</h2>
+      <p>To use certain features of the platform, users may need to create an account. Users are responsible for the following:</p>
+      <ul class="legal-list">
+        <li><div class="ll-dot"></div>Maintaining the confidentiality of login credentials</li>
+        <li><div class="ll-dot"></div>All activities that occur under their account</li>
+        <li><div class="ll-dot"></div>Providing accurate and up-to-date registration information</li>
+      </ul>
+      <p>
+        Musk-IT reserves the right to suspend or terminate accounts that violate these Terms
+        or that are found to be misusing the platform.
+      </p>
+    </div>
+
+    <!-- 3 -->
+    <div class="legal-section" id="acceptable-use">
+      <div class="section-num">Section 03</div>
+      <h2>Acceptable Use</h2>
+      <p>Users agree not to engage in any of the following activities while using the Musk-IT platform:</p>
+      <ul class="legal-list">
+        <li><div class="ll-dot"></div>Using the platform for illegal or unauthorized activities</li>
+        <li><div class="ll-dot"></div>Attempting to gain unauthorized access to platform systems or other user accounts</li>
+        <li><div class="ll-dot"></div>Interfering with platform security, availability or functionality</li>
+        <li><div class="ll-dot"></div>Uploading malicious software, harmful code or content that violates third-party rights</li>
+      </ul>
+    </div>
+
+    <!-- 4 -->
+    <div class="legal-section" id="ip">
+      <div class="section-num">Section 04</div>
+      <h2>Intellectual Property</h2>
+      <p>
+        All software, technology, algorithms, user interface designs and platform content
+        are the intellectual property of Musk-IT and its operators.
+      </p>
+      <p>
+        Users may not copy, reverse engineer, distribute, sublicense or reproduce any part
+        of the platform or its underlying technology without prior written permission
+        from Musk-IT.
+      </p>
+      <div class="legal-callout">
+        <div class="lc-icon">ℹ️</div>
+        <div class="lc-body">
+          <strong>Source License exception</strong>
+          Organizations with a valid Source License agreement are granted rights to use,
+          modify and deploy the platform internally as defined in their specific license agreement.
+        </div>
+      </div>
+    </div>
+
+    <!-- 5 -->
+    <div class="legal-section" id="data">
+      <div class="section-num">Section 05</div>
+      <h2>Project Data</h2>
+      <p>
+        Users retain full ownership of all project data uploaded to the Musk-IT platform,
+        including BOQ files, schedules, execution data and engineering documents.
+      </p>
+      <p>
+        By uploading data, users grant Musk-IT permission to process that data for the
+        sole purpose of providing platform functionality including analytics, dashboards,
+        AI forecasting and reporting. Musk-IT does not sell or share user project data
+        with third parties.
+      </p>
+    </div>
+
+    <!-- 6 -->
+    <div class="legal-section" id="availability">
+      <div class="section-num">Section 06</div>
+      <h2>Service Availability</h2>
+      <p>
+        We strive to maintain high system availability. However, Musk-IT does not
+        guarantee uninterrupted access to the platform. Scheduled maintenance, software
+        updates or unforeseen technical issues may occasionally cause downtime.
+      </p>
+      <p>
+        Enterprise clients with active SLA agreements are entitled to uptime guarantees
+        and support response times as defined in their enterprise agreement.
+      </p>
+    </div>
+
+    <!-- 7 -->
+    <div class="legal-section" id="liability">
+      <div class="section-num">Section 07</div>
+      <h2>Limitation of Liability</h2>
+      <p>
+        Musk-IT provides analytics, forecasts and execution insights to assist project
+        management decision-making. All outputs are informational in nature.
+      </p>
+      <p>
+        Users are solely responsible for decisions made based on platform data.
+        Musk-IT is not liable for project delays, cost overruns, financial losses
+        or any outcomes resulting from decisions taken using the platform.
+      </p>
+      <div class="legal-callout">
+        <div class="lc-icon">⚠️</div>
+        <div class="lc-body" style="color:#D4AC6A;">
+          <strong style="color:var(--amber);">Important</strong>
+          AI-generated predictions are probabilistic estimates based on available data.
+          They should be used to inform, not replace, qualified project management judgment.
+        </div>
+      </div>
+    </div>
+
+    <!-- 8 -->
+    <div class="legal-section" id="payments">
+      <div class="section-num">Section 08</div>
+      <h2>Subscription &amp; Payments</h2>
+      <p>
+        Certain features of the platform require a paid subscription or license.
+        Pricing, billing cycles and payment terms are specified on the
+        <a href="/licensing">Musk-IT licensing page</a>.
+      </p>
+      <p>
+        For Enterprise AI and Source License plans, payment terms are agreed directly
+        with the Musk-IT sales team and documented in the license agreement.
+      </p>
+    </div>
+
+    <!-- 9 -->
+    <div class="legal-section" id="termination">
+      <div class="section-num">Section 09</div>
+      <h2>Termination</h2>
+      <p>
+        Musk-IT reserves the right to suspend or terminate access to the platform
+        if users violate these Terms, engage in misuse, or fail to meet payment
+        obligations under a subscription or license agreement.
+      </p>
+      <p>
+        Users may terminate their account at any time by contacting the Musk-IT team.
+        Upon termination, users may request export of their project data within 30 days.
+      </p>
+    </div>
+
+    <!-- 10 -->
+    <div class="legal-section" id="changes">
+      <div class="section-num">Section 10</div>
+      <h2>Changes to Terms</h2>
+      <p>
+        These Terms may be updated periodically to reflect changes in platform
+        functionality, legal requirements or business practices.
+      </p>
+      <p>
+        Continued use of the platform after updated Terms are published constitutes
+        acceptance of the revised Terms. Material changes will be communicated
+        to registered users via email.
+      </p>
+    </div>
+
+    <!-- 11 -->
+    <div class="legal-section" id="contact">
+      <div class="section-num">Section 11</div>
+      <h2>Contact</h2>
+      <p>
+        If you have questions or concerns about these Terms, please reach out
+        to the Musk-IT team through any of the following channels.
+      </p>
+      <div class="contact-block">
+        <div class="contact-row">
+          <span class="cr-label">Email</span>
+          <span class="cr-val"><a href="mailto:ankitbiswassharma@muskit.in">ankitbiswassharma@muskit.in</a></span>
+        </div>
+        <div class="contact-row">
+          <span class="cr-label">Website</span>
+          <span class="cr-val"><a href="https://muskit.in" target="_blank" rel="noopener">muskit.in</a></span>
+        </div>
+        <div class="contact-row">
+          <span class="cr-label">Sales</span>
+          <span class="cr-val"><a href="https://sales.muskit.in" target="_blank" rel="noopener">sales.muskit.in</a></span>
+        </div>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+
+<!-- ══════════ FOOTER ══════════ -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-links">
+      <a href="/docs">Docs</a>
+      <a href="/blog">Blog</a>
+      <a href="/case-studies">Case Studies</a>
+      <a href="/privacy-policy.html">Privacy Policy</a>
+      <a href="/terms.html">Terms &amp; Conditions</a>
+      <a href="/contact">Contact</a>
+    </div>
+    <div class="footer-copy">© 2026 Muskan Chhetri &middot; Musk-IT &middot; All Rights Reserved</div>
+  </div>
+</footer>
+
+<script>
+  document.getElementById('navToggle').addEventListener('click', function () {
+    document.getElementById('navLinks').classList.toggle('open');
+  });
+
+  const sections = document.querySelectorAll('.legal-section');
+  const sidebarLinks = document.querySelectorAll('.sidebar-nav a');
+  window.addEventListener('scroll', () => {
+    let current = '';
+    sections.forEach(sec => { if (window.scrollY >= sec.offsetTop - 120) current = sec.id; });
+    sidebarLinks.forEach(link => { link.classList.toggle('active', link.getAttribute('href') === '#' + current); });
+  });
+</script>
+
+</body>
+</html>

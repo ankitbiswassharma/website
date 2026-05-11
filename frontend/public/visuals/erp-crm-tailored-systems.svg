@@ -1,0 +1,138 @@
+<svg width="1600" height="1100" viewBox="0 0 1600 1100" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="90" y1="82" x2="1495" y2="1025" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#F7FAFF"/>
+      <stop offset="1" stop-color="#E8F1FF"/>
+    </linearGradient>
+    <linearGradient id="panel" x1="292" y1="168" x2="1316" y2="900" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FFFFFF"/>
+      <stop offset="1" stop-color="#F7FAFF"/>
+    </linearGradient>
+    <filter id="shadow" x="172" y="112" width="1260" height="896" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+      <feFlood flood-opacity="0" result="BackgroundImageFix"/>
+      <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+      <feOffset dy="30"/>
+      <feGaussianBlur stdDeviation="44"/>
+      <feColorMatrix type="matrix" values="0 0 0 0 0.0431373 0 0 0 0 0.133333 0 0 0 0 0.309804 0 0 0 0.16 0"/>
+      <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow"/>
+      <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow" result="shape"/>
+    </filter>
+    <style>
+      .ui { font-family: Arial, Helvetica, sans-serif; }
+      .title { fill: #0C1830; font-size: 28px; font-weight: 700; }
+      .body { fill: #62738B; font-size: 17px; font-weight: 500; }
+      .label { fill: #8493A8; font-size: 14px; font-weight: 600; }
+      .nav { fill: #566984; font-size: 17px; font-weight: 600; }
+      .metric { fill: #091327; font-size: 24px; font-weight: 700; }
+      .small { fill: #8795AA; font-size: 14px; font-weight: 500; }
+    </style>
+  </defs>
+  <rect width="1600" height="1100" rx="88" fill="url(#bg)"/>
+  <circle cx="1340" cy="192" r="162" fill="#0F5EF7" fill-opacity="0.12"/>
+  <circle cx="252" cy="182" r="176" fill="#16C27A" fill-opacity="0.09"/>
+
+  <g filter="url(#shadow)" class="ui">
+    <rect x="258" y="160" width="1084" height="724" rx="42" fill="url(#panel)"/>
+    <rect x="258" y="160" width="196" height="724" rx="42" fill="#F3F7FF"/>
+    <rect x="258" y="160" width="196" height="96" rx="42" fill="#EFF5FF"/>
+    <circle cx="314" cy="208" r="16" fill="#0F5EF7" fill-opacity="0.14"/>
+    <path d="M307 208L312 213L321 202" stroke="#0F5EF7" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+    <text x="340" y="218" class="title" font-size="22">Acme Corp</text>
+
+    <rect x="286" y="284" width="140" height="46" rx="16" fill="#0F5EF7"/>
+    <text x="332" y="313" fill="#FFFFFF" font-size="18" font-weight="700">Dashboard</text>
+    <g class="nav">
+      <text x="322" y="382">Finance</text>
+      <text x="322" y="432">HR</text>
+      <text x="322" y="482">Inventory</text>
+      <text x="322" y="532">Sales</text>
+      <text x="322" y="582">CRM</text>
+      <text x="322" y="632">Reports</text>
+      <text x="322" y="682">Settings</text>
+    </g>
+    <circle cx="300" cy="375" r="9" fill="#D4E1F8"/>
+    <circle cx="300" cy="425" r="9" fill="#D4E1F8"/>
+    <circle cx="300" cy="475" r="9" fill="#D4E1F8"/>
+    <circle cx="300" cy="525" r="9" fill="#D4E1F8"/>
+    <circle cx="300" cy="575" r="9" fill="#D4E1F8"/>
+    <circle cx="300" cy="625" r="9" fill="#D4E1F8"/>
+    <circle cx="300" cy="675" r="9" fill="#D4E1F8"/>
+
+    <text x="500" y="226" class="title">Dashboard</text>
+    <text x="500" y="254" class="body">Welcome back, Sarah. Here is your ERP and CRM overview.</text>
+    <circle cx="1174" cy="212" r="13" fill="#E8EEF9"/>
+    <circle cx="1214" cy="212" r="13" fill="#E8EEF9"/>
+    <circle cx="1274" cy="212" r="18" fill="#0C1830"/>
+    <circle cx="1274" cy="212" r="7" fill="#FFFFFF"/>
+
+    <rect x="492" y="282" width="170" height="118" rx="22" fill="#FFFFFF"/>
+    <rect x="680" y="282" width="170" height="118" rx="22" fill="#FFFFFF"/>
+    <rect x="868" y="282" width="170" height="118" rx="22" fill="#FFFFFF"/>
+    <rect x="1056" y="282" width="170" height="118" rx="22" fill="#FFFFFF"/>
+
+    <text x="520" y="318" class="label">Total Revenue</text>
+    <text x="520" y="362" class="metric">$4,320,000</text>
+    <text x="520" y="386" fill="#16C27A" font-size="15" font-weight="700">+12.5%</text>
+    <text x="708" y="318" class="label">New Customers</text>
+    <text x="708" y="362" class="metric">1,250</text>
+    <text x="708" y="386" fill="#16C27A" font-size="15" font-weight="700">+8.2%</text>
+    <text x="896" y="318" class="label">Open Orders</text>
+    <text x="896" y="362" class="metric">320</text>
+    <text x="896" y="386" fill="#EF4444" font-size="15" font-weight="700">-2.1%</text>
+    <text x="1084" y="318" class="label">Employees</text>
+    <text x="1084" y="362" class="metric">540</text>
+    <text x="1084" y="386" fill="#16C27A" font-size="15" font-weight="700">+5.4%</text>
+
+    <rect x="492" y="426" width="432" height="324" rx="28" fill="#FFFFFF"/>
+    <rect x="942" y="426" width="284" height="152" rx="28" fill="#FFFFFF"/>
+    <rect x="942" y="598" width="284" height="152" rx="28" fill="#FFFFFF"/>
+    <text x="522" y="468" class="title" font-size="20">Revenue Overview</text>
+    <path d="M546 696H892" stroke="#DCE7F4" stroke-width="8" stroke-linecap="round"/>
+    <path d="M558 684V514" stroke="#DCE7F4" stroke-width="8" stroke-linecap="round"/>
+    <path d="M590 654L642 610L692 626L742 562L792 582L842 514L878 540" stroke="#0F5EF7" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
+    <circle cx="590" cy="654" r="9" fill="#0F5EF7"/>
+    <circle cx="642" cy="610" r="9" fill="#16C27A"/>
+    <circle cx="692" cy="626" r="9" fill="#0F5EF7"/>
+    <circle cx="742" cy="562" r="9" fill="#0C1830"/>
+    <circle cx="792" cy="582" r="9" fill="#0F5EF7"/>
+    <circle cx="842" cy="514" r="9" fill="#16C27A"/>
+    <circle cx="878" cy="540" r="9" fill="#0F5EF7"/>
+    <g class="small">
+      <text x="582" y="722">Jan</text>
+      <text x="642" y="722">Feb</text>
+      <text x="702" y="722">Mar</text>
+      <text x="762" y="722">Apr</text>
+      <text x="822" y="722">May</text>
+      <text x="872" y="722">Jun</text>
+    </g>
+
+    <text x="972" y="468" class="title" font-size="20">Sales Pipeline</text>
+    <path d="M1008 506H1160L1134 548H1034L1008 506Z" fill="#0F5EF7"/>
+    <path d="M1028 564H1140L1118 604H1050L1028 564Z" fill="#31A4FF"/>
+    <path d="M1048 620H1120L1102 656H1066L1048 620Z" fill="#68D2EE"/>
+    <path d="M1066 674H1102L1092 704H1078L1066 674Z" fill="#A9E8FA"/>
+    <g class="small">
+      <text x="1178" y="518">Leads</text>
+      <text x="1178" y="576">Qualified</text>
+      <text x="1178" y="632">Proposal</text>
+      <text x="1178" y="686">Won</text>
+      <text x="1126" y="518">2,500</text>
+      <text x="1126" y="576">1,250</text>
+      <text x="1126" y="632">620</text>
+      <text x="1126" y="686">320</text>
+    </g>
+
+    <text x="972" y="638" class="title" font-size="20">Recent Activities</text>
+    <g class="small">
+      <text x="998" y="680">Sales report generated</text>
+      <text x="1166" y="680">2 min ago</text>
+      <text x="998" y="714">New order #1250 received</text>
+      <text x="1166" y="714">15 min ago</text>
+      <text x="998" y="748">Invoice INV-0456 paid</text>
+      <text x="1166" y="748">1 hr ago</text>
+    </g>
+    <circle cx="976" cy="675" r="7" fill="#0F5EF7"/>
+    <circle cx="976" cy="709" r="7" fill="#16C27A"/>
+    <circle cx="976" cy="743" r="7" fill="#EF4444"/>
+  </g>
+</svg>

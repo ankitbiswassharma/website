@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Privacy Policy | Musk-IT</title>
+  <meta name="description" content="Privacy Policy for the Musk-IT AI Project Execution Platform.">
+  <link rel="icon" href="images/favicon.ico">
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:          #f5f7fb;
+      --bg2:         #edf4ff;
+      --bg3:         #ffffff;
+      --surface:     #ffffff;
+      --surface2:    #f4f8ff;
+      --border:      rgba(11,34,79,0.08);
+      --border2:     rgba(11,34,79,0.12);
+      --accent:      #0f5ef7;
+      --amber:       #F5A623;
+      --teal:        #14b86a;
+      --text:        #081226;
+      --text2:       #55657d;
+      --text3:       #7c8da5;
+      --font-head:   'Syne', sans-serif;
+      --font-body:   'DM Sans', sans-serif;
+    }
+
+    html { scroll-behavior: smooth; }
+    body { background:
+      radial-gradient(circle at top left, rgba(15,94,247,0.16), transparent 22%),
+      radial-gradient(circle at 80% 10%, rgba(20,184,106,0.12), transparent 18%),
+      var(--bg); color: var(--text); font-family: var(--font-body); font-size: 15px; line-height: 1.6; overflow-x: hidden; }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { opacity: 0.85; }
+
+    /* ─── NAV ─── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+      background: rgba(255,255,255,0.78); border-bottom: 1px solid var(--border);
+      padding: 0 2rem; height: 60px; display: flex; align-items: center;
+    }
+    .nav-inner { max-width: 1160px; width: 100%; margin: auto; display: flex; align-items: center; justify-content: space-between; }
+    .logo { font-family: var(--font-head); font-size: 20px; font-weight: 800; letter-spacing: -0.5px; text-decoration: none; }
+    .logo span:first-child { color: var(--text); }
+    .logo span:last-child  { color: var(--accent); }
+    .nav-links { display: flex; align-items: center; gap: 4px; }
+    .nav-links a { font-size: 13px; color: var(--text2); padding: 6px 10px; border-radius: 6px; transition: color 0.2s, background 0.2s; font-weight: 400; text-decoration: none; }
+    .nav-links a:hover { color: var(--text); background: rgba(255,255,255,0.05); opacity: 1; }
+    .btn-nav { background: var(--accent) !important; color: #fff !important; padding: 7px 16px !important; border-radius: 7px !important; font-weight: 500 !important; font-size: 13px !important; }
+    .btn-nav:hover { opacity: 0.88 !important; }
+    .nav-toggle { display: none; background: none; border: none; cursor: pointer; padding: 6px; color: var(--text2); flex-direction: column; gap: 5px; }
+    .nav-toggle span { display: block; width: 22px; height: 2px; background: currentColor; border-radius: 2px; }
+
+    /* ─── PAGE LAYOUT ─── */
+    .page-wrap {
+      max-width: 1160px; margin: 0 auto;
+      padding: 100px 2rem 80px;
+      display: grid; grid-template-columns: 220px 1fr;
+      gap: 56px; align-items: start;
+    }
+
+    /* ─── SIDEBAR ─── */
+    .legal-sidebar { position: sticky; top: 80px; }
+    .sidebar-label { font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--text3); font-weight: 600; margin-bottom: 12px; }
+    .sidebar-nav { list-style: none; }
+    .sidebar-nav li { margin-bottom: 2px; }
+    .sidebar-nav a { font-size: 13px; color: var(--text2); padding: 6px 10px; border-radius: 6px; display: block; text-decoration: none; transition: color 0.15s, background 0.15s; border-left: 2px solid transparent; }
+    .sidebar-nav a:hover { color: var(--text); background: rgba(255,255,255,0.04); opacity: 1; }
+    .sidebar-nav a.active { color: var(--accent); border-left-color: var(--accent); background: rgba(59,139,247,0.06); }
+    .sidebar-divider { height: 1px; background: var(--border); margin: 16px 0; }
+    .sidebar-meta-label { font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--text3); font-weight: 600; margin-bottom: 10px; }
+    .sidebar-meta-val { font-size: 13px; color: var(--text2); margin-bottom: 14px; }
+
+    .sidebar-related { }
+    .sidebar-related a { font-size: 12px; color: var(--text2); display: block; padding: 5px 10px; border-radius: 5px; text-decoration: none; transition: color 0.15s; }
+    .sidebar-related a:hover { color: var(--accent); opacity: 1; }
+
+    .sidebar-contact { background: rgba(59,139,247,0.06); border: 1px solid rgba(59,139,247,0.18); border-radius: 10px; padding: 16px; margin-top: 20px; }
+    .sidebar-contact p  { font-size: 12px; color: var(--text2); line-height: 1.65; margin-bottom: 10px; }
+    .sidebar-contact a  { font-size: 13px; color: var(--accent); display: block; text-decoration: none; }
+
+    /* ─── LEGAL CONTENT ─── */
+    .legal-content { min-width: 0; }
+
+    .legal-header { margin-bottom: 48px; padding-bottom: 28px; border-bottom: 1px solid var(--border); }
+    .legal-badge { display: inline-flex; align-items: center; gap: 8px; background: rgba(31,217,164,0.10); border: 1px solid rgba(31,217,164,0.25); color: var(--teal); font-size: 12px; font-weight: 500; padding: 4px 12px; border-radius: 20px; margin-bottom: 16px; letter-spacing: 0.3px; }
+    .legal-title { font-family: var(--font-head); font-size: clamp(28px, 4vw, 40px); font-weight: 800; letter-spacing: -1px; color: var(--text); margin-bottom: 12px; }
+    .legal-updated { font-size: 13px; color: var(--text3); }
+    .legal-intro { font-size: 15px; color: var(--text2); line-height: 1.8; max-width: 640px; margin-top: 16px; }
+    .legal-intro strong { color: var(--text); font-weight: 500; }
+
+    /* Sections */
+    .legal-section { margin-bottom: 44px; padding-bottom: 44px; border-bottom: 1px solid var(--border); }
+    .legal-section:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+
+    .section-num { font-family: var(--font-head); font-size: 11px; color: var(--accent); font-weight: 700; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 6px; }
+
+    .legal-section h2 { font-family: var(--font-head); font-size: clamp(18px, 2.5vw, 22px); font-weight: 700; letter-spacing: -0.3px; color: var(--text); margin-bottom: 14px; }
+
+    .legal-section p { font-size: 14px; color: var(--text2); line-height: 1.85; margin-bottom: 12px; max-width: 680px; }
+    .legal-section p:last-child { margin-bottom: 0; }
+    .legal-section p strong { color: var(--text); font-weight: 500; }
+
+    .legal-list { list-style: none; margin: 12px 0; }
+    .legal-list li { font-size: 14px; color: var(--text2); line-height: 1.75; padding: 8px 0; border-bottom: 1px solid var(--border); display: flex; align-items: flex-start; gap: 12px; }
+    .legal-list li:last-child { border-bottom: none; }
+    .ll-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--accent); flex-shrink: 0; margin-top: 9px; }
+    .ll-teal { background: var(--teal); }
+
+    /* Callout */
+    .legal-callout { border-radius: 10px; padding: 16px 20px; margin: 16px 0; display: flex; gap: 12px; align-items: flex-start; }
+    .lc-icon { font-size: 15px; flex-shrink: 0; margin-top: 1px; }
+    .lc-body { font-size: 13px; line-height: 1.7; }
+    .lc-body strong { display: block; margin-bottom: 4px; font-weight: 600; }
+    .callout-info  { background: rgba(59,139,247,0.06); border: 1px solid rgba(59,139,247,0.18); }
+    .callout-info  .lc-body { color: #8BB8F7; }
+    .callout-info  .lc-body strong { color: var(--accent); }
+    .callout-teal  { background: rgba(31,217,164,0.06); border: 1px solid rgba(31,217,164,0.18); }
+    .callout-teal  .lc-body { color: #7AD9BF; }
+    .callout-teal  .lc-body strong { color: var(--teal); }
+
+    /* Highlight box */
+    .highlight-box { background: var(--surface); border: 1px solid var(--border2); border-radius: 10px; padding: 18px 20px; margin: 14px 0; }
+    .highlight-box p { font-size: 14px; color: var(--text2); line-height: 1.75; margin: 0; }
+    .highlight-box p strong { color: var(--teal); font-weight: 600; }
+
+    /* Contact block */
+    .contact-block { background: var(--surface); border: 1px solid var(--border2); border-radius: 12px; padding: 22px 24px; margin-top: 14px; }
+    .contact-row { display: flex; gap: 12px; align-items: center; padding: 8px 0; border-bottom: 1px solid var(--border); }
+    .contact-row:last-child { border-bottom: none; }
+    .cr-label { font-size: 12px; color: var(--text3); min-width: 56px; }
+    .cr-val   { font-size: 14px; color: var(--text2); }
+    .cr-val a { color: var(--accent); text-decoration: none; }
+
+    /* ─── FOOTER ─── */
+    footer { border-top: 1px solid var(--border); padding: 40px 2rem; text-align: center; }
+    .footer-inner { max-width: 1160px; margin: auto; }
+    .footer-links { display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; margin-bottom: 20px; }
+    .footer-links a { font-size: 13px; color: var(--text3); transition: color 0.2s; text-decoration: none; }
+    .footer-links a:hover { color: var(--text2); opacity: 1; }
+    .footer-copy { font-size: 12px; color: var(--text3); }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 860px) {
+      .page-wrap { grid-template-columns: 1fr; padding-top: 80px; }
+      .legal-sidebar { position: static; }
+    }
+    @media (max-width: 640px) {
+      .nav-links { display: none; }
+      .nav-toggle { display: flex; }
+      .nav-links.open { display: flex; flex-direction: column; position: absolute; top: 60px; left: 0; right: 0; background: rgba(4,7,15,0.97); padding: 16px; border-bottom: 1px solid var(--border); gap: 4px; }
+    }
+  </style>
+</head>
+
+<body>
+
+<!-- ══════════ NAV ══════════ -->
+<nav>
+  <div class="nav-inner">
+    <a href="/" class="logo"><span>Musk</span><span>-IT</span></a>
+    <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">
+      <span></span><span></span><span></span>
+    </button>
+    <div class="nav-links" id="navLinks">
+      <a href="/features">Features</a>
+      <a href="/modules">Modules</a>
+      <a href="/licensing">Licensing</a>
+      <a href="/blog">Blog</a>
+      <a href="/about">About</a>
+      <a href="/contact">Contact</a>
+    </div>
+  </div>
+</nav>
+
+
+<!-- ══════════ PAGE ══════════ -->
+<div class="page-wrap">
+
+  <!-- SIDEBAR -->
+  <aside class="legal-sidebar">
+    <div class="sidebar-label">On this page</div>
+    <ul class="sidebar-nav">
+      <li><a href="#collection"    class="active">1. Information We Collect</a></li>
+      <li><a href="#use">2. How We Use Your Data</a></li>
+      <li><a href="#ownership">3. Project Data Ownership</a></li>
+      <li><a href="#security">4. Storage &amp; Security</a></li>
+      <li><a href="#cookies">5. Cookies &amp; Analytics</a></li>
+      <li><a href="#third-party">6. Third-Party Services</a></li>
+      <li><a href="#sharing">7. Data Sharing</a></li>
+      <li><a href="#rights">8. Your Rights</a></li>
+      <li><a href="#changes">9. Policy Changes</a></li>
+      <li><a href="#contact">10. Contact</a></li>
+    </ul>
+
+    <div class="sidebar-divider"></div>
+
+    <div class="sidebar-meta-label">Document Info</div>
+    <div class="sidebar-meta-val">Last updated: March 2026</div>
+    <div class="sidebar-meta-val" style="margin-top:-8px;">Version 1.0</div>
+
+    <div class="sidebar-divider"></div>
+
+    <div class="sidebar-meta-label">Related</div>
+    <div class="sidebar-related">
+      <a href="/terms.html">Terms &amp; Conditions</a>
+      <a href="/contact">Contact Us</a>
+    </div>
+
+    <div class="sidebar-contact">
+      <p>Privacy questions or data requests?</p>
+      <a href="mailto:ankitbiswassharma@muskit.in">Email us →</a>
+    </div>
+  </aside>
+
+  <!-- CONTENT -->
+  <main class="legal-content">
+
+    <div class="legal-header">
+      <div class="legal-badge">Legal</div>
+      <div class="legal-title">Privacy Policy</div>
+      <div class="legal-updated">Last updated: March 2026</div>
+      <p class="legal-intro">
+        Musk-IT ("we", "our", or "us") operates the website <strong>muskit.in</strong> and provides the
+        Musk-IT AI Project Execution Platform. This Privacy Policy explains how we collect,
+        use and protect information when you use our website and software services.
+      </p>
+    </div>
+
+    <!-- 1 -->
+    <div class="legal-section" id="collection">
+      <div class="section-num">Section 01</div>
+      <h2>Information We Collect</h2>
+      <p>We may collect the following types of information when you use the Musk-IT platform or website:</p>
+      <ul class="legal-list">
+        <li><div class="ll-dot"></div>Name and email address</li>
+        <li><div class="ll-dot"></div>Company or organization information</li>
+        <li><div class="ll-dot"></div>User account credentials (stored securely)</li>
+        <li><div class="ll-dot"></div>Project data uploaded to the platform — including BOQ files, schedules, drawings and execution data</li>
+        <li><div class="ll-dot"></div>Usage data and system logs generated by platform activity</li>
+        <li><div class="ll-dot"></div>Browser, device and IP address information</li>
+      </ul>
+    </div>
+
+    <!-- 2 -->
+    <div class="legal-section" id="use">
+      <div class="section-num">Section 02</div>
+      <h2>How We Use Your Information</h2>
+      <p>Information collected is used only for the purposes of operating and improving the Musk-IT platform:</p>
+      <ul class="legal-list">
+        <li><div class="ll-dot"></div>Providing and maintaining the Musk-IT platform and its features</li>
+        <li><div class="ll-dot"></div>Generating AI-driven project analytics, forecasts and execution insights</li>
+        <li><div class="ll-dot"></div>Improving product performance, reliability and features</li>
+        <li><div class="ll-dot"></div>Providing technical support and responding to user requests</li>
+        <li><div class="ll-dot"></div>Maintaining platform security and preventing unauthorized access or misuse</li>
+      </ul>
+
+      <div class="legal-callout callout-info">
+        <div class="lc-icon">ℹ️</div>
+        <div class="lc-body">
+          <strong>No advertising use</strong>
+          Musk-IT does not use your data for advertising purposes or to build advertising profiles.
+          Data is used exclusively to deliver platform functionality.
+        </div>
+      </div>
+    </div>
+
+    <!-- 3 -->
+    <div class="legal-section" id="ownership">
+      <div class="section-num">Section 03</div>
+      <h2>Project Data Ownership</h2>
+      <p>
+        All project files, schedules, BOQ data and execution information uploaded by users
+        remain the property of the respective user or organization.
+      </p>
+
+      <div class="highlight-box">
+        <p><strong>Your data belongs to you.</strong> Musk-IT processes project data only to provide platform features including analytics, dashboards, AI forecasting and reporting. We do not claim ownership of any project data you upload.</p>
+      </div>
+
+      <p>
+        By uploading data, users grant Musk-IT permission to process that data solely for
+        the purpose of providing the agreed platform services.
+      </p>
+    </div>
+
+    <!-- 4 -->
+    <div class="legal-section" id="security">
+      <div class="section-num">Section 04</div>
+      <h2>Data Storage &amp; Security</h2>
+      <p>
+        Data is stored on secure cloud infrastructure and protected using
+        industry-standard security practices including encryption at rest and in transit.
+      </p>
+      <p>
+        We implement technical and organizational measures designed to protect user data
+        from unauthorized access, loss, alteration or misuse. Enterprise deployments with
+        dedicated infrastructure have additional isolation and security controls.
+      </p>
+
+      <div class="legal-callout callout-teal">
+        <div class="lc-icon">🔒</div>
+        <div class="lc-body">
+          <strong>Enterprise security</strong>
+          Enterprise AI and Source License clients can request details of specific security
+          controls, data residency and infrastructure configuration as part of their
+          enterprise agreement.
+        </div>
+      </div>
+    </div>
+
+    <!-- 5 -->
+    <div class="legal-section" id="cookies">
+      <div class="section-num">Section 05</div>
+      <h2>Cookies &amp; Analytics</h2>
+      <p>
+        The Musk-IT website may use cookies and analytics tools to understand how visitors
+        use the website and to improve user experience. Cookies help us analyze traffic
+        patterns and improve the performance of our platform.
+      </p>
+      <p>
+        You can control cookie settings through your browser. Disabling cookies may affect
+        some website functionality but will not affect your ability to use the core platform.
+      </p>
+    </div>
+
+    <!-- 6 -->
+    <div class="legal-section" id="third-party">
+      <div class="section-num">Section 06</div>
+      <h2>Third-Party Services</h2>
+      <p>
+        We may use trusted third-party services for infrastructure hosting, analytics,
+        email communication and payment processing. These providers are selected for their
+        security standards and process data only as necessary to operate the Musk-IT platform.
+      </p>
+      <p>
+        We do not grant third parties access to project data for their own purposes.
+        All third-party data processing is governed by appropriate data processing agreements.
+      </p>
+    </div>
+
+    <!-- 7 -->
+    <div class="legal-section" id="sharing">
+      <div class="section-num">Section 07</div>
+      <h2>Data Sharing</h2>
+
+      <div class="highlight-box">
+        <p><strong>Musk-IT does not sell, rent or trade personal information or project data to third parties.</strong> Data may only be shared when strictly required to operate the platform or when required by applicable law.</p>
+      </div>
+
+      <p>
+        In the event of a legal obligation to disclose data, we will notify affected users
+        where permitted by law before complying with such a request.
+      </p>
+    </div>
+
+    <!-- 8 -->
+    <div class="legal-section" id="rights">
+      <div class="section-num">Section 08</div>
+      <h2>Your Rights</h2>
+      <p>Users may submit requests regarding their personal data at any time. Supported requests include:</p>
+      <ul class="legal-list">
+        <li><div class="ll-dot ll-teal"></div>Access — request a copy of the personal data we hold about you</li>
+        <li><div class="ll-dot ll-teal"></div>Correction — request correction of inaccurate or incomplete data</li>
+        <li><div class="ll-dot ll-teal"></div>Deletion — request deletion of your account and associated personal data</li>
+        <li><div class="ll-dot ll-teal"></div>Export — request export of your project data prior to account closure</li>
+      </ul>
+      <p>
+        Requests can be submitted to the contact email listed in Section 10.
+        We aim to respond to all data requests within 14 business days.
+      </p>
+    </div>
+
+    <!-- 9 -->
+    <div class="legal-section" id="changes">
+      <div class="section-num">Section 09</div>
+      <h2>Policy Changes</h2>
+      <p>
+        We may update this Privacy Policy periodically to reflect changes in our services,
+        data practices or applicable legal requirements.
+      </p>
+      <p>
+        Material changes will be communicated to registered users via email.
+        Continued use of the platform after updates are published constitutes acceptance
+        of the revised Privacy Policy. The date of the most recent update is shown at the
+        top of this page.
+      </p>
+    </div>
+
+    <!-- 10 -->
+    <div class="legal-section" id="contact">
+      <div class="section-num">Section 10</div>
+      <h2>Contact</h2>
+      <p>
+        For questions about this Privacy Policy, to submit a data request, or to report
+        a privacy concern, please contact us through any of the following channels.
+      </p>
+      <div class="contact-block">
+        <div class="contact-row">
+          <span class="cr-label">Email</span>
+          <span class="cr-val"><a href="mailto:ankitbiswassharma@muskit.in">ankitbiswassharma@muskit.in</a></span>
+        </div>
+        <div class="contact-row">
+          <span class="cr-label">Website</span>
+          <span class="cr-val"><a href="https://muskit.in" target="_blank" rel="noopener">muskit.in</a></span>
+        </div>
+        <div class="contact-row">
+          <span class="cr-label">Contact</span>
+          <span class="cr-val"><a href="/contact">Contact form →</a></span>
+        </div>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+
+<!-- ══════════ FOOTER ══════════ -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-links">
+      <a href="/docs">Docs</a>
+      <a href="/blog">Blog</a>
+      <a href="/case-studies">Case Studies</a>
+      <a href="/privacy-policy.html">Privacy Policy</a>
+      <a href="/terms.html">Terms &amp; Conditions</a>
+      <a href="/contact">Contact</a>
+    </div>
+    <div class="footer-copy">© 2026 Muskan Chhetri &middot; Musk-IT &middot; All Rights Reserved</div>
+  </div>
+</footer>
+
+<script>
+  document.getElementById('navToggle').addEventListener('click', function () {
+    document.getElementById('navLinks').classList.toggle('open');
+  });
+
+  const sections = document.querySelectorAll('.legal-section');
+  const sidebarLinks = document.querySelectorAll('.sidebar-nav a');
+  window.addEventListener('scroll', () => {
+    let current = '';
+    sections.forEach(sec => { if (window.scrollY >= sec.offsetTop - 120) current = sec.id; });
+    sidebarLinks.forEach(link => { link.classList.toggle('active', link.getAttribute('href') === '#' + current); });
+  });
+</script>
+
+</body>
+</html>

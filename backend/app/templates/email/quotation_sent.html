@@ -1,0 +1,43 @@
+{% extends "base_email.html" %}
+{% from "_macros.html" import intro, panel, cta, closing %}
+{% set shell_kicker = "Quotation Ready" %}
+{% set shell_title = "Your quotation is ready" %}
+{% set shell_subtitle = "We reviewed your requirement and prepared a tailored commercial proposal for your business." %}
+
+{% block body %}
+  {{ intro(lead.full_name, personalized_message or "We have prepared a tailored quotation based on your workflow requirements, business goals, and the system scope discussed with your team.") }}
+
+  {% call panel("Quotation Summary", "", accent_color, "#f8fafc") %}
+    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="margin:0;border:1px solid #dbe5f0;border-radius:16px;overflow:hidden;background:#ffffff;">
+      <tr><td style="padding:10px 14px;border-bottom:1px solid #e2e8f0;font-size:12px;font-weight:800;letter-spacing:0.12em;text-transform:uppercase;color:#64748b;width:38%;">Quotation No.</td><td style="padding:10px 14px;border-bottom:1px solid #e2e8f0;font-size:14px;line-height:1.7;color:#0f172a;">{{ quotation.quotation_number }}</td></tr>
+      <tr><td style="padding:10px 14px;border-bottom:1px solid #e2e8f0;font-size:12px;font-weight:800;letter-spacing:0.12em;text-transform:uppercase;color:#64748b;">Valid Until</td><td style="padding:10px 14px;border-bottom:1px solid #e2e8f0;font-size:14px;line-height:1.7;color:#0f172a;">{{ quotation.valid_until }}</td></tr>
+      <tr><td style="padding:10px 14px;font-size:12px;font-weight:800;letter-spacing:0.12em;text-transform:uppercase;color:#64748b;">Total</td><td style="padding:10px 14px;font-size:14px;line-height:1.7;color:#0f172a;">{{ quotation.currency }} {{ quotation.total_amount }}</td></tr>
+    </table>
+  {% endcall %}
+
+  {% call panel("Included Scope", "", accent_color, "#f8fafc") %}
+    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="margin:0;">
+      {% for item in items %}
+      <tr>
+        <td style="padding:0 0 12px;">
+          <div style="padding:16px 18px;border-radius:16px;border:1px solid #dbe5f0;background:#ffffff;">
+            <div style="font-size:13px;font-weight:800;letter-spacing:0.12em;text-transform:uppercase;color:#2563eb;">{{ item.title }}</div>
+            {% if item.description %}
+            <div style="margin-top:6px;font-size:14px;line-height:1.8;color:#475569;">{{ item.description }}</div>
+            {% endif %}
+            <div style="margin-top:8px;font-size:14px;font-weight:700;color:#0f172a;">{{ quotation.currency }} {{ item.line_total }}</div>
+          </div>
+        </td>
+      </tr>
+      {% endfor %}
+    </table>
+  {% endcall %}
+
+  {% if quotation_url %}
+    {{ cta(quotation_url, "Review Quotation Online", accent_color) }}
+  {% endif %}
+  <p style="margin:0 0 18px;font-size:14px;line-height:1.8;color:#475569;">
+    The full quotation PDF is attached to this email. Once the quotation is approved for checkout, we will also share the secure payment link separately.
+  </p>
+  {{ closing(company_name) }}
+{% endblock %}
