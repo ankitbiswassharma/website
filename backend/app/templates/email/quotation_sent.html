@@ -34,10 +34,10 @@
   {% endcall %}
 
   {% if quotation_url %}
-    {{ cta(quotation_url, "Review Quotation Online", accent_color) }}
+    {{ cta(quotation_url, "Review Quotation and Pay Online", accent_color) }}
   {% endif %}
   <p style="margin:0 0 18px;font-size:14px;line-height:1.8;color:#475569;">
-    The full quotation PDF is attached to this email. Once the quotation is approved for checkout, we will also share the secure payment link separately.
+    The full quotation PDF is attached to this email. The button above opens the secure payment page for this quotation and loads Razorpay checkout for the quoted amount.
   </p>
   {{ closing(company_name) }}
 {% endblock %}

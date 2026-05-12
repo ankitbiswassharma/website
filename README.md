@@ -4,10 +4,10 @@
 
 This repository is wired for a single public entry point:
 
-- Public URL: `http://76.13.246.57` until DNS/TLS is attached
-- Public proxy: host Nginx on port `80`
-- Local frontend: Next.js bound to `127.0.0.1:3000`
-- Local backend: FastAPI bound to `127.0.0.1:8000`
+- Public URL: `https://muskit.in`
+- Public proxy: Traefik on ports `80` and `443`
+- Internal frontend: Next.js on `frontend:3000`
+- Internal backend: FastAPI on `backend:8000`
 - Browser API base: `/api/v1`
 
 Create a production env file before starting Docker Compose:
@@ -22,7 +22,16 @@ Then replace every placeholder secret in `.env`, especially:
 - `ADMIN_SESSION_SECRET`
 - `SMTP_USER`
 - `SMTP_PASSWORD`
+- `TRAEFIK_CERT_EMAIL`
 - Razorpay keys when payments should be live
+
+Make sure DNS for `muskit.in` and `www.muskit.in` points to `76.13.246.57`.
+If Ubuntu Nginx is already installed on the VPS, stop it before starting Docker
+because this Compose file owns ports `80` and `443`:
+
+```bash
+sudo systemctl disable --now nginx
+```
 
 Start the stack:
 
@@ -30,28 +39,28 @@ Start the stack:
 docker compose up --build -d
 ```
 
-Install the host Nginx reverse proxy:
+Verify the backend/frontend connection through the public Traefik entry point:
 
 ```bash
-sudo cp deploy/host-nginx.conf /etc/nginx/sites-available/muskit
-sudo ln -sf /etc/nginx/sites-available/muskit /etc/nginx/sites-enabled/muskit
-sudo nginx -t
-sudo systemctl reload nginx
+curl https://muskit.in/api/v1/health
 ```
 
-Verify the backend/frontend connection through the public Nginx entry point:
+Traefik issues and renews the Let's Encrypt certificate automatically using the
+HTTP challenge on port `80`. If certificate issuance fails, check that DNS points
+to the VPS, ports `80` and `443` are open in the firewall, and no host process is
+already using those ports.
+
+This stack uses Traefik's file provider at `traefik/dynamic/muskit.yml` instead
+of the Docker provider, so it does not depend on Docker socket API negotiation.
+If an older `muskit_website_certbot_init` container appears in logs, it is an
+orphan from the previous config; remove it with `docker compose up -d --remove-orphans`.
+
+If Traefik returns `502 Bad Gateway`, isolate the failing layer on the VPS:
 
 ```bash
-curl http://76.13.246.57/api/v1/health
+docker compose ps
+docker compose logs --tail=120 backend
+docker compose logs --tail=120 traefik
+docker compose exec traefik wget -S -O- http://backend:8000/api/v1/health
+docker compose exec traefik wget -S -O- http://frontend:3000/api/v1/health
 ```
-
-For a domain deployment, point DNS to `76.13.246.57`, then update `.env`:
-
-```env
-FRONTEND_URL=https://muskit.in
-API_BASE_URL=https://muskit.in
-CORS_ORIGINS=https://muskit.in,https://www.muskit.in
-```
-
-Terminate TLS either at your VPS Nginx/Certbot layer or extend `nginx/default.conf`
-with a certificate-backed `443` server block.

@@ -161,10 +161,25 @@ class PaymentService:
                 message="Razorpay is not configured yet. Please contact sales for manual payment.",
             )
 
-        return self._manual_response(
+        payment = await self._create_razorpay_order(db, quotation)
+        now = utcnow()
+        if quotation.status == QuotationStatus.DRAFT:
+            quotation.status = QuotationStatus.SENT
+            quotation.sent_at = quotation.sent_at or now
+            quotation.updated_at = now
+            db.add(quotation)
+        if quotation.lead.status not in {LeadStatus.WON, LeadStatus.LOST}:
+            quotation.lead.status = LeadStatus.PROPOSAL_SENT
+            quotation.lead.proposal_sent_at = quotation.lead.proposal_sent_at or now
+            quotation.lead.updated_at = now
+            db.add(quotation.lead)
+
+        db.commit()
+        db.refresh(payment)
+        return self._payment_response(
             quotation,
-            mode="inactive",
-            message="Payment link is not active yet. Please use the payment email sent by sales or contact the team.",
+            payment,
+            message="Secure Razorpay checkout is ready for this quotation.",
         )
 
     async def create_admin_payment_link(

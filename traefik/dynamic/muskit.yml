@@ -1,0 +1,30 @@
+http:
+  routers:
+    muskit-api:
+      rule: "(Host(`muskit.in`) || Host(`www.muskit.in`)) && PathPrefix(`/api/v1`)"
+      entryPoints:
+        - websecure
+      service: muskit-api
+      priority: 100
+      tls:
+        certResolver: letsencrypt
+
+    muskit-frontend:
+      rule: "Host(`muskit.in`) || Host(`www.muskit.in`)"
+      entryPoints:
+        - websecure
+      service: muskit-frontend
+      priority: 1
+      tls:
+        certResolver: letsencrypt
+
+  services:
+    muskit-api:
+      loadBalancer:
+        servers:
+          - url: "http://backend:8000"
+
+    muskit-frontend:
+      loadBalancer:
+        servers:
+          - url: "http://frontend:3000"
