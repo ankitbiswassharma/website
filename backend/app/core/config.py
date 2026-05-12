@@ -1,6 +1,6 @@
 from pathlib import Path
 
-from pydantic import AliasChoices, Field
+from pydantic import AliasChoices, Field, model_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
@@ -75,19 +75,42 @@ class Settings(BaseSettings):
 
     @property
     def cors_allowed_origins(self) -> list[str]:
-        default_origins = {
-            self.frontend_url,
-            "http://localhost:3000",
-            "http://127.0.0.1:3000",
-            "https://muskit.in",
-            "https://www.muskit.in",
-        }
+        default_origins = {self.frontend_url.strip().rstrip("/")}
+        if self.company_website.startswith(("http://", "https://")):
+            default_origins.add(self.company_website.strip().rstrip("/"))
+        if self.app_env.strip().lower() != "production":
+            default_origins.update(
+                {
+                    "http://localhost:3000",
+                    "http://127.0.0.1:3000",
+                }
+            )
         configured_origins = {
             origin.strip().rstrip("/")
             for origin in self.cors_origins.split(",")
             if origin.strip()
         }
         return sorted(default_origins | configured_origins)
+
+    @model_validator(mode="after")
+    def validate_production_settings(self):
+        if self.app_env.strip().lower() != "production":
+            return self
+        weak_admin_secrets = {
+            "change-me",
+            "change-this-local-secret",
+            "replace-with-at-least-32-random-characters",
+        }
+        if self.admin_session_secret in weak_admin_secrets:
+            raise ValueError("ADMIN_SESSION_SECRET must be set to a strong secret in production.")
+        if len(self.admin_session_secret) < 32:
+            raise ValueError("ADMIN_SESSION_SECRET must be at least 32 characters in production.")
+        local_markers = ("localhost", "127.0.0.1")
+        if any(marker in self.frontend_url for marker in local_markers):
+            raise ValueError("FRONTEND_URL must be set to the public production URL.")
+        if any(marker in self.api_base_url for marker in local_markers):
+            raise ValueError("API_BASE_URL must be set to the public production URL.")
+        return self
 
     @property
     def smtp_enabled(self) -> bool:
