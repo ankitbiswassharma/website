@@ -1,7 +1,7 @@
 export const navLinks = [
   { href: "/features", label: "Capabilities" },
   { href: "/modules", label: "Modules" },
-  { href: "/pricing", label: "Pricing" },
+  { href: "/licensing", label: "Pricing" },
   { href: "/case-studies", label: "Case Studies" },
   { href: "/enterprise-login", label: "Enterprise Login" },
 ];

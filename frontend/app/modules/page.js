@@ -1,12 +1,12 @@
 import CtaBanner from "@/components/CtaBanner";
 import FeatureGrid from "@/components/FeatureGrid";
+import JsonLd from "@/components/JsonLd";
 import PageHero from "@/components/PageHero";
 import SectionIntro from "@/components/SectionIntro";
 import { moduleItems } from "@/lib/site-data";
+import { breadcrumbJsonLd, buildMetadata, serviceJsonLd } from "@/lib/seo.mjs";
 
-export const metadata = {
-  title: "Modules",
-};
+export const metadata = buildMetadata("/modules");
 
 export default function ModulesPage() {
   return (
@@ -36,6 +36,20 @@ export default function ModulesPage() {
         text="We can design a unified software environment where operations, tracking, communication, and reporting work together under one governed workflow."
         secondaryHref="/licensing"
         secondaryLabel="View Licensing"
+      />
+      <JsonLd
+        data={[
+          breadcrumbJsonLd([
+            { name: "Home", path: "/" },
+            { name: "Modules", path: "/modules" },
+          ]),
+          serviceJsonLd({
+            name: "ERP, CRM, Dashboard and Automation Modules",
+            description:
+              "Custom modules for ERP, attendance, inventory, CRM, reporting, analytics, and email automation workflows.",
+            path: "/modules",
+          }),
+        ]}
       />
     </>
   );

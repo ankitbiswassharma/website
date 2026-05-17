@@ -1,6 +1,6 @@
 from contextlib import asynccontextmanager
 
-from fastapi import FastAPI
+from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 
 from app.api.routes import admin_auth, admin_companies, admin_dashboard, admin_leads, health, lead_management, public
@@ -27,6 +27,15 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+
+@app.middleware("http")
+async def add_api_crawl_headers(request: Request, call_next):
+    response = await call_next(request)
+    if request.url.path.startswith(settings.api_v1_prefix):
+        response.headers.setdefault("X-Robots-Tag", "noindex, nofollow")
+    return response
+
 
 app.include_router(health.router, prefix=settings.api_v1_prefix)
 app.include_router(lead_management.router, prefix=settings.api_v1_prefix)

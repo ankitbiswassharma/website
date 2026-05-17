@@ -39,23 +39,23 @@ export default function Footer() {
         <div className="footer-grid">
           <div>
             <h3 className="footer-title">Explore</h3>
-            <div className="footer-links footer-links-stack">
+            <nav className="footer-links footer-links-stack" aria-label="Footer explore links">
               {footerExploreLinks.map((item) => (
                 <Link key={item.href} href={item.href}>
                   {item.label}
                 </Link>
               ))}
-            </div>
+            </nav>
           </div>
           <div>
             <h3 className="footer-title">Resources</h3>
-            <div className="footer-links footer-links-stack">
+            <nav className="footer-links footer-links-stack" aria-label="Footer resource links">
               {footerResourceLinks.map((item) => (
                 <Link key={item.href} href={item.href}>
                   {item.label}
                 </Link>
               ))}
-            </div>
+            </nav>
           </div>
           <div className="footer-spotlight">
             <div className="eyebrow">Built Around Your Workflow</div>

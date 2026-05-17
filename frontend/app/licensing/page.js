@@ -1,12 +1,12 @@
 import CtaBanner from "@/components/CtaBanner";
+import JsonLd from "@/components/JsonLd";
 import PageHero from "@/components/PageHero";
 import PricingCards from "@/components/PricingCards";
 import SectionIntro from "@/components/SectionIntro";
 import { faqItems, licensingModels } from "@/lib/site-data";
+import { breadcrumbJsonLd, buildMetadata, faqJsonLd } from "@/lib/seo.mjs";
 
-export const metadata = {
-  title: "Licensing",
-};
+export const metadata = buildMetadata("/licensing");
 
 export default function LicensingPage() {
   return (
@@ -53,6 +53,15 @@ export default function LicensingPage() {
         text="Send us your workflow details and we will recommend the right scope, delivery model, and commercial structure for the platform."
         secondaryHref="/contact"
         secondaryLabel="Talk to Our Team"
+      />
+      <JsonLd
+        data={[
+          breadcrumbJsonLd([
+            { name: "Home", path: "/" },
+            { name: "Licensing", path: "/licensing" },
+          ]),
+          faqJsonLd(faqItems),
+        ]}
       />
     </>
   );

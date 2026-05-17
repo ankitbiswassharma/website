@@ -40,7 +40,7 @@ export default function InteractiveBuildShowcase({ items }) {
           </ul>
         </div>
         <div className="build-showcase-stage-media">
-          <img alt={activeItem.title} src={activeItem.image} />
+          <img alt={activeItem.title} src={activeItem.image} loading="lazy" decoding="async" />
         </div>
       </article>
     </section>

@@ -1,12 +1,12 @@
 import CtaBanner from "@/components/CtaBanner";
 import FeatureGrid from "@/components/FeatureGrid";
+import JsonLd from "@/components/JsonLd";
 import PageHero from "@/components/PageHero";
 import SectionIntro from "@/components/SectionIntro";
 import { blogPosts } from "@/lib/site-data";
+import { absoluteUrl, breadcrumbJsonLd, buildMetadata } from "@/lib/seo.mjs";
 
-export const metadata = {
-  title: "Blog",
-};
+export const metadata = buildMetadata("/blog");
 
 export default function BlogPage() {
   return (
@@ -34,6 +34,29 @@ export default function BlogPage() {
       <CtaBanner
         title="Want these ideas applied to your own operational workflow?"
         text="Let’s review your current process and identify the right ERP, CRM, automation, or reporting platform for your business."
+      />
+      <JsonLd
+        data={[
+          breadcrumbJsonLd([
+            { name: "Home", path: "/" },
+            { name: "Blog", path: "/blog" },
+          ]),
+          ...blogPosts.map((post) => ({
+            "@context": "https://schema.org",
+            "@type": "Article",
+            headline: post.title,
+            description: post.text,
+            author: {
+              "@type": "Organization",
+              name: "Musk-IT",
+            },
+            publisher: {
+              "@type": "Organization",
+              name: "Musk-IT",
+            },
+            mainEntityOfPage: absoluteUrl("/blog"),
+          })),
+        ]}
       />
     </>
   );

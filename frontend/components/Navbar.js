@@ -13,7 +13,7 @@ export default function Navbar() {
             <span>-IT</span>
           </span>
         </Link>
-        <nav className="nav-links">
+        <nav className="nav-links" aria-label="Primary navigation">
           {navLinks.map((item) => (
             <Link key={item.href} href={item.href}>
               {item.label}

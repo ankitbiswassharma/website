@@ -1,12 +1,12 @@
 import CtaBanner from "@/components/CtaBanner";
 import FeatureGrid from "@/components/FeatureGrid";
+import JsonLd from "@/components/JsonLd";
 import PageHero from "@/components/PageHero";
 import SectionIntro from "@/components/SectionIntro";
 import { caseStudies } from "@/lib/site-data";
+import { breadcrumbJsonLd, buildMetadata } from "@/lib/seo.mjs";
 
-export const metadata = {
-  title: "Case Studies",
-};
+export const metadata = buildMetadata("/case-studies");
 
 export default function CaseStudiesPage() {
   return (
@@ -36,6 +36,12 @@ export default function CaseStudiesPage() {
         text="Share your workflow challenges and we will recommend a tailored platform built around your operational reality."
         secondaryHref="/contact"
         secondaryLabel="Start a Consultation"
+      />
+      <JsonLd
+        data={breadcrumbJsonLd([
+          { name: "Home", path: "/" },
+          { name: "Case Studies", path: "/case-studies" },
+        ])}
       />
     </>
   );

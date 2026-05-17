@@ -2,9 +2,11 @@ import CtaBanner from "@/components/CtaBanner";
 import FeatureGrid from "@/components/FeatureGrid";
 import Hero from "@/components/Hero";
 import InteractiveBuildShowcase from "@/components/InteractiveBuildShowcase";
+import JsonLd from "@/components/JsonLd";
 import LeadForm from "@/components/LeadForm";
 import ProcessSteps from "@/components/ProcessSteps";
 import SectionIntro from "@/components/SectionIntro";
+import { buildMetadata, serviceJsonLd } from "@/lib/seo.mjs";
 import Testimonials from "@/components/Testimonials";
 import {
   buildShowcaseItems,
@@ -13,6 +15,8 @@ import {
   solutionItems,
   testimonials,
 } from "@/lib/site-data";
+
+export const metadata = buildMetadata("/");
 
 export default function HomePage() {
   return (
@@ -86,6 +90,14 @@ export default function HomePage() {
         text="If your operations are outgrowing spreadsheets, disconnected tools, and manual follow-up, we can design the ERP, CRM, or execution platform your business actually needs."
         secondaryHref="/case-studies"
         secondaryLabel="View case studies"
+      />
+      <JsonLd
+        data={serviceJsonLd({
+          name: "Custom ERP, CRM and Workflow Automation Software",
+          description:
+            "Custom business software delivery for ERP, CRM, dashboards, workflow automation, approvals, reporting, and web or mobile access.",
+          path: "/",
+        })}
       />
     </>
   );

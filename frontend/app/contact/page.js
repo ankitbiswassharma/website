@@ -1,12 +1,12 @@
 import CtaBanner from "@/components/CtaBanner";
+import JsonLd from "@/components/JsonLd";
 import LeadForm from "@/components/LeadForm";
 import PageHero from "@/components/PageHero";
 import SectionIntro from "@/components/SectionIntro";
 import { contactDetails, processSteps } from "@/lib/site-data";
+import { absoluteUrl, breadcrumbJsonLd, buildMetadata } from "@/lib/seo.mjs";
 
-export const metadata = {
-  title: "Contact",
-};
+export const metadata = buildMetadata("/contact");
 
 const contactPageEmail = "admin@muskit.in";
 
@@ -67,6 +67,26 @@ export default function ContactPage() {
         text="Contact us for a consultation and we will help define the right starting scope for your ERP, CRM, dashboard, or automation initiative."
         secondaryHref="/features"
         secondaryLabel="Review Capabilities"
+      />
+      <JsonLd
+        data={[
+          breadcrumbJsonLd([
+            { name: "Home", path: "/" },
+            { name: "Contact", path: "/contact" },
+          ]),
+          {
+            "@context": "https://schema.org",
+            "@type": "LocalBusiness",
+            name: "Musk-IT",
+            url: absoluteUrl("/contact"),
+            email: contactPageEmail,
+            telephone: contactDetails.phone,
+            address: {
+              "@type": "PostalAddress",
+              addressCountry: "IN",
+            },
+          },
+        ]}
       />
     </>
   );

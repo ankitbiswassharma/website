@@ -1,12 +1,22 @@
 import { cookies } from "next/headers";
+import Script from "next/script";
 
 import Footer from "@/components/Footer";
+import JsonLd from "@/components/JsonLd";
 import Navbar from "@/components/Navbar";
+import {
+  DEFAULT_DESCRIPTION,
+  SITE_NAME,
+  SITE_URL,
+  organizationJsonLd,
+  websiteJsonLd,
+} from "@/lib/seo.mjs";
 
 import "./globals.css";
 
 const DEFAULT_THEME = "dark";
 const THEME_COOKIE = "muskit-theme";
+const GOOGLE_ANALYTICS_ID = "G-3KS2YBFJ87";
 
 const themeScript = `
   (function() {
@@ -25,12 +35,33 @@ const themeScript = `
 `;
 
 export const metadata = {
+  metadataBase: new URL(SITE_URL),
+  applicationName: SITE_NAME,
   title: {
-    default: "Musk-IT | Custom ERP, CRM & Automation Software",
-    template: "%s | Musk-IT",
+    default: `${SITE_NAME} | Custom ERP, CRM & Automation Software`,
+    template: `%s | ${SITE_NAME}`,
   },
-  description:
-    "We build custom ERP, automation systems, dashboards, CRM workflows, and web or mobile apps tailored to real business operations.",
+  description: DEFAULT_DESCRIPTION,
+  alternates: {
+    canonical: SITE_URL,
+  },
+  openGraph: {
+    title: `${SITE_NAME} | Custom ERP, CRM & Automation Software`,
+    description: DEFAULT_DESCRIPTION,
+    url: SITE_URL,
+    siteName: SITE_NAME,
+    type: "website",
+    locale: "en_IN",
+  },
+  twitter: {
+    card: "summary",
+    title: `${SITE_NAME} | Custom ERP, CRM & Automation Software`,
+    description: DEFAULT_DESCRIPTION,
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
   icons: {
     icon: "/favicon.svg",
     shortcut: "/favicon.ico",
@@ -58,6 +89,19 @@ export default async function RootLayout({ children }) {
           <main>{children}</main>
           <Footer />
         </div>
+        <JsonLd data={[organizationJsonLd(), websiteJsonLd()]} />
+        <Script
+          src={`https://www.googletagmanager.com/gtag/js?id=${GOOGLE_ANALYTICS_ID}`}
+          strategy="afterInteractive"
+        />
+        <Script id="google-analytics" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', '${GOOGLE_ANALYTICS_ID}');
+          `}
+        </Script>
       </body>
     </html>
   );

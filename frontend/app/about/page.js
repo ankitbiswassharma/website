@@ -1,12 +1,12 @@
 import CtaBanner from "@/components/CtaBanner";
 import FeatureGrid from "@/components/FeatureGrid";
+import JsonLd from "@/components/JsonLd";
 import PageHero from "@/components/PageHero";
 import SectionIntro from "@/components/SectionIntro";
 import { aboutCards } from "@/lib/site-data";
+import { breadcrumbJsonLd, buildMetadata } from "@/lib/seo.mjs";
 
-export const metadata = {
-  title: "About",
-};
+export const metadata = buildMetadata("/about");
 
 export default function AboutPage() {
   return (
@@ -36,6 +36,12 @@ export default function AboutPage() {
         text="We can help you define the right platform, the right modules, and the right rollout approach for your business."
         secondaryHref="/docs"
         secondaryLabel="View Documentation"
+      />
+      <JsonLd
+        data={breadcrumbJsonLd([
+          { name: "Home", path: "/" },
+          { name: "About", path: "/about" },
+        ])}
       />
     </>
   );

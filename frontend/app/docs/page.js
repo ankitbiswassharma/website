@@ -1,12 +1,12 @@
 import CtaBanner from "@/components/CtaBanner";
 import FeatureGrid from "@/components/FeatureGrid";
+import JsonLd from "@/components/JsonLd";
 import PageHero from "@/components/PageHero";
 import SectionIntro from "@/components/SectionIntro";
 import { contactDetails, docsItems } from "@/lib/site-data";
+import { breadcrumbJsonLd, buildMetadata } from "@/lib/seo.mjs";
 
-export const metadata = {
-  title: "Docs",
-};
+export const metadata = buildMetadata("/docs");
 
 export default function DocsPage() {
   return (
@@ -58,6 +58,12 @@ export default function DocsPage() {
         text="We combine software delivery with practical onboarding, documentation, and support so adoption is structured rather than left to chance."
         secondaryHref="/blog"
         secondaryLabel="Read Insights"
+      />
+      <JsonLd
+        data={breadcrumbJsonLd([
+          { name: "Home", path: "/" },
+          { name: "Docs", path: "/docs" },
+        ])}
       />
     </>
   );
