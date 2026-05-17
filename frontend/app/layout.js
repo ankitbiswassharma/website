@@ -17,6 +17,7 @@ import "./globals.css";
 const DEFAULT_THEME = "dark";
 const THEME_COOKIE = "muskit-theme";
 const GOOGLE_ANALYTICS_ID = "G-3KS2YBFJ87";
+const GOOGLE_ADSENSE_CLIENT_ID = "ca-pub-6253460497373924";
 
 const themeScript = `
   (function() {
@@ -92,6 +93,12 @@ export default async function RootLayout({ children }) {
         <JsonLd data={[organizationJsonLd(), websiteJsonLd()]} />
         <Script
           src={`https://www.googletagmanager.com/gtag/js?id=${GOOGLE_ANALYTICS_ID}`}
+          strategy="afterInteractive"
+        />
+        <Script
+          async
+          crossOrigin="anonymous"
+          src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${GOOGLE_ADSENSE_CLIENT_ID}`}
           strategy="afterInteractive"
         />
         <Script id="google-analytics" strategy="afterInteractive">
