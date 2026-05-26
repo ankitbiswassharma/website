@@ -11,6 +11,57 @@ const statusOptions = [
   { value: "lost", label: "Lost" },
 ];
 
+const PIPELINE_STAGES = [
+  { value: "new",           label: "New",           short: "New" },
+  { value: "contacted",     label: "Contacted",     short: "Contacted" },
+  { value: "qualified",     label: "Qualified",     short: "Qualified" },
+  { value: "proposal_sent", label: "Proposal sent", short: "Proposal" },
+  { value: "won",           label: "Won",           short: "Won" },
+];
+
+const STAGE_ORDER = ["new", "contacted", "qualified", "proposal_sent", "won", "lost"];
+
+function PipelineVisualizer({ currentStatus }) {
+  const isLost = currentStatus === "lost";
+  const currentIndex = STAGE_ORDER.indexOf(currentStatus);
+
+  return (
+    <div className={`pipeline-viz${isLost ? " pipeline-viz-lost" : ""}`}>
+      {PIPELINE_STAGES.map((stage, i) => {
+        const stageIndex = STAGE_ORDER.indexOf(stage.value);
+        const isDone   = !isLost && currentIndex > stageIndex;
+        const isActive = !isLost && currentIndex === stageIndex;
+        return (
+          <div
+            key={stage.value}
+            className={`pipeline-viz-step${isDone ? " is-done" : ""}${isActive ? " is-active" : ""}`}
+          >
+            {i > 0 && (
+              <div className={`pipeline-viz-connector${isDone || isActive ? " is-filled" : ""}`} />
+            )}
+            <div className="pipeline-viz-dot">
+              {isDone ? (
+                <svg width="10" height="10" viewBox="0 0 10 10" fill="none" aria-hidden="true">
+                  <path d="M2 5l2.5 2.5 3.5-4" stroke="white" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
+              ) : null}
+            </div>
+            <span className="pipeline-viz-label">{stage.short}</span>
+          </div>
+        );
+      })}
+      {isLost && (
+        <div className="pipeline-viz-lost-badge">
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+            <path d="M3 3l6 6M9 3l-6 6" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round"/>
+          </svg>
+          Lost
+        </div>
+      )}
+    </div>
+  );
+}
+
 const workspaceTabs = [
   { value: "overview", label: "Overview" },
   { value: "requirements", label: "Requirements" },
@@ -500,43 +551,49 @@ export default function AdminLeadWorkspace({
       {workspaceMessage ? <div className="success-box">{workspaceMessage}</div> : null}
       {workspaceError ? <div className="error-box">{workspaceError}</div> : null}
 
-      <section className="card detail-card stack-md lead-workspace-hero">
-        <div className="dashboard-toolbar toolbar-spread">
-          <div className="stack-sm">
-            <div className="eyebrow">Lead workspace</div>
-            <h3>{lead.full_name}</h3>
-            <p>
-              {lead.company || lead.email}
-              {lead.project_type ? ` · ${lead.project_type}` : ""}
-            </p>
+      <section className="card detail-card lead-workspace-hero">
+        {/* Header row */}
+        <div className="workspace-hero-top">
+          <div className="workspace-hero-identity">
+            <div className="workspace-avatar">
+              {lead.full_name.split(" ").slice(0, 2).map((w) => w[0]?.toUpperCase() || "").join("")}
+            </div>
+            <div>
+              <h3 style={{ margin: 0, fontSize: 20 }}>{lead.full_name}</h3>
+              <p className="muted" style={{ fontSize: 13, marginTop: 2 }}>
+                {lead.company || lead.email}{lead.project_type ? ` · ${lead.project_type}` : ""}
+              </p>
+            </div>
           </div>
-          <span className="status-pill">{formatStatus(lead.status)}</span>
+          <div className="workspace-hero-meta">
+            <div className="meta-item">
+              <span className="muted">Reference</span>
+              <strong>{lead.lead_reference || "—"}</strong>
+            </div>
+            <div className="meta-item">
+              <span className="muted">Request</span>
+              <strong>{lead.request_type}</strong>
+            </div>
+            <div className="meta-item">
+              <span className="muted">Quotation</span>
+              <strong>{lead.latest_quotation_number || "Not yet"}</strong>
+            </div>
+            <div className="meta-item">
+              <span className="muted">Payment</span>
+              <strong>{lead.latest_payment_status || "Not started"}</strong>
+            </div>
+          </div>
         </div>
 
-        <div className="lead-highlight-grid">
-          <div className="meta-item">
-            <span className="muted">Lead reference</span>
-            <strong>{lead.lead_reference || "-"}</strong>
-          </div>
-          <div className="meta-item">
-            <span className="muted">Request type</span>
-            <strong>{lead.request_type}</strong>
-          </div>
-          <div className="meta-item">
-            <span className="muted">Latest quotation</span>
-            <strong>{lead.latest_quotation_number || "Not generated yet"}</strong>
-          </div>
-          <div className="meta-item">
-            <span className="muted">Latest payment</span>
-            <strong>{lead.latest_payment_status || "Not started"}</strong>
-          </div>
-        </div>
+        {/* Pipeline visualizer */}
+        <PipelineVisualizer currentStatus={lead.status} />
 
+        {/* Tab strip */}
         <div className="admin-tab-strip">
           {workspaceTabs.map((tab) => (
             <button
               key={tab.value}
-              className={`admin-tab-button ${activeTab === tab.value ? "is-active" : ""}`}
+              className={`admin-tab-button${activeTab === tab.value ? " is-active" : ""}`}
               type="button"
               onClick={() => setActiveTab(tab.value)}
             >
