@@ -13,11 +13,11 @@ export default function BlogPage() {
     <>
       <PageHero
         eyebrow="Blog"
-        title="Insights on software,"
-        highlight="operations, and system design"
-        text="We write about the operational problems businesses face, how custom platforms solve them, and what stronger digital execution looks like in practice."
+        title="Engineering strategy,"
+        highlight="product thinking, and SaaS insights"
+        text="We write about software delivery, architecture decisions, and the thinking behind how we build. Useful reading for founders and product teams."
         primaryHref="/contact"
-        primaryLabel="Discuss Your Workflow"
+        primaryLabel="Start a Sprint"
         secondaryHref="/case-studies"
         secondaryLabel="View Case Studies"
       />
@@ -25,15 +25,17 @@ export default function BlogPage() {
         <div className="shell">
           <SectionIntro
             eyebrow="Latest Articles"
-            title="Three useful reads for teams improving operational control"
-            text="These articles reflect the same thinking we bring into discovery, solution design, and implementation."
+            title="Practical writing on software delivery and product engineering"
+            text="These articles reflect the same thinking we bring into consulting sessions and sprint delivery."
           />
           <FeatureGrid items={blogPosts} />
         </div>
       </section>
       <CtaBanner
-        title="Want these ideas applied to your own operational workflow?"
-        text="Let’s review your current process and identify the right ERP, CRM, automation, or reporting platform for your business."
+        title="Want these ideas applied to your own product?"
+        text="Let's have a consulting session where we review your situation and recommend the right architecture and delivery approach."
+        secondaryHref="/contact"
+        secondaryLabel="Book a Consultation"
       />
       <JsonLd
         data={[

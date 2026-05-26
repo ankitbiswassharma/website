@@ -22,8 +22,11 @@ export default function Navbar() {
         </nav>
         <div className="nav-actions">
           <ThemeToggle />
-          <Link className="button button-primary" href="/enterprise-login">
-            Access Enterprise
+          <Link className="button button-ghost" href="/enterprise-login">
+            Client Login
+          </Link>
+          <Link className="button button-primary" href="/contact">
+            Start a Sprint
           </Link>
         </div>
       </div>

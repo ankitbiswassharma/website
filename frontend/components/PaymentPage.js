@@ -51,7 +51,7 @@ export default function PaymentPage({ quoteCode }) {
         amount: order.amount,
         currency: order.currency,
         prefill: order.prefill,
-        theme: { color: "#2563eb" },
+        theme: { color: "#4f46e5" },
         handler: async function onPaymentSuccess(response) {
           try {
             const verifyResponse = await apiJson("/public/payments/verify", {
@@ -101,11 +101,11 @@ export default function PaymentPage({ quoteCode }) {
       <div className="shell stack-lg">
         <div className="page-hero">
           <div className="shell">
-            <div className="eyebrow">Quotation payment page</div>
+            <div className="eyebrow">Sprint Quotation</div>
             <h1 style={{ fontSize: "52px" }}>{quotation.title}</h1>
             <p>
-              This payment page is tied to quotation {quotation.quotation_number}
-              for {quotation.lead_name}.
+              Quotation {quotation.quotation_number} prepared for {quotation.lead_name}.
+              Review the scope summary and complete payment below to confirm your sprint.
             </p>
           </div>
         </div>
@@ -114,10 +114,10 @@ export default function PaymentPage({ quoteCode }) {
         <div className="payment-grid">
           <div className="card pay-card stack-md">
             <div>
-              <h3>Scope summary</h3>
+              <h3>Sprint scope</h3>
               <p>
                 {quotation.requirements_summary ||
-                  "Custom software scope tailored to the client workflow, reporting needs, and delivery requirements."}
+                  "Scoped sprint delivery tailored to the agreed feature set, timeline, and technical requirements."}
               </p>
             </div>
             {quotation.items.map((item) => (

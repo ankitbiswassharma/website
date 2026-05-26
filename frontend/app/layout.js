@@ -14,7 +14,7 @@ import {
 
 import "./globals.css";
 
-const DEFAULT_THEME = "dark";
+const DEFAULT_THEME = "light";
 const THEME_COOKIE = "muskit-theme";
 const GOOGLE_ANALYTICS_ID = "G-3KS2YBFJ87";
 const GOOGLE_ADSENSE_CLIENT_ID = "ca-pub-6253460497373924";
@@ -39,7 +39,7 @@ export const metadata = {
   metadataBase: new URL(SITE_URL),
   applicationName: SITE_NAME,
   title: {
-    default: `${SITE_NAME} | Custom ERP, CRM & Automation Software`,
+    default: `${SITE_NAME} | On-Demand Software Delivery & Technical Consulting`,
     template: `%s | ${SITE_NAME}`,
   },
   description: DEFAULT_DESCRIPTION,
@@ -47,7 +47,7 @@ export const metadata = {
     canonical: SITE_URL,
   },
   openGraph: {
-    title: `${SITE_NAME} | Custom ERP, CRM & Automation Software`,
+    title: `${SITE_NAME} | On-Demand Software Delivery & Technical Consulting`,
     description: DEFAULT_DESCRIPTION,
     url: SITE_URL,
     siteName: SITE_NAME,
@@ -56,7 +56,7 @@ export const metadata = {
   },
   twitter: {
     card: "summary",
-    title: `${SITE_NAME} | Custom ERP, CRM & Automation Software`,
+    title: `${SITE_NAME} | On-Demand Software Delivery & Technical Consulting`,
     description: DEFAULT_DESCRIPTION,
   },
   robots: {

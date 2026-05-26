@@ -1,0 +1,62 @@
+# Local development compose — no Traefik, ports exposed directly
+# Usage:  docker compose -f docker-compose.local.yml up --build
+
+services:
+  db:
+    image: postgres:16-alpine
+    container_name: muskit_local_db
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-muskit_platform}
+      POSTGRES_USER: ${POSTGRES_USER:-muskit}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_local_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-muskit} -d ${POSTGRES_DB:-muskit_platform}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  backend:
+    build:
+      context: ./backend
+    container_name: muskit_local_backend
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    env_file: .env
+    environment:
+      APP_ENV: development
+      BACKEND_PORT: 8000
+      FRONTEND_URL: http://localhost:3000
+      CORS_ORIGINS: http://localhost:3000,http://localhost:8000,http://127.0.0.1:3000
+      API_BASE_URL: http://localhost:8000
+      DATABASE_URL: postgresql+psycopg://${POSTGRES_USER:-muskit}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB:-muskit_platform}
+    ports:
+      - "8000:8000"
+    volumes:
+      - backend_local_storage:/app/app/storage
+
+  frontend:
+    build:
+      context: ./frontend
+      args:
+        NEXT_PUBLIC_API_BASE_URL: /api/v1
+        INTERNAL_API_BASE_URL: http://muskit_local_backend:8000
+    container_name: muskit_local_frontend
+    restart: unless-stopped
+    depends_on:
+      - backend
+    environment:
+      NEXT_PUBLIC_API_BASE_URL: /api/v1
+      INTERNAL_API_BASE_URL: http://muskit_local_backend:8000
+    ports:
+      - "3000:3000"
+
+volumes:
+  postgres_local_data:
+  backend_local_storage:

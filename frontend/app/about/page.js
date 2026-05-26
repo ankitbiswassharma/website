@@ -13,9 +13,9 @@ export default function AboutPage() {
     <>
       <PageHero
         eyebrow="About"
-        title="We build business software"
-        highlight="around real operational demands"
-        text="Our work starts with understanding how a business actually runs, where execution slows down, and what type of system can create measurable improvement."
+        title="Engineers who consult."
+        highlight="Not consultants who outsource."
+        text="We are a senior engineering team that delivers software on demand — with a consulting-first approach that makes sure we build the right thing before we build it fast."
         primaryHref="/contact"
         primaryLabel="Start a Conversation"
         secondaryHref="/docs"
@@ -25,15 +25,15 @@ export default function AboutPage() {
         <div className="shell">
           <SectionIntro
             eyebrow="Who We Are"
-            title="A software partner focused on workflow clarity, operational control, and scalable growth"
-            text="We help businesses move from manual coordination to structured systems that improve visibility, accountability, and execution quality."
+            title="A software delivery partner built around quality and transparency"
+            text="We work with product teams and founders who need to move fast without cutting corners. Every sprint we run is backed by architectural thinking and production-grade standards."
           />
           <FeatureGrid items={aboutCards} />
         </div>
       </section>
       <CtaBanner
-        title="Need a software partner that starts with your workflow instead of a template?"
-        text="We can help you define the right platform, the right modules, and the right rollout approach for your business."
+        title="Want a software partner who thinks before they build?"
+        text="We can help you figure out what to build, how to build it, and get the first sprint scoped and started in 48 hours."
         secondaryHref="/docs"
         secondaryLabel="View Documentation"
       />

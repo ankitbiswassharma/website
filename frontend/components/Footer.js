@@ -15,8 +15,8 @@ export default function Footer() {
               </span>
             </Link>
             <p className="footer-copy">
-              Custom ERP, CRM, automation, and business software built around how
-              your team actually works.
+              On-demand software delivery, technical consulting, and custom builds
+              for product teams that need to move fast without the hiring overhead.
             </p>
             <div className="footer-links footer-contact">
               <a href={`mailto:${contactDetails.email}`}>{contactDetails.email}</a>
@@ -25,13 +25,13 @@ export default function Footer() {
           </div>
           <div className="footer-actions">
             <Link className="button button-primary" href="/contact">
-              Start Your Project
+              Start a Sprint
             </Link>
             <Link className="button button-ghost" href="/enterprise-login">
-              Enterprise Login
+              Client Login
             </Link>
             <Link className="button button-ghost button-admin" href="/dashboard/login">
-              Admin Login
+              Admin
             </Link>
           </div>
         </div>
@@ -58,11 +58,11 @@ export default function Footer() {
             </nav>
           </div>
           <div className="footer-spotlight">
-            <div className="eyebrow">Built Around Your Workflow</div>
-            <h3>Software that adapts to your business.</h3>
+            <div className="eyebrow">48h Sprint Kickoff</div>
+            <h3>Engineering capacity, on demand.</h3>
             <p>
-              We study how your operations actually work, identify inefficiencies, and
-              build custom systems that streamline tasks, improve tracking, and scale with you.
+              Brief us on what you need. We scope it, staff it, and ship it —
+              sprint by sprint, with full transparency and no lock-in.
             </p>
           </div>
         </div>

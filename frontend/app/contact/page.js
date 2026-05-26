@@ -15,26 +15,26 @@ export default function ContactPage() {
     <>
       <PageHero
         eyebrow="Contact"
-        title="Let’s discuss the platform"
-        highlight="your operations actually need"
-        text="Tell us how the workflow runs today, where execution breaks down, and what kind of visibility, control, or automation the platform should deliver."
+        title="Brief us on what you"
+        highlight="need to build"
+        text="Tell us about your product idea, current codebase, or engineering challenge. We review it, ask the right questions, and get back to you within one business day."
         primaryHref="#contact-form"
-        primaryLabel="Send Your Requirement"
-        secondaryHref="/modules"
-        secondaryLabel="Explore Modules"
+        primaryLabel="Send Your Brief"
+        secondaryHref="/features"
+        secondaryLabel="Explore Services"
       />
       <section className="page-section">
         <div className="shell" id="contact-form">
           <SectionIntro
-            eyebrow="Start the Conversation"
-            title="Book a consultation or send the requirement directly"
-            text="Once we receive your enquiry, we review the workflow, identify improvement opportunities, and recommend the right system direction."
+            eyebrow="Get in Touch"
+            title="Start a sprint, book a consulting session, or ask a question"
+            text="Whether you know exactly what you need or are still figuring it out, we are happy to help you get clarity before committing to anything."
           />
           <div className="two-column">
             <LeadForm
-              title="Request a Consultation"
-              description="Share your process, pain points, and platform goals. We will contact you to understand the workflow in detail."
-              submitLabel="Send Requirement"
+              title="Send Your Brief"
+              description="Describe what you need built, your timeline, your stack preferences, and the outcome you want. We'll respond within one business day."
+              submitLabel="Send Brief"
             />
             <article className="card feature-card stack-md">
               <div className="eyebrow">Contact Details</div>
@@ -51,7 +51,7 @@ export default function ContactPage() {
                 </div>
               </div>
               <div className="stack-sm">
-                <span className="muted">What happens next</span>
+                <span className="muted">What happens after you send your brief</span>
                 <ul className="bullet-list compact">
                   {processSteps.map((step) => (
                     <li key={step.title}>{step.title}</li>
@@ -63,10 +63,10 @@ export default function ContactPage() {
         </div>
       </section>
       <CtaBanner
-        title="Need a walkthrough before you define the full requirement?"
-        text="Contact us for a consultation and we will help define the right starting scope for your ERP, CRM, dashboard, or automation initiative."
+        title="Not ready to brief yet? Start with a quick call."
+        text="We are happy to have a 30-minute conversation to understand your situation and tell you honestly whether we are the right fit before anything is scoped."
         secondaryHref="/features"
-        secondaryLabel="Review Capabilities"
+        secondaryLabel="Review Services"
       />
       <JsonLd
         data={[

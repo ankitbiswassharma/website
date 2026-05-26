@@ -53,11 +53,11 @@ export default function EnterpriseLoginPage() {
                 <span>-IT</span>
               </span>
             </div>
-            <div className="eyebrow">Enterprise Login</div>
-            <h1 className="enterprise-title">Select your company portal</h1>
+            <div className="eyebrow">Client Portal</div>
+            <h1 className="enterprise-title">Sign in to your workspace</h1>
             <p>
-              Choose your company name and continue to the dedicated Musk-IT login page mapped to
-              your enterprise domain.
+              Select your company name below and continue to your dedicated Musk-IT client portal
+              for sprint updates, delivery tracking, and project communication.
             </p>
           </div>
 
@@ -92,8 +92,8 @@ export default function EnterpriseLoginPage() {
                   <strong>{selectedCompany.company_code}</strong>
                 </div>
                 <div className="stack-sm">
-                  <span className="muted">Access note</span>
-                  <strong>Secure login opens after selection</strong>
+                  <span className="muted">Access type</span>
+                  <strong>Dedicated client workspace</strong>
                 </div>
               </div>
             ) : null}
@@ -105,7 +105,7 @@ export default function EnterpriseLoginPage() {
                 disabled={!selectedCompany}
                 onClick={openLogin}
               >
-                Open Company Login
+                Open Client Portal
               </button>
             </div>
           </div>

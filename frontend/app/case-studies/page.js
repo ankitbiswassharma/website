@@ -13,29 +13,29 @@ export default function CaseStudiesPage() {
     <>
       <PageHero
         eyebrow="Case Studies"
-        title="Examples of how"
-        highlight="tailored systems improve operations"
-        text="Every engagement starts with a business problem and ends with a platform that improves visibility, workflow control, and day-to-day execution."
+        title="Real sprints."
+        highlight="Real results."
+        text="Examples of how our consulting-led delivery model has helped founders and product teams ship faster, build better, and avoid expensive architectural mistakes."
         primaryHref="/contact"
-        primaryLabel="Request a Consultation"
-        secondaryHref="/modules"
-        secondaryLabel="Explore Modules"
+        primaryLabel="Start a Sprint"
+        secondaryHref="/pricing"
+        secondaryLabel="See Pricing"
       />
       <section className="page-section">
         <div className="shell">
           <SectionIntro
-            eyebrow="Sample Projects"
-            title="Representative transformation stories"
-            text="These sample case studies show how tailored ERP, CRM, tracking, and automation systems can solve practical operational problems."
+            eyebrow="Our Work"
+            title="Three engagements that show what we deliver"
+            text="Each engagement started with a brief, moved through a consulting session, and ended with production-grade software handed over to the client's team."
           />
           <FeatureGrid items={caseStudies} />
         </div>
       </section>
       <CtaBanner
-        title="Need a similar outcome for your own teams?"
-        text="Share your workflow challenges and we will recommend a tailored platform built around your operational reality."
+        title="Ready to start your own sprint?"
+        text="Tell us what you need to build. We will scope the engagement and kick off within 48 hours of agreement."
         secondaryHref="/contact"
-        secondaryLabel="Start a Consultation"
+        secondaryLabel="Get in Touch"
       />
       <JsonLd
         data={breadcrumbJsonLd([

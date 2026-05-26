@@ -12,39 +12,41 @@ export default function FeaturesPage() {
   return (
     <>
       <PageHero
-        eyebrow="Capabilities"
-        title="Core capabilities for"
-        highlight="controlled, modern operations"
-        text="Our systems are designed to replace manual coordination with governed workflows, live visibility, secure access, and software that can expand with the business."
+        eyebrow="Services"
+        title="Three ways we deliver"
+        highlight="software that ships"
+        text="On-demand dev sprints, technical architecture consulting, and full custom builds — each designed to fit where you are and get you where you need to be."
         primaryHref="/contact"
-        primaryLabel="Discuss Your Requirement"
-        secondaryHref="/modules"
-        secondaryLabel="Explore Modules"
+        primaryLabel="Start a Sprint"
+        secondaryHref="/pricing"
+        secondaryLabel="See Pricing"
       />
       <section className="page-section">
         <div className="shell">
           <SectionIntro
-            eyebrow="Built for Adoption"
-            title="The capabilities that make tailored software operationally valuable"
-            text="We focus on the capabilities teams need to run daily operations with more control, not on unnecessary complexity or decorative features."
+            eyebrow="Our Capabilities"
+            title="What makes our delivery model different"
+            text="We are engineers who consult, not a generic agency. Every engagement starts with a strategy conversation and ends with production-grade software your team can own."
           />
           <FeatureGrid items={featureItems} />
         </div>
       </section>
       <CtaBanner
-        title="Need these capabilities mapped to your exact workflow?"
-        text="Share your current process and we will recommend the right architecture, modules, and implementation approach for the way your teams operate."
+        title="Want to understand which engagement model fits your situation?"
+        text="Share what you are trying to build and we will recommend the right approach — sprint, consulting, or full custom build."
+        secondaryHref="/case-studies"
+        secondaryLabel="Read case studies"
       />
       <JsonLd
         data={[
           breadcrumbJsonLd([
             { name: "Home", path: "/" },
-            { name: "Features", path: "/features" },
+            { name: "Services", path: "/features" },
           ]),
           serviceJsonLd({
-            name: "Custom Software Capability Planning",
+            name: "On-Demand Software Delivery Services",
             description:
-              "Workflow automation, real-time tracking, secure access, dashboards, and scalable architecture for custom business software.",
+              "Sprint-based delivery, technical consulting, and full custom software builds for product teams and founders.",
             path: "/features",
           }),
         ]}

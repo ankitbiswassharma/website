@@ -1,6 +1,6 @@
 export default function ProcessSteps({ items }) {
   return (
-    <div className="steps-grid">
+    <div className="steps-grid steps-connected">
       {items.map((item, index) => (
         <article className="card step-card" key={item.title}>
           <div className="step-number">0{index + 1}</div>

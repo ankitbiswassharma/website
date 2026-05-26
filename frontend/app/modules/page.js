@@ -2,8 +2,9 @@ import CtaBanner from "@/components/CtaBanner";
 import FeatureGrid from "@/components/FeatureGrid";
 import JsonLd from "@/components/JsonLd";
 import PageHero from "@/components/PageHero";
+import ProcessSteps from "@/components/ProcessSteps";
 import SectionIntro from "@/components/SectionIntro";
-import { moduleItems } from "@/lib/site-data";
+import { moduleItems, processSteps } from "@/lib/site-data";
 import { breadcrumbJsonLd, buildMetadata, serviceJsonLd } from "@/lib/seo.mjs";
 
 export const metadata = buildMetadata("/modules");
@@ -12,41 +13,51 @@ export default function ModulesPage() {
   return (
     <>
       <PageHero
-        eyebrow="Modules"
-        title="Software modules tailored to"
-        highlight="serious business operations"
-        text="We build complete systems and focused modules depending on what your operations need most, from ERP and CRM to execution tracking, dashboards, and workflow automation."
+        eyebrow="How It Works"
+        title="From brief to shipped"
+        highlight="in four clear steps"
+        text="We keep the process simple and transparent — consulting discovery, sprint scoping, active delivery, and a clean handover with full documentation."
         primaryHref="/contact"
-        primaryLabel="Discuss Your Requirement"
+        primaryLabel="Start Your Sprint"
         secondaryHref="/case-studies"
-        secondaryLabel="See Use Cases"
+        secondaryLabel="See Case Studies"
       />
       <section className="page-section">
         <div className="shell">
           <SectionIntro
-            eyebrow="System Types"
-            title="The system layers we build for growing operational environments"
-            text="Modules can operate as standalone tools or as part of a larger connected platform depending on your workflow, reporting needs, and scale."
+            eyebrow="Our Process"
+            title="A disciplined path from brief to production"
+            text="Every engagement follows the same four-step structure — ensuring the right things get built, in the right order, with full transparency throughout."
+          />
+          <ProcessSteps items={processSteps} />
+        </div>
+      </section>
+      <section className="page-section">
+        <div className="shell">
+          <SectionIntro
+            eyebrow="What We Deliver"
+            title="The software types we build on every sprint"
+            text="Whether standalone or combined into a larger platform, our delivery modules cover the most common product and operational software needs."
           />
           <FeatureGrid items={moduleItems} />
         </div>
       </section>
       <CtaBanner
-        title="Need multiple modules connected inside one platform?"
-        text="We can design a unified software environment where operations, tracking, communication, and reporting work together under one governed workflow."
-        secondaryHref="/licensing"
-        secondaryLabel="View Licensing"
+        title="Need multiple delivery types in one engagement?"
+        text="We can combine consulting, sprint delivery, and SaaS module configuration inside a single scoped engagement with clear milestones."
+        secondaryHref="/pricing"
+        secondaryLabel="View Pricing"
       />
       <JsonLd
         data={[
           breadcrumbJsonLd([
             { name: "Home", path: "/" },
-            { name: "Modules", path: "/modules" },
+            { name: "How It Works", path: "/modules" },
           ]),
           serviceJsonLd({
-            name: "ERP, CRM, Dashboard and Automation Modules",
+            name: "On-Demand Software Delivery Process",
             description:
-              "Custom modules for ERP, attendance, inventory, CRM, reporting, analytics, and email automation workflows.",
+              "Sprint delivery, consulting, web apps, SaaS modules, mobile apps, and API development for product teams.",
             path: "/modules",
           }),
         ]}

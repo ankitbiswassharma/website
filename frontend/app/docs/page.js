@@ -13,20 +13,20 @@ export default function DocsPage() {
     <>
       <PageHero
         eyebrow="Docs"
-        title="Documentation designed for"
-        highlight="onboarding, adoption, and operational clarity"
-        text="We support every deployment with clear onboarding, practical usage guidance, FAQs, and dependable post-launch support."
+        title="How sprints work,"
+        highlight="start to finish"
+        text="Everything you need to know about starting an engagement, how we run sprints, what delivery looks like, and how support and retainers work after launch."
         primaryHref="/contact"
-        primaryLabel="Talk to Our Team"
-        secondaryHref="/modules"
-        secondaryLabel="Explore Modules"
+        primaryLabel="Start a Sprint"
+        secondaryHref="/features"
+        secondaryLabel="Explore Services"
       />
       <section className="page-section">
         <div className="shell">
           <SectionIntro
-            eyebrow="Documentation Structure"
-            title="What your teams can expect after go-live"
-            text="Our documentation is designed to help teams adopt the platform quickly and use it confidently in day-to-day operations."
+            eyebrow="Documentation"
+            title="Clear answers about how we work"
+            text="Our process is straightforward — but we document it so there are no surprises at any stage of the engagement."
           />
           <FeatureGrid items={docsItems} />
         </div>
@@ -35,10 +35,10 @@ export default function DocsPage() {
         <div className="shell">
           <article className="card feature-card support-card">
             <div className="eyebrow">Support</div>
-            <h3>Need help after deployment?</h3>
+            <h3>Need help after delivery?</h3>
             <p>
-              We support clients with issue resolution, change requests, system
-              improvements, and guided platform expansion as processes evolve.
+              We support clients with bug fixes, change requests, retainer sprints,
+              and structured handover assistance as the product evolves after launch.
             </p>
             <div className="contact-detail-list">
               <div>
@@ -54,8 +54,8 @@ export default function DocsPage() {
         </div>
       </section>
       <CtaBanner
-        title="Looking for a platform your teams can adopt with confidence?"
-        text="We combine software delivery with practical onboarding, documentation, and support so adoption is structured rather than left to chance."
+        title="Have a question before you start?"
+        text="We are happy to walk you through the engagement process, answer scope questions, or give you a quick consulting call before anything is committed."
         secondaryHref="/blog"
         secondaryLabel="Read Insights"
       />

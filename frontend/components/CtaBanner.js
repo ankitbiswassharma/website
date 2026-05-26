@@ -8,9 +8,10 @@ export default function CtaBanner({
   primaryLabel = "Request a Consultation",
   secondaryHref = "/modules",
   secondaryLabel = "Explore Modules",
+  gradient = false,
 }) {
   return (
-    <section className="cta-banner">
+    <section className={`cta-banner${gradient ? " cta-gradient" : ""}`}>
       <div className="shell cta-shell">
         <div>
           <div className="eyebrow">{eyebrow}</div>

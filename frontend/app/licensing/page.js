@@ -12,21 +12,21 @@ export default function LicensingPage() {
   return (
     <>
       <PageHero
-        eyebrow="Licensing"
-        title="Flexible commercial models for"
-        highlight="tailored software delivery"
-        text="Our commercials are shaped by your workflow complexity, delivery scope, support model, and long-term platform expectations."
+        eyebrow="Pricing"
+        title="Simple, transparent pricing"
+        highlight="for every stage of the build"
+        text="Choose a single sprint to move fast, a retainer for continuous delivery, or a fully scoped custom build — all with clear pricing and no hidden costs."
         primaryHref="/contact"
-        primaryLabel="Request a Consultation"
-        secondaryHref="/modules"
-        secondaryLabel="Explore Modules"
+        primaryLabel="Start a Sprint"
+        secondaryHref="/features"
+        secondaryLabel="Explore Services"
       />
       <section className="page-section">
         <div className="shell">
           <SectionIntro
-            eyebrow="Pricing Model"
-            title="How we structure engagement and commercial scope"
-            text="We support one-time delivery, build plus maintenance, and subscription-style engagement depending on the platform model and support commitment you need."
+            eyebrow="Engagement Models"
+            title="Three ways to work with us"
+            text="Every engagement is scoped with transparency. You always know what you are paying for, when it delivers, and what you get at the end."
           />
           <PricingCards plans={licensingModels} />
         </div>
@@ -35,8 +35,8 @@ export default function LicensingPage() {
         <div className="shell">
           <SectionIntro
             eyebrow="FAQs"
-            title="Common commercial and scope questions"
-            text="The final proposal depends on workflow complexity, modules, user roles, integrations, reporting requirements, and rollout depth."
+            title="Common questions about how we work"
+            text="Answers to the questions we hear most often before a sprint kicks off or a consulting engagement begins."
           />
           <div className="feature-grid">
             {faqItems.map((item) => (
@@ -49,8 +49,8 @@ export default function LicensingPage() {
         </div>
       </section>
       <CtaBanner
-        title="Need pricing built around your exact operational requirement?"
-        text="Send us your workflow details and we will recommend the right scope, delivery model, and commercial structure for the platform."
+        title="Not sure which model fits? Let's figure it out together."
+        text="Tell us what you are building, your timeline, and your team situation — and we will recommend the right engagement model and give you a clear quote."
         secondaryHref="/contact"
         secondaryLabel="Talk to Our Team"
       />
@@ -58,7 +58,7 @@ export default function LicensingPage() {
         data={[
           breadcrumbJsonLd([
             { name: "Home", path: "/" },
-            { name: "Licensing", path: "/licensing" },
+            { name: "Pricing", path: "/licensing" },
           ]),
           faqJsonLd(faqItems),
         ]}
