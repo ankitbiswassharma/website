@@ -231,6 +231,9 @@ export default function AdminLeadWorkspace({
   const [selectedDocx, setSelectedDocx] = useState(null);
   const [workspaceError, setWorkspaceError] = useState("");
   const [workspaceMessage, setWorkspaceMessage] = useState("");
+  const [creatingPaymentLink, setCreatingPaymentLink] = useState(false);
+  const [paymentLink, setPaymentLink] = useState(null);
+  const [copiedLink, setCopiedLink] = useState(false);
 
   useEffect(() => {
     setActiveTab(initialTab);
@@ -246,6 +249,8 @@ export default function AdminLeadWorkspace({
       setWorkspaceError("");
       setWorkspaceMessage("");
       setSelectedDocx(null);
+      setPaymentLink(null);
+      setCopiedLink(false);
 
       try {
         const [leadResponse, quotationsResponse] = await Promise.all([
@@ -287,6 +292,8 @@ export default function AdminLeadWorkspace({
     setSelectedQuotationId(quotation.id);
     setQuoteDraft(buildDraftFromQuotation(quotation));
     setSelectedDocx(null);
+    setPaymentLink(null);
+    setCopiedLink(false);
   }
 
   function replaceQuotation(nextQuotation) {
@@ -535,6 +542,60 @@ export default function AdminLeadWorkspace({
       setWorkspaceError(error.message);
     } finally {
       setSendingQuotation(false);
+    }
+  }
+
+  async function createPaymentLink() {
+    if (!currentQuotation) {
+      return;
+    }
+
+    setCreatingPaymentLink(true);
+    setWorkspaceError("");
+    setWorkspaceMessage("");
+
+    try {
+      const result = await session.authFetch(`/admin/quotations/${currentQuotation.id}/payment-link`, {
+        method: "POST",
+        body: JSON.stringify({
+          send_email: true,
+          message: quoteDraft.personalized_message.trim() || null,
+        }),
+      });
+      setPaymentLink(result);
+      setCopiedLink(false);
+      if (result.payment_page_url) {
+        setQuotations((current) =>
+          current.map((quotation) =>
+            quotation.id === currentQuotation.id
+              ? { ...quotation, payment_page_url: result.payment_page_url }
+              : quotation
+          )
+        );
+      }
+      setWorkspaceMessage(
+        result.email_sent
+          ? "Payment link generated and emailed to the client."
+          : "Payment link generated. Copy it below to share with the client."
+      );
+      syncLeadList();
+    } catch (error) {
+      setWorkspaceError(error.message);
+    } finally {
+      setCreatingPaymentLink(false);
+    }
+  }
+
+  async function copyPaymentLink(url) {
+    if (!url) {
+      return;
+    }
+    try {
+      await navigator.clipboard.writeText(url);
+      setCopiedLink(true);
+      setTimeout(() => setCopiedLink(false), 2000);
+    } catch {
+      setCopiedLink(false);
     }
   }
 
@@ -1092,6 +1153,66 @@ export default function AdminLeadWorkspace({
                           ? "Resend quotation"
                           : "Accept and send to client"}
                     </button>
+                  </div>
+
+                  <div className="quotation-payment-block stack-sm">
+                    <div className="eyebrow">Payment collection</div>
+                    <p className="muted" style={{ fontSize: 13, margin: 0 }}>
+                      {currentQuotation.status === "sent"
+                        ? "Generate a secure payment link for this quotation. We can email it to the client automatically."
+                        : "Send the quotation to the client first, then generate a payment link here."}
+                    </p>
+                    <button
+                      className="button button-primary"
+                      type="button"
+                      disabled={
+                        creatingPaymentLink ||
+                        !currentQuotation.pdf_path ||
+                        currentQuotation.status !== "sent"
+                      }
+                      onClick={createPaymentLink}
+                    >
+                      {creatingPaymentLink
+                        ? "Generating link..."
+                        : paymentLink?.payment_page_url || currentQuotation.payment_page_url
+                          ? "Regenerate payment link"
+                          : "Generate payment link"}
+                    </button>
+                    {paymentLink?.payment_page_url || currentQuotation.payment_page_url ? (
+                      <div className="payment-link-row">
+                        <input
+                          className="payment-link-input"
+                          readOnly
+                          value={paymentLink?.payment_page_url || currentQuotation.payment_page_url}
+                          onFocus={(event) => event.target.select()}
+                        />
+                        <button
+                          className="button button-ghost btn-sm"
+                          type="button"
+                          onClick={() =>
+                            copyPaymentLink(
+                              paymentLink?.payment_page_url || currentQuotation.payment_page_url
+                            )
+                          }
+                        >
+                          {copiedLink ? "Copied" : "Copy"}
+                        </button>
+                        <a
+                          className="button button-ghost btn-sm"
+                          href={paymentLink?.payment_page_url || currentQuotation.payment_page_url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          Open
+                        </a>
+                      </div>
+                    ) : null}
+                    {paymentLink?.message ? (
+                      <div className="form-note">
+                        {paymentLink.message}
+                        {paymentLink.email_sent ? " · Emailed to client." : ""}
+                      </div>
+                    ) : null}
                   </div>
                 </>
               ) : (

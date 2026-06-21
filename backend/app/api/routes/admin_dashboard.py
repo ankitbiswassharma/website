@@ -22,11 +22,14 @@ def dashboard_summary(_: object = Depends(get_admin_session), db: Session = Depe
 def list_payments(_: object = Depends(get_admin_session), db: Session = Depends(get_db)):
     payments = payment_repository.list(db)
     return [
-        PaymentOut(
-            **PaymentOut.model_validate(payment).model_dump(),
-            lead_name=payment.lead.full_name if payment.lead else None,
-            company=payment.lead.company if payment.lead else None,
-            quotation_number=payment.quotation.quotation_number if payment.quotation else None,
+        PaymentOut.model_validate(payment).model_copy(
+            update={
+                "lead_name": payment.lead.full_name if payment.lead else None,
+                "company": payment.lead.company if payment.lead else None,
+                "quotation_number": (
+                    payment.quotation.quotation_number if payment.quotation else None
+                ),
+            }
         )
         for payment in payments
     ]
