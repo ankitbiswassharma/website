@@ -14,7 +14,6 @@ jobs:
   deploy:
     name: Production deploy
     runs-on: ubuntu-latest
-    if: ${{ github.event_name == 'workflow_dispatch' || vars.ENABLE_PRODUCTION_DEPLOY == 'true' }}
     environment: production
     env:
       DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
@@ -23,6 +22,7 @@ jobs:
       DEPLOY_PATH: ${{ secrets.DEPLOY_PATH }}
       DEPLOY_PORT: ${{ secrets.DEPLOY_PORT }}
       DEPLOY_BRANCH: ${{ secrets.DEPLOY_BRANCH }}
+      TARGET_SHA: ${{ github.sha }}
     steps:
       - name: Deploy over SSH
         shell: bash
@@ -45,12 +45,34 @@ jobs:
           ssh-keyscan -p "$port" -H "$DEPLOY_HOST" >> ~/.ssh/known_hosts
 
           ssh -i ~/.ssh/deploy_key -p "$port" "$DEPLOY_USER@$DEPLOY_HOST" \
-            "DEPLOY_PATH='$DEPLOY_PATH' DEPLOY_BRANCH='$branch' bash -s" <<'REMOTE'
+            "DEPLOY_PATH='$DEPLOY_PATH' DEPLOY_BRANCH='$branch' TARGET_SHA='$TARGET_SHA' bash -s" <<'REMOTE'
           set -euo pipefail
           cd "$DEPLOY_PATH"
-          git fetch origin "$DEPLOY_BRANCH"
+
+          echo "Deploy path: $DEPLOY_PATH"
+          echo "Target branch: $DEPLOY_BRANCH"
+          echo "Target SHA: $TARGET_SHA"
+          echo "Before deploy: $(git rev-parse --short HEAD)"
+
+          git fetch --prune origin "$DEPLOY_BRANCH"
+
+          remote_sha="$(git rev-parse "origin/$DEPLOY_BRANCH")"
+          if [ "$remote_sha" != "$TARGET_SHA" ]; then
+            echo "origin/$DEPLOY_BRANCH is $remote_sha, expected $TARGET_SHA"
+            echo "Check that DEPLOY_PATH points to the same GitHub repository and branch."
+            exit 1
+          fi
+
+          if [ -n "$(git status --porcelain)" ]; then
+            echo "Deployment checkout has uncommitted changes. Commit, stash, or clean them before deploying."
+            git status --short
+            exit 1
+          fi
+
           git checkout "$DEPLOY_BRANCH"
-          git pull --ff-only origin "$DEPLOY_BRANCH"
+          git reset --hard "$TARGET_SHA"
+
+          echo "After deploy: $(git rev-parse --short HEAD)"
           docker compose up --build -d --remove-orphans
           docker compose ps
-REMOTE
+          REMOTE

@@ -34,9 +34,9 @@ GitHub Actions are configured in `.github/workflows`.
 - `ci.yml` runs on pushes and pull requests to `main`. It installs frontend
   dependencies, runs `npm test`, builds Next.js, checks backend Python syntax,
   validates both Compose files, and builds both Docker images.
-- `deploy.yml` can deploy the production Compose stack over SSH. It runs
-  manually with `workflow_dispatch`, and also on pushes to `main` when the
-  repository variable `ENABLE_PRODUCTION_DEPLOY` is set to `true`.
+- `deploy.yml` deploys the production Compose stack over SSH on pushes to
+  `main`, and can also be run manually with `workflow_dispatch`. It verifies the
+  target commit on the VPS before rebuilding Docker.
 
 Configure these GitHub secrets before enabling production deploys:
 
