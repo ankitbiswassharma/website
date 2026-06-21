@@ -82,10 +82,15 @@ jobs:
             exit 1
           fi
 
-          if [ -n "$(git status --porcelain)" ]; then
-            echo "Deployment checkout has uncommitted changes. Commit, stash, or clean them before deploying."
-            git status --short
+          if ! git diff --quiet || ! git diff --cached --quiet; then
+            echo "Deployment checkout has tracked local changes. Commit or stash them before deploying."
+            git status --short --untracked-files=no
             exit 1
+          fi
+
+          if [ -n "$(git status --porcelain --untracked-files=all)" ]; then
+            echo "Preserving server-only untracked files:"
+            git status --short --untracked-files=all
           fi
 
           git checkout "$DEPLOY_BRANCH"
