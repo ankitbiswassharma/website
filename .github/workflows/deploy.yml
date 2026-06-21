@@ -39,11 +39,30 @@ jobs:
           port="${DEPLOY_PORT:-22}"
           branch="${DEPLOY_BRANCH:-main}"
 
+          echo "Preparing SSH deploy to ${DEPLOY_USER}@${DEPLOY_HOST}:${port}"
+          echo "Deploy branch: ${branch}"
+          echo "Target SHA: ${TARGET_SHA}"
+
           install -m 700 -d ~/.ssh
           printf '%s\n' "$DEPLOY_SSH_KEY" > ~/.ssh/deploy_key
           chmod 600 ~/.ssh/deploy_key
-          ssh-keyscan -p "$port" -H "$DEPLOY_HOST" >> ~/.ssh/known_hosts
 
+          echo "Validating SSH private key"
+          ssh-keygen -y -f ~/.ssh/deploy_key > /dev/null
+
+          echo "Adding host key"
+          ssh-keyscan -T 10 -p "$port" -H "$DEPLOY_HOST" >> ~/.ssh/known_hosts
+
+          echo "Testing SSH connection"
+          ssh -o BatchMode=yes \
+            -o ConnectTimeout=15 \
+            -o IdentitiesOnly=yes \
+            -i ~/.ssh/deploy_key \
+            -p "$port" \
+            "$DEPLOY_USER@$DEPLOY_HOST" \
+            "echo SSH connection OK"
+
+          echo "Running remote deploy"
           ssh -i ~/.ssh/deploy_key -p "$port" "$DEPLOY_USER@$DEPLOY_HOST" \
             "DEPLOY_PATH='$DEPLOY_PATH' DEPLOY_BRANCH='$branch' TARGET_SHA='$TARGET_SHA' bash -s" <<'REMOTE'
           set -euo pipefail
