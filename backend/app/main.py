@@ -3,7 +3,16 @@ from contextlib import asynccontextmanager
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 
-from app.api.routes import admin_auth, admin_companies, admin_dashboard, admin_leads, health, lead_management, public
+from app.api.routes import (
+    admin_auth,
+    admin_companies,
+    admin_dashboard,
+    admin_leads,
+    health,
+    integrations,
+    lead_management,
+    public,
+)
 from app.core.config import settings
 from app.db.session import init_db
 
@@ -40,6 +49,7 @@ async def add_api_crawl_headers(request: Request, call_next):
 app.include_router(health.router, prefix=settings.api_v1_prefix)
 app.include_router(lead_management.router, prefix=settings.api_v1_prefix)
 app.include_router(public.router, prefix=settings.api_v1_prefix)
+app.include_router(integrations.router, prefix=settings.api_v1_prefix)
 app.include_router(admin_auth.router, prefix=settings.api_v1_prefix)
 app.include_router(admin_leads.router, prefix=settings.api_v1_prefix)
 app.include_router(admin_companies.router, prefix=settings.api_v1_prefix)

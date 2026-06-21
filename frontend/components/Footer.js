@@ -15,8 +15,9 @@ export default function Footer() {
               </span>
             </Link>
             <p className="footer-copy">
-              On-demand software delivery, technical consulting, and custom builds
-              for product teams that need to move fast without the hiring overhead.
+              A B2B software partner building custom software and workflow
+              automation — ERP, CRM, dashboards, apps, and integrations shaped
+              around how your business actually works.
             </p>
             <div className="footer-links footer-contact">
               <a href={`mailto:${contactDetails.email}`}>{contactDetails.email}</a>
@@ -24,8 +25,8 @@ export default function Footer() {
             </div>
           </div>
           <div className="footer-actions">
-            <Link className="button button-primary" href="/contact">
-              Start a Sprint
+            <Link className="button button-primary" href="/consultation">
+              Book a Call
             </Link>
             <Link className="button button-ghost" href="/enterprise-login">
               Client Login
@@ -58,11 +59,11 @@ export default function Footer() {
             </nav>
           </div>
           <div className="footer-spotlight">
-            <div className="eyebrow">48h Sprint Kickoff</div>
-            <h3>Engineering capacity, on demand.</h3>
+            <div className="eyebrow">Custom Software & Automation</div>
+            <h3>Software shaped around your workflows.</h3>
             <p>
-              Brief us on what you need. We scope it, staff it, and ship it —
-              sprint by sprint, with full transparency and no lock-in.
+              Tell us how your business runs and where the manual work piles up.
+              We scope it, build it, and automate it — end to end, with no lock-in.
             </p>
           </div>
         </div>

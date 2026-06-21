@@ -62,6 +62,9 @@ class Settings(BaseSettings):
     enterprise_base_domain: str = Field(default="muskit.in", alias="ENTERPRISE_BASE_DOMAIN")
     quotation_stamp_path: str = Field(default="", alias="QUOTATION_STAMP_PATH")
 
+    integrations_inbound_secret: str = Field(default="", alias="INTEGRATIONS_INBOUND_SECRET")
+    integrations_dispatch_timeout: int = Field(default=10, alias="INTEGRATIONS_DISPATCH_TIMEOUT")
+
     razorpay_key_id: str = Field(default="", alias="RAZORPAY_KEY_ID")
     razorpay_key_secret: str = Field(default="", alias="RAZORPAY_KEY_SECRET")
     razorpay_webhook_secret: str = Field(default="", alias="RAZORPAY_WEBHOOK_SECRET")

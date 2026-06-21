@@ -52,7 +52,7 @@ def _ensure_runtime_schema() -> None:
 
 
 def init_db() -> None:
-    from app.models import activity, auth, company, email_log, lead, payment, quotation  # noqa: F401
+    from app.models import activity, auth, company, email_log, integration, lead, payment, quotation  # noqa: F401
     from app.services.company_service import company_service
     from app.services.quotation_service import quotation_service
 

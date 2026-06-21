@@ -1,6 +1,6 @@
 export const navLinks = [
-  { href: "/features", label: "Services" },
-  { href: "/modules", label: "How It Works" },
+  { href: "/services", label: "Services" },
+  { href: "/integrations", label: "Integrations" },
   { href: "/pricing", label: "Pricing" },
   { href: "/case-studies", label: "Case Studies" },
   { href: "/blog", label: "Blog" },
@@ -8,10 +8,11 @@ export const navLinks = [
 
 export const footerExploreLinks = [
   { href: "/", label: "Home" },
-  { href: "/features", label: "Services" },
+  { href: "/services", label: "Services" },
+  { href: "/integrations", label: "Integrations" },
   { href: "/modules", label: "How It Works" },
   { href: "/pricing", label: "Pricing" },
-  { href: "/case-studies", label: "Case Studies" },
+  { href: "/consultation", label: "Book a Consultation" },
   { href: "/contact", label: "Contact" },
 ];
 
@@ -450,6 +451,177 @@ export const caseStudies = [
     ],
     footer: "Outcome: professional client experience, measurable operational efficiency",
   },
+];
+
+export const services = [
+  {
+    slug: "erp",
+    name: "Custom ERP Systems",
+    eyebrow: "ERP",
+    highlight: "run on one source of truth",
+    summary:
+      "A custom ERP that mirrors how your business actually operates — inventory, orders, production, procurement, and finance unified in one system instead of a dozen spreadsheets.",
+    problem:
+      "Off-the-shelf ERPs force your team to work the vendor's way. Spreadsheets and disconnected tools leave gaps, duplicate data entry, and no single view of the business.",
+    capabilities: [
+      "Inventory, procurement, and order management",
+      "Production planning and stock movement tracking",
+      "Finance, invoicing, and GST-ready reporting",
+      "Role-based access for every department",
+    ],
+    outcomes: [
+      "One system of record across teams",
+      "Less manual data entry and reconciliation",
+      "Real-time visibility into operations",
+    ],
+    tech: ["PostgreSQL", "FastAPI", "Next.js", "Docker"],
+    related: ["workflow-automation", "crm"],
+  },
+  {
+    slug: "crm",
+    name: "Custom CRM Platforms",
+    eyebrow: "CRM",
+    highlight: "close more, chase less",
+    summary:
+      "A CRM shaped around your sales process — lead capture, pipelines, follow-ups, and reporting that match the way your team actually sells and supports customers.",
+    problem:
+      "Generic CRMs are either too rigid or too bloated. Leads slip through the cracks, follow-ups get missed, and managers have no reliable picture of the pipeline.",
+    capabilities: [
+      "Lead capture from web, email, and forms",
+      "Custom pipelines and deal stages",
+      "Automated follow-ups and reminders",
+      "Dashboards for conversion and revenue",
+    ],
+    outcomes: [
+      "No leads lost to manual tracking",
+      "Faster, more consistent follow-up",
+      "Clear pipeline and forecast reporting",
+    ],
+    tech: ["Next.js", "FastAPI", "PostgreSQL", "Webhooks"],
+    related: ["workflow-automation", "api-integrations"],
+  },
+  {
+    slug: "workflow-automation",
+    name: "Workflow Automation",
+    eyebrow: "Automation",
+    highlight: "remove the busywork",
+    summary:
+      "We map your manual, repetitive processes and automate them end to end — approvals, notifications, data sync, document generation, and scheduled jobs that just run.",
+    problem:
+      "Teams lose hours every week to manual steps: copying data between tools, chasing approvals, generating the same documents, and sending the same updates.",
+    capabilities: [
+      "Approval flows and status notifications",
+      "Automated document and report generation",
+      "Data sync between your existing tools",
+      "Scheduled jobs and event-driven triggers",
+    ],
+    outcomes: [
+      "Hours of manual work removed each week",
+      "Fewer errors from copy-paste processes",
+      "Processes that run without being chased",
+    ],
+    tech: ["Python", "Webhooks", "REST APIs", "Cron / Schedulers"],
+    related: ["api-integrations", "erp"],
+  },
+  {
+    slug: "web-mobile-apps",
+    name: "Custom Web & Mobile Apps",
+    eyebrow: "Apps",
+    highlight: "built to production standard",
+    summary:
+      "Customer portals, internal tools, dashboards, and cross-platform mobile apps — designed, built, and deployed as production-grade software your team can own.",
+    problem:
+      "You need an app that fits a specific workflow, not a template. Building it in-house means hiring; most agencies hand over code that can't be maintained.",
+    capabilities: [
+      "Customer and partner portals",
+      "Internal admin tools and dashboards",
+      "Cross-platform mobile apps",
+      "Clean, documented, handover-ready code",
+    ],
+    outcomes: [
+      "Software shaped to your exact process",
+      "A codebase your team can maintain",
+      "Deployed with CI/CD and monitoring",
+    ],
+    tech: ["React", "Next.js", "React Native", "Node.js"],
+    related: ["api-integrations", "crm"],
+  },
+  {
+    slug: "api-integrations",
+    name: "API & System Integrations",
+    eyebrow: "Integrations",
+    highlight: "connect everything",
+    summary:
+      "We design clean APIs and connect the tools your business depends on — payments, email, ERP, CRM, and cloud — with signed webhooks for reliable, future-proof connectivity.",
+    problem:
+      "Your tools don't talk to each other, so data lives in silos and someone has to bridge the gap by hand. Adding a new system means another manual workaround.",
+    capabilities: [
+      "REST and GraphQL API design",
+      "Third-party integrations (payments, email, CRM, ERP)",
+      "Inbound and outbound signed webhooks",
+      "Data pipelines and scheduled sync",
+    ],
+    outcomes: [
+      "Tools that share data automatically",
+      "A platform ready to connect new systems",
+      "Reliable, signed, auditable event delivery",
+    ],
+    tech: ["REST", "GraphQL", "Webhooks", "OAuth"],
+    related: ["workflow-automation", "web-mobile-apps"],
+  },
+];
+
+export function getService(slug) {
+  return services.find((service) => service.slug === slug);
+}
+
+export const integrationCategories = [
+  {
+    key: "payments",
+    label: "Payments & Billing",
+    text: "Collect payments and reconcile invoices automatically.",
+    connectors: ["Razorpay", "Stripe", "PayPal", "UPI"],
+  },
+  {
+    key: "communication",
+    label: "Email & Messaging",
+    text: "Transactional email and team notifications on every event.",
+    connectors: ["SMTP", "SendGrid", "WhatsApp", "Slack", "Microsoft Teams"],
+  },
+  {
+    key: "crm",
+    label: "CRM & Sales",
+    text: "Sync leads and deals with the CRM your sales team lives in.",
+    connectors: ["HubSpot", "Zoho CRM", "Salesforce", "Pipedrive"],
+  },
+  {
+    key: "erp_accounting",
+    label: "ERP & Accounting",
+    text: "Push orders, inventory, and invoices straight into your books.",
+    connectors: ["Tally", "Zoho Books", "QuickBooks", "SAP"],
+  },
+  {
+    key: "cloud_devops",
+    label: "Cloud & DevOps",
+    text: "Deploy and run on the infrastructure you already use.",
+    connectors: ["AWS", "Google Cloud", "Azure", "Docker", "GitHub Actions"],
+  },
+  {
+    key: "data_apis",
+    label: "Data & APIs",
+    text: "Connect anything else over REST, GraphQL, or signed webhooks.",
+    connectors: ["REST API", "GraphQL", "Webhooks", "PostgreSQL", "Google Sheets"],
+  },
+];
+
+export const projectTypeOptions = [
+  "Custom ERP system",
+  "Custom CRM platform",
+  "Workflow automation",
+  "Web application",
+  "Mobile application",
+  "API / system integration",
+  "Not sure yet",
 ];
 
 export const aboutCards = [

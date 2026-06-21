@@ -25,8 +25,8 @@ export default function Navbar() {
           <Link className="button button-ghost" href="/enterprise-login">
             Client Login
           </Link>
-          <Link className="button button-primary" href="/contact">
-            Start a Sprint
+          <Link className="button button-primary" href="/consultation">
+            Book a Call
           </Link>
         </div>
       </div>

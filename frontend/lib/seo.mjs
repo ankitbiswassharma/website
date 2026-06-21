@@ -18,6 +18,62 @@ export const indexablePages = [
     priority: 0.9,
   },
   {
+    path: "/services",
+    title: "Custom Software Development Services",
+    description:
+      "Explore Musk-IT B2B software services: custom ERP, CRM, workflow automation, web and mobile apps, and API integrations built around your operations.",
+    priority: 0.9,
+  },
+  {
+    path: "/services/erp",
+    title: "Custom ERP System Development",
+    description:
+      "Musk-IT builds custom ERP systems that unify inventory, orders, production, procurement, and finance into one source of truth for your business.",
+    priority: 0.8,
+  },
+  {
+    path: "/services/crm",
+    title: "Custom CRM Platform Development",
+    description:
+      "Musk-IT builds custom CRM platforms with lead capture, tailored pipelines, automated follow-ups, and reporting shaped around your sales process.",
+    priority: 0.8,
+  },
+  {
+    path: "/services/workflow-automation",
+    title: "Business Workflow Automation",
+    description:
+      "Musk-IT automates manual, repetitive business processes end to end: approvals, notifications, data sync, document generation, and scheduled jobs.",
+    priority: 0.8,
+  },
+  {
+    path: "/services/web-mobile-apps",
+    title: "Custom Web and Mobile App Development",
+    description:
+      "Musk-IT builds production-grade customer portals, internal tools, dashboards, and cross-platform mobile apps shaped around a specific workflow.",
+    priority: 0.8,
+  },
+  {
+    path: "/services/api-integrations",
+    title: "API Development and System Integrations",
+    description:
+      "Musk-IT designs clean APIs and connects payments, email, ERP, CRM, and cloud tools with signed inbound and outbound webhooks for reliable connectivity.",
+    priority: 0.8,
+  },
+  {
+    path: "/integrations",
+    title: "Integrations and Connectors",
+    description:
+      "See the systems Musk-IT connects to — payments, email, CRM, ERP, cloud, and data — plus signed webhooks and APIs for connecting anything else.",
+    priority: 0.7,
+  },
+  {
+    path: "/consultation",
+    title: "Book a Software Consultation",
+    description:
+      "Book a free consultation with Musk-IT. Tell us about your workflows and pick a preferred time, and we will scope custom B2B software for your business.",
+    priority: 0.8,
+  },
+  {
     path: "/modules",
     title: "ERP, CRM, Dashboard & Automation Modules",
     description:
