@@ -21,9 +21,9 @@ import {
 export const metadata = buildMetadata("/");
 
 const STATS = [
-  { num: "48h", label: "Average sprint kickoff time" },
-  { num: "100%", label: "Senior engineers on every project" },
-  { num: "3×", label: "Faster than in-house hiring" },
+  { num: "100%", label: "Custom-built around each client's workflows" },
+  { num: "B2B", label: "Software partner for businesses & teams" },
+  { num: "48h", label: "Average project kickoff time" },
   { num: "5★", label: "Average client satisfaction" },
 ];
 
@@ -70,8 +70,8 @@ export default function HomePage() {
         <div className="shell stack-lg">
           <SectionIntro
             eyebrow="Our Approach"
-            title="A better way to build software"
-            text="Musk-IT replaces the broken agency model with a consulting-led, sprint-based delivery service. You get senior engineers who understand your product, fast kickoffs, and software that lasts beyond delivery."
+            title="B2B software, built around how you work"
+            text="Musk-IT is a B2B software partner. We start from your business demands and real workflows, then design and build custom software around them — automating the manual steps, removing the busywork, and delivering systems your team will actually use."
           />
           <FeatureGrid items={solutionItems} variant="solution" />
         </div>
@@ -89,8 +89,8 @@ export default function HomePage() {
         <div className="shell stack-lg">
           <SectionIntro
             eyebrow="What We Deliver"
-            title="Four ways to work with Musk-IT"
-            text="Sprint delivery, technical consulting, full custom builds, or a pre-built SaaS foundation — we have an engagement model that fits where you are."
+            title="Custom software & automation for your business"
+            text="Custom B2B builds, workflow automation, technical consulting, or a configurable SaaS foundation — every engagement is shaped around your operations, not a one-size-fits-all template."
             centered
           />
           <BentoShowcase items={buildShowcaseItems} />
@@ -132,19 +132,19 @@ export default function HomePage() {
       <CtaBanner
         gradient
         eyebrow="Get Started"
-        title="Your sprint team is 48 hours away."
-        text="Stop waiting on hiring cycles or agency timelines. Brief us today and your dedicated engineering team kicks off within 48 hours."
+        title="Let's automate your workflows."
+        text="Tell us how your business runs today and where the manual work piles up. We'll scope custom B2B software that fits your workflows and kick off within 48 hours."
         primaryHref="/contact"
-        primaryLabel="Start a Sprint"
+        primaryLabel="Book a Consultation"
         secondaryHref="/case-studies"
         secondaryLabel="Read Case Studies"
       />
 
       <JsonLd
         data={serviceJsonLd({
-          name: "On-Demand Software Delivery and Technical Consulting",
+          name: "B2B Custom Software Development & Workflow Automation",
           description:
-            "Sprint-based software delivery, technical architecture consulting, and full custom builds for product teams and founders.",
+            "B2B custom software development and workflow automation — tailored ERP, CRM, dashboards, web and mobile apps, integrations, and process automation built around each business's demands and workflows.",
           path: "/",
         })}
       />

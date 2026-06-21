@@ -10,18 +10,20 @@ export default function Hero() {
         <div className="hero-copy">
           <div className="hero-badge">
             <span className="hero-badge-pip" />
-            Now accepting Q3 sprint engagements
+            B2B software partner — now onboarding for Q3
           </div>
-          <div className="eyebrow">On-Demand Software &amp; Consulting</div>
+          <div className="eyebrow">B2B Custom Software &amp; Workflow Automation</div>
           <h1>
-            Ship Software.
+            Custom B2B Software,
             <br />
-            <span className="text-gradient">On Your Timeline.</span>
+            <span className="text-gradient">Built Around Your Workflows.</span>
           </h1>
           <p>
-            Musk-IT gives product teams and founders a senior engineering
-            partner they can activate on demand — sprint delivery, technical
-            consulting, and full custom builds, without the hiring overhead.
+            Musk-IT is a B2B software company. We build custom software tailored
+            to each business&apos;s exact demands and workflows — automating
+            manual processes, connecting your tools, and delivering ERP, CRM,
+            dashboards, and web or mobile apps that fit how your team actually
+            operates.
           </p>
           <div className="hero-actions">
             <Link className="button button-primary" href="/contact">
@@ -34,15 +36,15 @@ export default function Hero() {
           <div className="hero-trust-rail">
             <span className="hero-trust-item">
               <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><circle cx="7" cy="7" r="7" fill="#4f46e5" opacity=".15"/><path d="M4 7l2 2 4-4" stroke="#4f46e5" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
-              48h kickoff
+              Built for B2B
             </span>
             <span className="hero-trust-item">
               <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><circle cx="7" cy="7" r="7" fill="#4f46e5" opacity=".15"/><path d="M4 7l2 2 4-4" stroke="#4f46e5" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
-              No hiring overhead
+              Tailored to your workflows
             </span>
             <span className="hero-trust-item">
               <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><circle cx="7" cy="7" r="7" fill="#4f46e5" opacity=".15"/><path d="M4 7l2 2 4-4" stroke="#4f46e5" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
-              End-to-end delivery
+              Workflow automation
             </span>
           </div>
         </div>

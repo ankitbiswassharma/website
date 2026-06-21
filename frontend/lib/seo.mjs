@@ -1,12 +1,12 @@
 export const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || "https://muskit.in").replace(/\/$/, "");
 export const SITE_NAME = "Musk-IT";
 export const DEFAULT_DESCRIPTION =
-  "Musk-IT builds custom ERP, CRM, automation systems, dashboards, and web or mobile apps tailored to real business operations.";
+  "Musk-IT is a B2B software company that builds custom software and workflow automation — tailored ERP, CRM, dashboards, and web or mobile apps designed around each business's exact demands and workflows.";
 
 export const indexablePages = [
   {
     path: "/",
-    title: "Custom ERP, CRM & Automation Software",
+    title: "B2B Custom Software & Workflow Automation",
     description: DEFAULT_DESCRIPTION,
     priority: 1,
   },

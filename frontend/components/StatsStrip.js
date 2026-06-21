@@ -9,7 +9,10 @@ import { useEffect, useRef, useState } from "react";
  */
 
 function parseStat(value) {
-  const match = String(value).match(/^(\D*)(\d+(?:\.\d+)?)(.*)$/);
+  const match = String(value).match(/^([^0-9A-Za-z]*)(\d+(?:\.\d+)?)(.*)$/);
+  // Count up only when the number leads (after optional symbols like ₹).
+  // A trailing unit such as "h", "%", "×" is fine; values that start with a
+  // letter (e.g. "B2B") never match and stay static.
   if (!match) return { prefix: "", target: null, suffix: value, decimals: 0 };
   const [, prefix, num, suffix] = match;
   const decimals = num.includes(".") ? num.split(".")[1].length : 0;
