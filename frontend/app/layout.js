@@ -4,6 +4,7 @@ import Script from "next/script";
 import Footer from "@/components/Footer";
 import JsonLd from "@/components/JsonLd";
 import Navbar from "@/components/Navbar";
+import ScrollReveal from "@/components/ScrollReveal";
 import {
   DEFAULT_DESCRIPTION,
   SITE_NAME,
@@ -32,6 +33,10 @@ const themeScript = `
     } catch (error) {
       document.documentElement.dataset.theme = '${DEFAULT_THEME}';
     }
+    try {
+      var reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (!reduced) document.documentElement.classList.add('js-reveal');
+    } catch (e) {}
   })();
 `;
 
@@ -90,6 +95,7 @@ export default async function RootLayout({ children }) {
           <main>{children}</main>
           <Footer />
         </div>
+        <ScrollReveal />
         <JsonLd data={[organizationJsonLd(), websiteJsonLd()]} />
         <Script
           src={`https://www.googletagmanager.com/gtag/js?id=${GOOGLE_ANALYTICS_ID}`}

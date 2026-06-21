@@ -1,0 +1,93 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  frontend:
+    name: Frontend
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: frontend
+    env:
+      NEXT_TELEMETRY_DISABLED: "1"
+      NEXT_PUBLIC_API_BASE_URL: /api/v1
+      INTERNAL_API_BASE_URL: http://127.0.0.1:8000
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+
+      - name: Install frontend dependencies
+        run: npm ci
+
+      - name: Run frontend tests
+        run: npm test
+
+      - name: Build frontend
+        run: npm run build
+
+  backend:
+    name: Backend
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Check backend syntax
+        run: python -m compileall backend/app backend/main.py
+
+  docker:
+    name: Docker and Compose
+    runs-on: ubuntu-latest
+    needs:
+      - frontend
+      - backend
+    env:
+      POSTGRES_PASSWORD: ci-postgres-password
+      ADMIN_SESSION_SECRET: ci-admin-session-secret-32-characters
+      SMTP_USER: ci@example.com
+      SMTP_PASSWORD: ci-smtp-password
+      TRAEFIK_CERT_EMAIL: ci@example.com
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Validate local Compose file
+        run: docker compose -f docker-compose.local.yml config --quiet
+
+      - name: Validate production Compose file
+        run: docker compose -f docker-compose.yml config --quiet
+
+      - name: Build backend image
+        run: docker build -t muskit-website-backend:ci ./backend
+
+      - name: Build frontend image
+        run: |
+          docker build \
+            --build-arg NEXT_PUBLIC_API_BASE_URL=/api/v1 \
+            --build-arg INTERNAL_API_BASE_URL=http://backend:8000 \
+            -t muskit-website-frontend:ci \
+            ./frontend

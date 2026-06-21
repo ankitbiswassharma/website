@@ -3834,3 +3834,364 @@ html[data-theme="dark"] .hero-trust-item {
     min-width: 60px;
   }
 }
+
+/* ============================================================= */
+/* ==  Premium polish & interactivity (appended)              == */
+/* ============================================================= */
+
+/* ---- Scroll reveal -------------------------------------------------- */
+/* Hidden state only applies when JS is active (html.js-reveal),
+   so no-JS / SSR content is always visible for SEO + accessibility. */
+.js-reveal [data-reveal] {
+  opacity: 0;
+  transform: translateY(22px);
+  transition:
+    opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+  transition-delay: calc(var(--reveal-i, 0) * 70ms);
+  will-change: opacity, transform;
+}
+
+.js-reveal [data-reveal].is-inview {
+  opacity: 1;
+  transform: none;
+}
+
+/* ---- Button micro-interactions -------------------------------------- */
+.button {
+  position: relative;
+  overflow: hidden;
+  transition:
+    border-color 150ms ease,
+    background 150ms ease,
+    box-shadow 220ms ease,
+    transform 220ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.button-primary:hover,
+.button-ghost:hover {
+  transform: translateY(-2px);
+}
+
+.button-primary:active,
+.button-ghost:active {
+  transform: translateY(0);
+}
+
+/* Light sweep across primary buttons on hover */
+.button-primary::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -120%;
+  width: 80%;
+  height: 100%;
+  background: linear-gradient(
+    100deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.28) 50%,
+    transparent 100%
+  );
+  transform: skewX(-18deg);
+  pointer-events: none;
+}
+
+.button-primary:hover::after {
+  animation: btn-sheen 750ms ease;
+}
+
+@keyframes btn-sheen {
+  to {
+    left: 130%;
+  }
+}
+
+/* ---- Card hover sheen ---------------------------------------------- */
+.feature-card,
+.step-card,
+.pricing-card,
+.testimonial-card,
+.bento-card {
+  position: relative;
+}
+
+.feature-card::after,
+.step-card::after,
+.testimonial-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  opacity: 0;
+  background: radial-gradient(
+    420px circle at 50% 0%,
+    rgba(99, 102, 241, 0.1),
+    transparent 70%
+  );
+  transition: opacity 300ms ease;
+}
+
+.feature-card:hover::after,
+.step-card:hover::after,
+.testimonial-card:hover::after {
+  opacity: 1;
+}
+
+/* Animated top accent line that grows in on hover */
+.feature-card::before,
+.step-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 3px;
+  width: 100%;
+  transform: scaleX(0);
+  transform-origin: left;
+  background: linear-gradient(90deg, var(--primary), #7c3aed, var(--accent));
+  transition: transform 360ms cubic-bezier(0.22, 1, 0.36, 1);
+  display: block;
+}
+
+.feature-card:hover::before,
+.step-card:hover::before {
+  transform: scaleX(1);
+}
+
+/* Bento cards lift a touch more responsively */
+.bento-card {
+  transition:
+    transform 320ms cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 320ms ease,
+    border-color 320ms ease;
+}
+
+.bento-card:hover {
+  transform: translateY(-5px);
+}
+
+/* ---- Step number flourish ------------------------------------------ */
+.step-card .step-number {
+  transition: transform 320ms cubic-bezier(0.22, 1, 0.36, 1), color 320ms ease;
+}
+
+.step-card:hover .step-number {
+  transform: translateY(-2px) scale(1.06);
+}
+
+/* ---- Animated gradient text & CTA ---------------------------------- */
+.text-gradient {
+  background: linear-gradient(
+    115deg,
+    #4f46e5 0%,
+    #7c3aed 30%,
+    #0891b2 55%,
+    #7c3aed 75%,
+    #4f46e5 100%
+  );
+  background-size: 220% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: gradient-pan 7s ease-in-out infinite;
+}
+
+@keyframes gradient-pan {
+  0%,
+  100% {
+    background-position: 0% center;
+  }
+  50% {
+    background-position: 100% center;
+  }
+}
+
+.cta-gradient .cta-shell {
+  background: linear-gradient(135deg, #312e81 0%, #4f46e5 45%, #6d28d9 100%);
+  background-size: 200% 200%;
+  animation: gradient-drift 12s ease infinite;
+}
+
+@keyframes gradient-drift {
+  0%,
+  100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+/* ---- Hero orb gentle drift ----------------------------------------- */
+.hero-bg-orb-a {
+  animation: orb-float-a 18s ease-in-out infinite;
+}
+
+.hero-bg-orb-b {
+  animation: orb-float-b 22s ease-in-out infinite;
+}
+
+@keyframes orb-float-a {
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+  50% {
+    transform: translate(40px, 30px) scale(1.08);
+  }
+}
+
+@keyframes orb-float-b {
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+  50% {
+    transform: translate(-36px, -24px) scale(1.1);
+  }
+}
+
+/* ---- Hero badge pip pulse ring -------------------------------------- */
+.hero-badge-pip {
+  position: relative;
+}
+
+.hero-badge-pip::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 999px;
+  box-shadow: 0 0 0 0 rgba(79, 70, 229, 0.5);
+  animation: pip-pulse 2.4s ease-out infinite;
+}
+
+@keyframes pip-pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(79, 70, 229, 0.5);
+  }
+  70% {
+    box-shadow: 0 0 0 10px rgba(79, 70, 229, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(79, 70, 229, 0);
+  }
+}
+
+/* ---- Animated stat counters --------------------------------------- */
+.stats-strip-item {
+  transition: background 300ms ease;
+}
+
+.stats-strip-item:hover {
+  background: var(--surface-soft);
+}
+
+/* ---- Tech marquee --------------------------------------------------- */
+.tech-marquee {
+  position: relative;
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(
+    90deg,
+    transparent 0,
+    #000 12%,
+    #000 88%,
+    transparent 100%
+  );
+  mask-image: linear-gradient(
+    90deg,
+    transparent 0,
+    #000 12%,
+    #000 88%,
+    transparent 100%
+  );
+}
+
+.tech-marquee-track {
+  display: flex;
+  width: max-content;
+  gap: 10px;
+  animation: marquee-scroll 32s linear infinite;
+}
+
+.tech-marquee:hover .tech-marquee-track {
+  animation-play-state: paused;
+}
+
+.tech-marquee .tech-badge {
+  white-space: nowrap;
+}
+
+@keyframes marquee-scroll {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+/* ---- Tech badge accent dot ----------------------------------------- */
+.tech-badge::before {
+  content: "";
+  width: 6px;
+  height: 6px;
+  border-radius: 999px;
+  background: var(--primary);
+  opacity: 0.55;
+  transition: opacity 150ms ease, transform 150ms ease;
+}
+
+.tech-badge:hover::before {
+  opacity: 1;
+  transform: scale(1.3);
+}
+
+/* ---- Nav link underline grow --------------------------------------- */
+.nav-links a {
+  position: relative;
+}
+
+.nav-links a::after {
+  content: "";
+  position: absolute;
+  left: 12px;
+  right: 12px;
+  bottom: 4px;
+  height: 2px;
+  border-radius: 2px;
+  background: var(--primary);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 240ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.nav-links a:hover::after {
+  transform: scaleX(1);
+}
+
+/* ---- Respect reduced motion ---------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  .js-reveal [data-reveal] {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+
+  .text-gradient,
+  .cta-gradient .cta-shell,
+  .hero-bg-orb-a,
+  .hero-bg-orb-b,
+  .hero-badge-pip::after,
+  .tech-marquee-track {
+    animation: none !important;
+  }
+
+  .button-primary::after {
+    display: none;
+  }
+
+  * {
+    scroll-behavior: auto !important;
+  }
+}

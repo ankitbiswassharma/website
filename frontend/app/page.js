@@ -6,6 +6,8 @@ import JsonLd from "@/components/JsonLd";
 import LeadForm from "@/components/LeadForm";
 import ProcessSteps from "@/components/ProcessSteps";
 import SectionIntro from "@/components/SectionIntro";
+import StatsStrip from "@/components/StatsStrip";
+import TechMarquee from "@/components/TechMarquee";
 import Testimonials from "@/components/Testimonials";
 import { buildMetadata, serviceJsonLd } from "@/lib/seo.mjs";
 import {
@@ -47,14 +49,7 @@ export default function HomePage() {
       {/* ── Stats strip ────────────────────────────────────────── */}
       <section className="page-section" style={{ paddingBlock: "2.5rem" }}>
         <div className="shell">
-          <div className="stats-strip-inner">
-            {STATS.map((s) => (
-              <div className="stats-strip-item" key={s.num}>
-                <div className="stats-strip-num">{s.num}</div>
-                <div className="stats-strip-label">{s.label}</div>
-              </div>
-            ))}
-          </div>
+          <StatsStrip items={STATS} />
         </div>
       </section>
 
@@ -85,11 +80,7 @@ export default function HomePage() {
       {/* ── Tech strip ──────────────────────────────────────────── */}
       <section className="page-section" style={{ paddingBlock: "2rem" }}>
         <div className="shell">
-          <div className="tech-badge-row">
-            {TECH.map((t) => (
-              <span className="tech-badge" key={t}>{t}</span>
-            ))}
-          </div>
+          <TechMarquee items={TECH} />
         </div>
       </section>
 

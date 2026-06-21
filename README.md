@@ -1,5 +1,55 @@
 # Musk-IT Website
 
+## Local Docker Compose
+
+Run the full local stack with Postgres, FastAPI, and Next.js:
+
+```bash
+docker compose -f docker-compose.local.yml up --build
+```
+
+Local defaults are built into `docker-compose.local.yml`, so a fresh clone can
+start without a committed `.env`. To customize ports or local credentials:
+
+```bash
+cp .env.local.example .env
+```
+
+Useful local URLs:
+
+- Frontend: `http://localhost:3000`
+- Backend health: `http://localhost:8000/api/v1/health`
+- Postgres: `localhost:5432`
+
+Stop the local stack:
+
+```bash
+docker compose -f docker-compose.local.yml down
+```
+
+## CI/CD
+
+GitHub Actions are configured in `.github/workflows`.
+
+- `ci.yml` runs on pushes and pull requests to `main`. It installs frontend
+  dependencies, runs `npm test`, builds Next.js, checks backend Python syntax,
+  validates both Compose files, and builds both Docker images.
+- `deploy.yml` can deploy the production Compose stack over SSH. It runs
+  manually with `workflow_dispatch`, and also on pushes to `main` when the
+  repository variable `ENABLE_PRODUCTION_DEPLOY` is set to `true`.
+
+Configure these GitHub secrets before enabling production deploys:
+
+- `DEPLOY_HOST`
+- `DEPLOY_USER`
+- `DEPLOY_SSH_KEY`
+- `DEPLOY_PATH`
+- `DEPLOY_PORT` (optional, defaults to `22`)
+- `DEPLOY_BRANCH` (optional, defaults to `main`)
+
+The server must already have Docker, Docker Compose, this repository checked out
+at `DEPLOY_PATH`, and a production `.env` created from `.env.production.example`.
+
 ## Production deployment on Hostinger VPS
 
 This repository is wired for a single public entry point:
