@@ -39,6 +39,18 @@ jobs:
           port="${DEPLOY_PORT:-22}"
           branch="${DEPLOY_BRANCH:-main}"
 
+          # Defend against secrets pasted with whitespace or a URL scheme.
+          DEPLOY_HOST="${DEPLOY_HOST#http://}"
+          DEPLOY_HOST="${DEPLOY_HOST#https://}"
+          DEPLOY_HOST="${DEPLOY_HOST%%/*}"
+          DEPLOY_HOST="${DEPLOY_HOST//[[:space:]]/}"
+          port="${port//[[:space:]]/}"
+
+          if ! [[ "$port" =~ ^[0-9]+$ ]]; then
+            echo "::error::DEPLOY_PORT is not a valid number: '${port}'. Unset the secret to default to 22."
+            exit 1
+          fi
+
           echo "Preparing SSH deploy to ${DEPLOY_USER}@${DEPLOY_HOST}:${port}"
           echo "Deploy branch: ${branch}"
           echo "Target SHA: ${TARGET_SHA}"
@@ -50,20 +62,36 @@ jobs:
           echo "Validating SSH private key"
           ssh-keygen -y -f ~/.ssh/deploy_key > /dev/null
 
-          echo "Adding host key"
-          ssh-keyscan -T 10 -p "$port" -H "$DEPLOY_HOST" >> ~/.ssh/known_hosts
+          echo "Adding host key for ${DEPLOY_HOST}:${port}"
+          # ssh-keyscan can exit non-zero when the host is unreachable. Don't let
+          # that abort the job with a cryptic code — capture it and let the real
+          # connection test below report the actual error.
+          if ! ssh-keyscan -T 10 -p "$port" "$DEPLOY_HOST" >> ~/.ssh/known_hosts 2>/tmp/keyscan.log; then
+            echo "::warning::ssh-keyscan could not retrieve a host key from ${DEPLOY_HOST}:${port}. The runner may be unable to reach the server's SSH port."
+          fi
+          if [ -s /tmp/keyscan.log ]; then
+            echo "ssh-keyscan diagnostics:"
+            cat /tmp/keyscan.log
+          fi
+          if [ ! -s ~/.ssh/known_hosts ]; then
+            echo "No host key collected — relying on StrictHostKeyChecking=accept-new for the first connection."
+          fi
 
           echo "Testing SSH connection"
           ssh -o BatchMode=yes \
             -o ConnectTimeout=15 \
             -o IdentitiesOnly=yes \
+            -o StrictHostKeyChecking=accept-new \
             -i ~/.ssh/deploy_key \
             -p "$port" \
             "$DEPLOY_USER@$DEPLOY_HOST" \
             "echo SSH connection OK"
 
           echo "Running remote deploy"
-          ssh -i ~/.ssh/deploy_key -p "$port" "$DEPLOY_USER@$DEPLOY_HOST" \
+          ssh -o BatchMode=yes \
+            -o IdentitiesOnly=yes \
+            -o StrictHostKeyChecking=accept-new \
+            -i ~/.ssh/deploy_key -p "$port" "$DEPLOY_USER@$DEPLOY_HOST" \
             "DEPLOY_PATH='$DEPLOY_PATH' DEPLOY_BRANCH='$branch' TARGET_SHA='$TARGET_SHA' bash -s" <<'REMOTE'
           set -euo pipefail
           cd "$DEPLOY_PATH"
