@@ -91,6 +91,24 @@ class PdfService:
                 return candidate
         return None
 
+    def _resolve_icon_path(self) -> Path | None:
+        """Brand icon (app-style mark) shown in the quotation masthead.
+
+        Drop the icon into app/assets/ as muskit_icon.png (or .jpg/.jpeg/.webp)
+        and it is picked up automatically.
+        """
+        asset_root = Path(__file__).resolve().parents[1] / "assets"
+        candidate_paths = [
+            asset_root / "muskit_icon.png",
+            asset_root / "muskit_icon.jpg",
+            asset_root / "muskit_icon.jpeg",
+            asset_root / "muskit_icon.webp",
+        ]
+        for candidate in candidate_paths:
+            if candidate.exists():
+                return candidate
+        return None
+
     def _file_data_uri(self, asset_path: Path | None) -> str | None:
         if not asset_path:
             return None
@@ -108,6 +126,7 @@ class PdfService:
                 **context,
                 "stamp_data_uri": self._stamp_data_uri(),
                 "logo_data_uri": self._file_data_uri(self._resolve_logo_path()),
+                "icon_data_uri": self._file_data_uri(self._resolve_icon_path()),
             }
         )
         destination.parent.mkdir(parents=True, exist_ok=True)

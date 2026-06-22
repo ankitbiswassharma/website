@@ -71,6 +71,20 @@
         border-bottom: 2px solid var(--brand);
       }
 
+      .brand-lockup {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+
+      .brand-icon {
+        width: 52px;
+        height: 52px;
+        border-radius: 12px;
+        object-fit: cover;
+        flex-shrink: 0;
+      }
+
       .brand-name {
         font-size: 22pt;
         font-weight: 700;
@@ -387,8 +401,15 @@
     <!-- ── Masthead ─────────────────────────────────────────────── -->
     <div class="masthead">
       <div>
-        <div class="brand-name">{{ company_name }}</div>
-        <div class="brand-tagline">{{ company_tagline }}</div>
+        <div class="brand-lockup">
+          {% if icon_data_uri %}
+            <img class="brand-icon" src="{{ icon_data_uri }}" alt="{{ company_name }} icon" />
+          {% endif %}
+          <div>
+            <div class="brand-name">{{ company_name }}</div>
+            <div class="brand-tagline">{{ company_tagline }}</div>
+          </div>
+        </div>
         <div class="brand-contact">
           {% if company_address %}{{ company_address }}<br>{% endif %}
           {% if admin_email %}{{ admin_email }}{% endif %}{% if admin_phone %} &nbsp;·&nbsp; {{ admin_phone }}{% endif %}<br>
@@ -396,9 +417,6 @@
         </div>
       </div>
       <div class="masthead-right">
-        {% if logo_data_uri %}
-          <img class="logo" src="{{ logo_data_uri }}" alt="{{ company_name }} logo" />
-        {% endif %}
         <div class="doc-label">Quotation</div>
         <div class="doc-meta">
           <div class="doc-meta-row"><span>Number</span><span>{{ quotation.quotation_number }}</span></div>
