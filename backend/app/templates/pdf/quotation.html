@@ -3,540 +3,534 @@
   <head>
     <meta charset="utf-8">
     <style>
+      :root {
+        --ink: #1e293b;
+        --muted: #64748b;
+        --brand: #1f3f95;
+        --brand-soft: #eef2fb;
+        --line: #e2e8f0;
+        --line-strong: #cbd5e1;
+      }
+
       @page {
         size: A4;
-        margin: 12mm 12mm 14mm;
+        margin: 16mm 14mm 18mm;
+        @bottom-left {
+          content: "{{ company_name }}";
+          font-family: "Helvetica Neue", Helvetica, Arial, "DejaVu Sans", sans-serif;
+          font-size: 7.5pt;
+          color: #94a3b8;
+        }
+        @bottom-center {
+          content: "Quotation {{ quotation.quotation_number }}";
+          font-family: "Helvetica Neue", Helvetica, Arial, "DejaVu Sans", sans-serif;
+          font-size: 7.5pt;
+          color: #94a3b8;
+        }
+        @bottom-right {
+          content: "Page " counter(page) " of " counter(pages);
+          font-family: "Helvetica Neue", Helvetica, Arial, "DejaVu Sans", sans-serif;
+          font-size: 7.5pt;
+          color: #94a3b8;
+        }
+      }
+
+      * {
+        box-sizing: border-box;
       }
 
       body {
         margin: 0;
-        font-family: Arial, sans-serif;
-        font-size: 11px;
-        color: #10213c;
-        background: #f4f7fc;
+        font-family: "Helvetica Neue", Helvetica, Arial, "DejaVu Sans", sans-serif;
+        font-size: 9.5pt;
+        line-height: 1.5;
+        color: var(--ink);
+        background: #ffffff;
       }
 
       h1, h2, h3, p {
         margin: 0;
       }
 
-      .page-shell {
-        border: 1px solid #d5e0f4;
-        border-radius: 20px;
-        overflow: hidden;
-        background: #ffffff;
-      }
-
-      .hero-band {
-        padding: 18px 20px 16px;
-        color: #ffffff;
-        background:
-          radial-gradient(circle at top right, rgba(255, 255, 255, 0.18), transparent 36%),
-          linear-gradient(135deg, #12357c, #1e4ea8 58%, #2d82e6);
-      }
-
-      .hero-table,
-      .header-table,
-      .meta-table,
-      .quote-table,
-      .totals-table,
-      .footer-table {
+      table {
         width: 100%;
         border-collapse: collapse;
       }
 
-      .hero-table td,
-      .header-table td,
-      .footer-table td {
-        vertical-align: top;
+      .muted {
+        color: var(--muted);
       }
 
-      .hero-company {
-        font-size: 29px;
+      /* ── Masthead ─────────────────────────────────────────────── */
+      .masthead {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 24px;
+        padding-bottom: 16px;
+        border-bottom: 2px solid var(--brand);
+      }
+
+      .brand-name {
+        font-size: 22pt;
         font-weight: 700;
-        letter-spacing: 0.04em;
+        letter-spacing: -0.01em;
+        color: var(--brand);
       }
 
-      .hero-tagline {
-        margin-top: 4px;
-        font-size: 12px;
-        color: rgba(255, 255, 255, 0.9);
+      .brand-tagline {
+        margin-top: 2px;
+        font-size: 9pt;
+        color: var(--muted);
       }
 
-      .hero-chip-row {
-        margin-top: 14px;
-      }
-
-      .hero-chip {
-        display: inline-block;
-        margin: 0 8px 8px 0;
-        padding: 6px 10px;
-        border-radius: 999px;
-        border: 1px solid rgba(255, 255, 255, 0.24);
-        background: rgba(255, 255, 255, 0.12);
-        font-size: 10px;
-        font-weight: 700;
-        letter-spacing: 0.08em;
-        text-transform: uppercase;
-      }
-
-      .hero-meta-card {
-        width: 248px;
-        padding: 14px 16px;
-        border: 1px solid rgba(255, 255, 255, 0.24);
-        border-radius: 16px;
-        background: rgba(255, 255, 255, 0.1);
-      }
-
-      .hero-meta-label {
-        font-size: 10px;
-        font-weight: 700;
-        letter-spacing: 0.16em;
-        text-transform: uppercase;
-        color: rgba(255, 255, 255, 0.74);
-      }
-
-      .hero-meta-value {
-        margin-top: 6px;
-        display: block;
-        max-width: 100%;
-        font-size: 16px;
-        font-weight: 700;
-        letter-spacing: 0.02em;
-        line-height: 1.22;
-        white-space: normal;
-        word-break: break-all;
-        overflow-wrap: break-word;
-      }
-
-      .hero-meta-copy {
+      .brand-contact {
         margin-top: 10px;
-        font-size: 10px;
-        line-height: 1.65;
-        color: rgba(255, 255, 255, 0.88);
+        font-size: 8.5pt;
+        line-height: 1.6;
+        color: var(--muted);
       }
 
-      .content-shell {
-        padding: 18px 20px 20px;
-        background:
-          linear-gradient(180deg, rgba(244, 247, 252, 0.8), rgba(255, 255, 255, 0) 120px),
-          #ffffff;
-      }
-
-      .logo-cell {
-        width: 188px;
+      .masthead-right {
         text-align: right;
+        flex-shrink: 0;
+        min-width: 210px;
+      }
+
+      .doc-label {
+        font-size: 15pt;
+        font-weight: 700;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        color: var(--ink);
       }
 
       .logo {
-        max-width: 166px;
-        max-height: 72px;
-        padding: 6px 10px;
-        border-radius: 10px;
-        background: rgba(255, 255, 255, 0.95);
-      }
-
-      .overview-title {
-        font-size: 21px;
-        font-weight: 700;
-        color: #1f3f95;
-      }
-
-      .overview-copy {
-        margin-top: 4px;
-        color: #526784;
-      }
-
-      .contact-grid {
-        margin-top: 14px;
-        padding: 12px 14px;
-        border: 1px solid #dbe4f5;
-        border-radius: 14px;
-        background: #f9fbff;
-      }
-
-      .contact-grid td {
-        padding: 5px 8px 5px 0;
-        font-size: 10.5px;
-      }
-
-      .label {
-        width: 96px;
-        font-weight: 700;
-        color: #1f3f95;
-      }
-
-      .quotation-banner {
-        margin-top: 16px;
-        padding: 14px 16px;
-        border: 1px solid #dbe4f5;
-        border-radius: 16px;
-        background: linear-gradient(135deg, #ffffff, #f5f9ff);
-      }
-
-      .quotation-banner h1 {
-        font-size: 20px;
-        letter-spacing: 0.08em;
-        text-transform: uppercase;
-        color: #11264b;
-      }
-
-      .quotation-banner p {
-        margin-top: 4px;
-        color: #4f6487;
-      }
-
-      .meta-table {
-        margin-top: 16px;
-        border: 1px solid #cdd9ef;
-      }
-
-      .meta-table td {
-        padding: 8px 10px;
-        border: 1px solid #d8e2f3;
-      }
-
-      .meta-table .meta-label {
-        width: 120px;
-        font-size: 10px;
-        font-weight: 700;
-        text-transform: uppercase;
-        letter-spacing: 0.08em;
-        color: #506481;
-        background: #f4f7fc;
-      }
-
-      .to-block {
-        margin-top: 16px;
-        padding: 14px 16px;
-        border: 1px solid #d7e2f4;
-        border-left: 5px solid #1f3f95;
-        border-radius: 14px;
-        background: linear-gradient(180deg, #f8fbff, #ffffff);
-        white-space: pre-line;
-        line-height: 1.7;
-      }
-
-      .summary-block {
-        margin-top: 14px;
-        padding: 14px 16px;
-        border: 1px solid #d8e2f3;
-        border-radius: 14px;
-        background: linear-gradient(180deg, #ffffff, #fbfcff);
-      }
-
-      .summary-title {
+        max-width: 150px;
+        max-height: 58px;
         margin-bottom: 8px;
-        font-size: 11px;
-        font-weight: 700;
+        margin-left: auto;
+        display: block;
+      }
+
+      .doc-meta {
+        margin-top: 10px;
+        font-size: 8.8pt;
+      }
+
+      .doc-meta-row {
+        display: flex;
+        justify-content: flex-end;
+        gap: 10px;
+        padding: 2px 0;
+      }
+
+      .doc-meta-row span:first-child {
+        color: var(--muted);
         text-transform: uppercase;
-        letter-spacing: 0.1em;
-        color: #1f3f95;
-      }
-
-      .summary-copy {
-        white-space: pre-line;
-        line-height: 1.7;
-      }
-
-      .quote-table {
-        margin-top: 16px;
-      }
-
-      .quote-table th,
-      .quote-table td {
-        border: 1px solid #cad5ea;
-        padding: 8px 9px;
-        vertical-align: top;
-      }
-
-      .quote-table th {
-        background: #1f3f95;
-        color: #ffffff;
-        font-size: 10px;
         letter-spacing: 0.06em;
-        text-transform: uppercase;
+        font-size: 7.5pt;
+        padding-top: 1.5px;
       }
 
-      .quote-table tr:nth-child(even) td {
-        background: #fbfdff;
-      }
-
-      .quote-table td:nth-last-child(-n+3),
-      .totals-table td:last-child {
+      .doc-meta-row span:last-child {
+        font-weight: 700;
+        min-width: 96px;
         text-align: right;
       }
 
-      .quote-table .description {
-        white-space: pre-line;
+      /* ── Parties ──────────────────────────────────────────────── */
+      .parties {
+        margin-top: 18px;
+        display: flex;
+        gap: 16px;
+      }
+
+      .party {
+        flex: 1;
+        padding: 12px 14px;
+        border: 1px solid var(--line);
+        border-radius: 6px;
+        background: #fcfdff;
+      }
+
+      .party-label {
+        font-size: 7.5pt;
+        font-weight: 700;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--brand);
+        margin-bottom: 6px;
+      }
+
+      .party-name {
+        font-size: 11pt;
+        font-weight: 700;
+      }
+
+      .party-line {
+        font-size: 9pt;
+        color: var(--muted);
         line-height: 1.55;
       }
 
-      .totals-wrap {
-        margin-top: 14px;
+      /* ── Project title ────────────────────────────────────────── */
+      .project-bar {
+        margin-top: 16px;
+        padding: 10px 14px;
+        background: var(--brand-soft);
+        border-left: 3px solid var(--brand);
+        border-radius: 4px;
       }
 
-      .totals-table {
-        width: 340px;
-        margin-left: auto;
-      }
-
-      .totals-table td {
-        padding: 8px 10px;
-        border: 1px solid #cad5ea;
-      }
-
-      .totals-table .grand td {
-        background: linear-gradient(90deg, #eff4ff, #dfeafc);
-        font-size: 13px;
+      .project-bar-label {
+        font-size: 7.5pt;
         font-weight: 700;
-        color: #14357d;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: var(--brand);
       }
 
-      .section-card {
-        margin-top: 14px;
-        padding: 14px 16px;
-        border: 1px solid #dbe4f4;
-        border-radius: 14px;
-        background: #ffffff;
-      }
-
-      .section-title {
-        margin-bottom: 8px;
-        padding-bottom: 8px;
-        border-bottom: 1px solid #d7e0f1;
-        font-size: 12px;
+      .project-bar-title {
+        font-size: 11.5pt;
         font-weight: 700;
-        color: #1f3f95;
+        margin-top: 1px;
+      }
+
+      /* ── Narrative blocks ─────────────────────────────────────── */
+      .block {
+        margin-top: 14px;
+        page-break-inside: avoid;
+      }
+
+      .block-title {
+        font-size: 9pt;
+        font-weight: 700;
         text-transform: uppercase;
         letter-spacing: 0.08em;
+        color: var(--brand);
+        margin-bottom: 5px;
       }
 
-      .section-content {
+      .block-body {
         white-space: pre-line;
-        line-height: 1.7;
+        font-size: 9.2pt;
+        line-height: 1.6;
+        color: #334155;
       }
 
-      .footer-shell {
+      /* ── Line items ───────────────────────────────────────────── */
+      .items {
         margin-top: 18px;
-        padding: 14px 16px;
-        border: 1px solid #d7e2f4;
-        border-radius: 16px;
-        background: linear-gradient(180deg, #f8fbff, #ffffff);
       }
 
-      .footer-note {
-        width: 62%;
-        font-size: 10px;
-        line-height: 1.7;
-        color: #4b5f7f;
+      .items thead {
+        display: table-header-group;
       }
 
-      .stamp-card {
+      .items th {
+        background: var(--brand);
+        color: #ffffff;
+        font-size: 7.8pt;
+        font-weight: 700;
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+        padding: 8px 9px;
+        text-align: left;
+      }
+
+      .items td {
+        padding: 8px 9px;
+        border-bottom: 1px solid var(--line);
+        vertical-align: top;
+        font-size: 9pt;
+      }
+
+      .items tbody tr {
+        page-break-inside: avoid;
+      }
+
+      .items tbody tr:nth-child(even) td {
+        background: #f8fafd;
+      }
+
+      .items .num,
+      .items .right {
+        text-align: right;
+        white-space: nowrap;
+      }
+
+      .items .center {
+        text-align: center;
+      }
+
+      .item-title {
+        font-weight: 700;
+      }
+
+      .item-desc {
+        white-space: pre-line;
+        color: var(--muted);
+        font-size: 8.6pt;
+        margin-top: 2px;
+      }
+
+      /* ── Totals ───────────────────────────────────────────────── */
+      .totals-wrap {
+        margin-top: 14px;
+        display: flex;
+        justify-content: flex-end;
+        page-break-inside: avoid;
+      }
+
+      .totals {
+        width: 300px;
+      }
+
+      .totals td {
+        padding: 7px 12px;
+        font-size: 9.4pt;
+      }
+
+      .totals .t-label {
+        color: var(--muted);
+      }
+
+      .totals .t-value {
+        text-align: right;
+        font-weight: 700;
+        white-space: nowrap;
+      }
+
+      .totals tr.divider td {
+        border-top: 1px solid var(--line);
+      }
+
+      .totals tr.grand td {
+        background: var(--brand);
+        color: #ffffff;
+        font-size: 11pt;
+        font-weight: 700;
+      }
+
+      .totals tr.grand .t-label {
+        color: rgba(255, 255, 255, 0.85);
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        font-size: 8.5pt;
+      }
+
+      /* ── Sign-off ─────────────────────────────────────────────── */
+      .signoff {
+        margin-top: 22px;
+        display: flex;
+        gap: 20px;
+        align-items: flex-end;
+        justify-content: space-between;
+        page-break-inside: avoid;
+      }
+
+      .signoff-note {
+        flex: 1;
+        font-size: 8.4pt;
+        line-height: 1.65;
+        color: var(--muted);
+      }
+
+      .signoff-note strong {
+        color: var(--ink);
+      }
+
+      .signature {
         width: 200px;
         text-align: center;
-        vertical-align: bottom;
+        flex-shrink: 0;
       }
 
-      .stamp-card img {
-        width: 152px;
+      .signature img {
+        width: 130px;
         max-width: 100%;
         display: block;
-        margin: 0 auto;
+        margin: 0 auto 4px;
+      }
+
+      .signature-line {
+        margin-top: 4px;
+        padding-top: 6px;
+        border-top: 1px solid var(--line-strong);
+        font-size: 8.2pt;
+        font-weight: 700;
+        color: var(--ink);
+      }
+
+      .signature-sub {
+        font-size: 7.6pt;
+        color: var(--muted);
+      }
+
+      .pay-strip {
+        margin-top: 18px;
+        padding: 9px 12px;
+        border: 1px solid var(--line);
+        border-radius: 6px;
+        background: var(--brand-soft);
+        font-size: 8.4pt;
+        color: #334155;
+      }
+
+      .pay-strip strong {
+        color: var(--brand);
       }
     </style>
   </head>
   <body>
-    <div class="page-shell">
-      <div class="hero-band">
-        <table class="hero-table">
-          <tr>
-            <td>
-              <div class="hero-company">{{ company_name }}</div>
-              <div class="hero-tagline">{{ company_tagline }}</div>
-              <div class="hero-chip-row">
-                <span class="hero-chip">Commercial quotation</span>
-                <span class="hero-chip">Revision R{{ quotation.revision_number }}</span>
-                <span class="hero-chip">{{ quotation.tax_label }} included as applicable</span>
-              </div>
-            </td>
-            <td style="width: 248px;">
-              <div class="hero-meta-card">
-                <div class="hero-meta-label">Quotation Number</div>
-                <div class="hero-meta-value">{{ quotation.quotation_number }}</div>
-                <div class="hero-meta-copy">
-                  Issued on {{ quotation.created_at.strftime("%d %b %Y") if quotation.created_at else "-" }}<br>
-                  Valid until {{ quotation.valid_until.strftime("%d %b %Y") if quotation.valid_until else "-" }}
-                </div>
-              </div>
-            </td>
-          </tr>
-        </table>
+    <!-- ── Masthead ─────────────────────────────────────────────── -->
+    <div class="masthead">
+      <div>
+        <div class="brand-name">{{ company_name }}</div>
+        <div class="brand-tagline">{{ company_tagline }}</div>
+        <div class="brand-contact">
+          {% if company_address %}{{ company_address }}<br>{% endif %}
+          {% if admin_email %}{{ admin_email }}{% endif %}{% if admin_phone %} &nbsp;·&nbsp; {{ admin_phone }}{% endif %}<br>
+          {% if company_website %}{{ company_website }}{% endif %}
+        </div>
       </div>
-
-      <div class="content-shell">
-        <table class="header-table">
-          <tr>
-            <td>
-              <div class="overview-title">Quotation Overview</div>
-              <div class="overview-copy">
-                Prepared for {{ lead.company or lead.full_name }} with pricing, GST, and implementation scope.
-              </div>
-            </td>
-            <td class="logo-cell">
-              {% if logo_data_uri %}
-                <img class="logo" src="{{ logo_data_uri }}" alt="{{ company_name }} logo" />
-              {% endif %}
-            </td>
-          </tr>
-        </table>
-
-        <table class="contact-grid" style="width: 100%;">
-          <tr>
-            <td class="label">Name</td>
-            <td>{{ admin_name or company_name }}</td>
-            <td class="label">Email</td>
-            <td>{{ admin_email or lead.email }}</td>
-          </tr>
-          <tr>
-            <td class="label">Ph No.</td>
-            <td>{{ admin_phone or "-" }}</td>
-            <td class="label">Website</td>
-            <td>{{ company_website or payment_page_url }}</td>
-          </tr>
-          <tr>
-            <td class="label">Project Name</td>
-            <td>{{ quotation.title }}</td>
-            <td class="label">Quotation</td>
-            <td>{{ quotation.quotation_number }}</td>
-          </tr>
-          <tr>
-            <td class="label">Date</td>
-            <td>{{ quotation.created_at.strftime("%Y-%m-%d") if quotation.created_at else "-" }}</td>
-            <td class="label">Valid Until</td>
-            <td>{{ quotation.valid_until }}</td>
-          </tr>
-        </table>
-
-        <div class="quotation-banner">
-          <h1>Quotation</h1>
-          <p>{{ quotation.title }}</p>
-        </div>
-
-        <table class="meta-table">
-          <tr>
-            <td class="meta-label">Quotation No.</td>
-            <td>{{ quotation.quotation_number }}</td>
-            <td class="meta-label">Revision</td>
-            <td>R{{ quotation.revision_number }}</td>
-          </tr>
-          <tr>
-            <td class="meta-label">Client</td>
-            <td>{{ lead.full_name }}</td>
-            <td class="meta-label">Company</td>
-            <td>{{ lead.company or "-" }}</td>
-          </tr>
-          <tr>
-            <td class="meta-label">Email</td>
-            <td>{{ lead.email }}</td>
-            <td class="meta-label">Phone</td>
-            <td>{{ lead.phone or "-" }}</td>
-          </tr>
-        </table>
-
-        <div class="to-block"><strong style="display:block;margin-bottom:6px;color:#1f3f95;">To</strong>{{ lead.full_name }}
-{{ lead.company or "" }}
-{{ lead.email }}{% if lead.phone %}
-{{ lead.phone }}{% endif %}{% if lead.designation %}
-Attn: {{ lead.designation }}{% endif %}</div>
-
-        {% if quotation.intro_message %}
-          <div class="summary-block">
-            <div class="summary-title">Introduction</div>
-            <div class="summary-copy">{{ quotation.intro_message }}</div>
-          </div>
+      <div class="masthead-right">
+        {% if logo_data_uri %}
+          <img class="logo" src="{{ logo_data_uri }}" alt="{{ company_name }} logo" />
         {% endif %}
-
-        {% if quotation.requirements_summary %}
-          <div class="summary-block">
-            <div class="summary-title">Requirements Summary</div>
-            <div class="summary-copy">{{ quotation.requirements_summary }}</div>
-          </div>
-        {% endif %}
-
-        <table class="quote-table">
-          <thead>
-            <tr>
-              <th style="width: 8%;">Sl. No.</th>
-              <th style="width: 42%;">Descriptions</th>
-              <th style="width: 10%;">Unit</th>
-              <th style="width: 10%;">Qty</th>
-              <th style="width: 15%;">Unit Rate</th>
-              <th style="width: 15%;">Amount</th>
-            </tr>
-          </thead>
-          <tbody>
-            {% for item in items %}
-              <tr>
-                <td>{{ loop.index }}</td>
-                <td class="description"><strong>{{ item.title }}</strong>{% if item.description %}
-{{ item.description }}{% endif %}</td>
-                <td>{{ item.unit or "Nos" }}</td>
-                <td>{{ item.quantity }}</td>
-                <td>{{ quotation.currency }} {{ "%.2f"|format(item.unit_price) }}</td>
-                <td>{{ quotation.currency }} {{ "%.2f"|format(item.line_total) }}</td>
-              </tr>
-            {% endfor %}
-          </tbody>
-        </table>
-
-        <div class="totals-wrap">
-          <table class="totals-table">
-            <tr>
-              <td>Subtotal</td>
-              <td>{{ quotation.currency }} {{ "%.2f"|format(quotation.subtotal) }}</td>
-            </tr>
-            <tr>
-              <td>{{ quotation.tax_label }} ({{ quotation.tax_rate }}%)</td>
-              <td>{{ quotation.currency }} {{ "%.2f"|format(quotation.tax_amount) }}</td>
-            </tr>
-            <tr class="grand">
-              <td>Total</td>
-              <td>{{ quotation.currency }} {{ "%.2f"|format(quotation.total_amount) }}</td>
-            </tr>
-          </table>
-        </div>
-
-        <div class="section-card">
-          <div class="section-title">Quotation Validity</div>
-          <div class="section-content">This quotation remains valid until {{ quotation.valid_until }}. Pricing, GST, scope, and delivery assumptions are based on the submitted requirements and the reviewed revision.</div>
-        </div>
-
-        {% for section in sections %}
-          <div class="section-card">
-            <div class="section-title">{{ section.title }}</div>
-            <div class="section-content">{{ section.content or "-" }}</div>
-          </div>
-        {% endfor %}
-
-        <div class="footer-shell">
-          <table class="footer-table">
-            <tr>
-              <td class="footer-note">
-                Questions or clarifications can be discussed directly with {{ admin_name or company_name }} at
-                {{ admin_phone or "-" }} or {{ admin_email or lead.email }}.<br>
-                Secure payment link: {{ payment_page_url }}<br>
-                We appreciate the opportunity to support your team and look forward to the rollout once this quotation is approved.
-              </td>
-              <td class="stamp-card">
-                {% if stamp_data_uri %}
-                  <img src="{{ stamp_data_uri }}" alt="Musk-IT approval stamp" />
-                {% endif %}
-              </td>
-            </tr>
-          </table>
+        <div class="doc-label">Quotation</div>
+        <div class="doc-meta">
+          <div class="doc-meta-row"><span>Number</span><span>{{ quotation.quotation_number }}</span></div>
+          <div class="doc-meta-row"><span>Revision</span><span>R{{ quotation.revision_number }}</span></div>
+          <div class="doc-meta-row"><span>Date</span><span>{{ quotation.created_at.strftime("%d %b %Y") if quotation.created_at else "-" }}</span></div>
+          <div class="doc-meta-row"><span>Valid until</span><span>{{ quotation.valid_until.strftime("%d %b %Y") if quotation.valid_until else "-" }}</span></div>
         </div>
       </div>
     </div>
+
+    <!-- ── Parties ──────────────────────────────────────────────── -->
+    <div class="parties">
+      <div class="party">
+        <div class="party-label">From</div>
+        <div class="party-name">{{ company_name }}</div>
+        {% if company_address %}<div class="party-line">{{ company_address }}</div>{% endif %}
+        <div class="party-line">{{ admin_name or company_name }}</div>
+        {% if admin_email %}<div class="party-line">{{ admin_email }}</div>{% endif %}
+        {% if admin_phone %}<div class="party-line">{{ admin_phone }}</div>{% endif %}
+      </div>
+      <div class="party">
+        <div class="party-label">Bill To</div>
+        <div class="party-name">{{ lead.company or lead.full_name }}</div>
+        {% if lead.company %}<div class="party-line">Attn: {{ lead.full_name }}{% if lead.designation %}, {{ lead.designation }}{% endif %}</div>{% elif lead.designation %}<div class="party-line">{{ lead.designation }}</div>{% endif %}
+        <div class="party-line">{{ lead.email }}</div>
+        {% if lead.phone %}<div class="party-line">{{ lead.phone }}</div>{% endif %}
+      </div>
+    </div>
+
+    <!-- ── Project ──────────────────────────────────────────────── -->
+    <div class="project-bar">
+      <div class="project-bar-label">Project</div>
+      <div class="project-bar-title">{{ quotation.title }}</div>
+    </div>
+
+    {% if quotation.intro_message %}
+      <div class="block">
+        <div class="block-title">Introduction</div>
+        <div class="block-body">{{ quotation.intro_message }}</div>
+      </div>
+    {% endif %}
+
+    {% if quotation.requirements_summary %}
+      <div class="block">
+        <div class="block-title">Requirements Summary</div>
+        <div class="block-body">{{ quotation.requirements_summary }}</div>
+      </div>
+    {% endif %}
+
+    <!-- ── Line items ───────────────────────────────────────────── -->
+    <table class="items">
+      <thead>
+        <tr>
+          <th style="width: 6%;">#</th>
+          <th style="width: 48%;">Description</th>
+          <th class="center" style="width: 9%;">Unit</th>
+          <th class="right" style="width: 8%;">Qty</th>
+          <th class="right" style="width: 14%;">Rate</th>
+          <th class="right" style="width: 15%;">Amount</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for item in items %}
+          <tr>
+            <td>{{ loop.index }}</td>
+            <td>
+              <div class="item-title">{{ item.title }}</div>
+              {% if item.description %}<div class="item-desc">{{ item.description }}</div>{% endif %}
+            </td>
+            <td class="center">{{ item.unit or "Nos" }}</td>
+            <td class="num">{{ item.quantity }}</td>
+            <td class="num">{{ item.unit_price | money(quotation.currency) }}</td>
+            <td class="num">{{ item.line_total | money(quotation.currency) }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+    <!-- ── Totals ───────────────────────────────────────────────── -->
+    <div class="totals-wrap">
+      <table class="totals">
+        <tr>
+          <td class="t-label">Subtotal</td>
+          <td class="t-value">{{ quotation.subtotal | money(quotation.currency) }}</td>
+        </tr>
+        <tr class="divider">
+          <td class="t-label">{{ quotation.tax_label }} ({{ quotation.tax_rate }}%)</td>
+          <td class="t-value">{{ quotation.tax_amount | money(quotation.currency) }}</td>
+        </tr>
+        <tr class="grand">
+          <td class="t-label">Total</td>
+          <td class="t-value">{{ quotation.total_amount | money(quotation.currency) }}</td>
+        </tr>
+      </table>
+    </div>
+
+    <!-- ── Validity & custom sections ───────────────────────────── -->
+    <div class="block">
+      <div class="block-title">Quotation Validity</div>
+      <div class="block-body">This quotation is valid until {{ quotation.valid_until.strftime("%d %b %Y") if quotation.valid_until else "the stated date" }}. Pricing, {{ quotation.tax_label }}, scope, and delivery assumptions are based on the submitted requirements and the reviewed revision.</div>
+    </div>
+
+    {% for section in sections %}
+      {% if section.content %}
+        <div class="block">
+          <div class="block-title">{{ section.title }}</div>
+          <div class="block-body">{{ section.content }}</div>
+        </div>
+      {% endif %}
+    {% endfor %}
+
+    <!-- ── Sign-off ─────────────────────────────────────────────── -->
+    <div class="signoff">
+      <div class="signoff-note">
+        For any questions or clarifications, please contact <strong>{{ admin_name or company_name }}</strong>
+        {% if admin_phone %}at {{ admin_phone }}{% endif %}{% if admin_email %} or {{ admin_email }}{% endif %}.
+        We appreciate the opportunity to support your team and look forward to commencing work once this
+        quotation is approved.
+      </div>
+      <div class="signature">
+        {% if stamp_data_uri %}
+          <img src="{{ stamp_data_uri }}" alt="{{ company_name }} authorised stamp" />
+        {% endif %}
+        <div class="signature-line">Authorised Signatory</div>
+        <div class="signature-sub">For {{ company_name }}</div>
+      </div>
+    </div>
+
+    {% if payment_page_url %}
+      <div class="pay-strip">
+        <strong>Secure payment:</strong> {{ payment_page_url }}
+      </div>
+    {% endif %}
   </body>
 </html>

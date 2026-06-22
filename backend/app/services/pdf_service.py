@@ -14,6 +14,40 @@ template_env = Environment(
 )
 
 
+def _indian_group(int_str: str) -> str:
+    """Group an integer string using the Indian system (e.g. 12,34,567)."""
+    if len(int_str) <= 3:
+        return int_str
+    head, tail = int_str[:-3], int_str[-3:]
+    parts: list[str] = []
+    while len(head) > 2:
+        parts.insert(0, head[-2:])
+        head = head[:-2]
+    if head:
+        parts.insert(0, head)
+    return ",".join(parts) + "," + tail
+
+
+def format_money(value, currency: str = "INR") -> str:
+    """Format a monetary amount with a currency symbol and thousands grouping."""
+    try:
+        amount = float(value)
+    except (TypeError, ValueError):
+        return str(value)
+    negative = amount < 0
+    whole = f"{abs(amount):.2f}"
+    int_part, decimals = whole.split(".")
+    code = (currency or "INR").upper()
+    if code == "INR":
+        body = f"₹{_indian_group(int_part)}.{decimals}"
+    else:
+        body = f"{code} {int(int_part):,}.{decimals}"
+    return f"-{body}" if negative else body
+
+
+template_env.filters["money"] = format_money
+
+
 class PdfServiceUnavailableError(RuntimeError):
     pass
 
