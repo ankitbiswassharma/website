@@ -53,7 +53,7 @@ class Settings(BaseSettings):
     sendgrid_from_name: str = Field(default="", alias="SENDGRID_FROM_NAME")
 
     company_name: str = Field(default="Musk-IT", alias="COMPANY_NAME")
-    company_tagline: str = Field(default="AI Execution ERP", alias="COMPANY_TAGLINE")
+    company_tagline: str = Field(default="Build | Automate | Grow", alias="COMPANY_TAGLINE")
     company_website: str = Field(default="https://muskit.in", alias="COMPANY_WEBSITE")
     company_address: str = Field(default="India", alias="COMPANY_ADDRESS")
     company_tax_label: str = Field(default="GST", alias="COMPANY_TAX_LABEL")
