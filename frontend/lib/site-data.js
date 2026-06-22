@@ -2,7 +2,7 @@ export const navLinks = [
   { href: "/services", label: "Services" },
   { href: "/industries", label: "Industries" },
   { href: "/work", label: "Our Work" },
-  { href: "/pricing", label: "Pricing" },
+  { href: "/licensing", label: "Pricing" },
   { href: "/estimate", label: "Estimate" },
 ];
 
@@ -12,7 +12,7 @@ export const footerExploreLinks = [
   { href: "/industries", label: "Industries" },
   { href: "/work", label: "Our Work" },
   { href: "/integrations", label: "Integrations" },
-  { href: "/pricing", label: "Pricing" },
+  { href: "/licensing", label: "Pricing" },
   { href: "/estimate", label: "Cost Estimator" },
   { href: "/consultation", label: "Book a Consultation" },
   { href: "/contact", label: "Contact" },

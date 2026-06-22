@@ -1,3 +1,4 @@
+import { DM_Sans, Syne } from "next/font/google";
 import { cookies } from "next/headers";
 import Script from "next/script";
 
@@ -8,13 +9,30 @@ import Navbar from "@/components/Navbar";
 import ScrollReveal from "@/components/ScrollReveal";
 import {
   DEFAULT_DESCRIPTION,
+  OG_IMAGE,
+  SITE_KEYWORDS,
   SITE_NAME,
   SITE_URL,
+  localBusinessJsonLd,
   organizationJsonLd,
   websiteJsonLd,
 } from "@/lib/seo.mjs";
 
 import "./globals.css";
+
+const dmSans = DM_Sans({
+  subsets: ["latin"],
+  weight: ["300", "400", "500", "700"],
+  variable: "--font-dm-sans",
+  display: "swap",
+});
+
+const syne = Syne({
+  subsets: ["latin"],
+  weight: ["400", "600", "700", "800"],
+  variable: "--font-syne",
+  display: "swap",
+});
 
 const DEFAULT_THEME = "light";
 const THEME_COOKIE = "muskit-theme";
@@ -49,6 +67,11 @@ export const metadata = {
     template: `%s | ${SITE_NAME}`,
   },
   description: DEFAULT_DESCRIPTION,
+  keywords: SITE_KEYWORDS,
+  authors: [{ name: SITE_NAME, url: SITE_URL }],
+  creator: SITE_NAME,
+  publisher: SITE_NAME,
+  category: "technology",
   alternates: {
     canonical: SITE_URL,
   },
@@ -59,15 +82,24 @@ export const metadata = {
     siteName: SITE_NAME,
     type: "website",
     locale: "en_IN",
+    images: [{ url: OG_IMAGE, width: 1200, height: 630, alt: SITE_NAME }],
   },
   twitter: {
-    card: "summary",
+    card: "summary_large_image",
     title: `${SITE_NAME} | B2B Custom Software & Workflow Automation`,
     description: DEFAULT_DESCRIPTION,
+    images: [OG_IMAGE],
   },
   robots: {
     index: true,
     follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+      "max-video-preview": -1,
+    },
   },
   icons: {
     icon: "/favicon.svg",
@@ -80,15 +112,12 @@ export default async function RootLayout({ children }) {
   const initialTheme = cookieStore.get(THEME_COOKIE)?.value === "dark" ? "dark" : DEFAULT_THEME;
 
   return (
-    <html lang="en" data-theme={initialTheme} suppressHydrationWarning>
-      <head>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
-        <link
-          href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500;700&display=swap"
-          rel="stylesheet"
-        />
-      </head>
+    <html
+      lang="en"
+      data-theme={initialTheme}
+      className={`${dmSans.variable} ${syne.variable}`}
+      suppressHydrationWarning
+    >
       <body>
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
         <div className="app-shell">
@@ -98,7 +127,7 @@ export default async function RootLayout({ children }) {
         </div>
         <ScrollReveal />
         <BookCallWidget />
-        <JsonLd data={[organizationJsonLd(), websiteJsonLd()]} />
+        <JsonLd data={[organizationJsonLd(), websiteJsonLd(), localBusinessJsonLd()]} />
         <Script
           src={`https://www.googletagmanager.com/gtag/js?id=${GOOGLE_ANALYTICS_ID}`}
           strategy="afterInteractive"

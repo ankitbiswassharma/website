@@ -31,7 +31,8 @@ test("metadata includes canonical, Open Graph, and Twitter fields", () => {
   assert.equal(metadata.alternates.canonical, "https://muskit.in/features");
   assert.equal(metadata.openGraph.url, "https://muskit.in/features");
   assert.equal(metadata.openGraph.type, "website");
-  assert.equal(metadata.twitter.card, "summary");
+  assert.equal(metadata.twitter.card, "summary_large_image");
+  assert.ok(metadata.openGraph.images?.[0]?.url, "OG image present");
 });
 
 test("private metadata is noindex and nofollow", () => {

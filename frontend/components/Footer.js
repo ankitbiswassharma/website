@@ -15,9 +15,10 @@ export default function Footer() {
               </span>
             </Link>
             <p className="footer-copy">
-              A B2B software partner building custom software and workflow
-              automation — ERP, CRM, dashboards, apps, and integrations shaped
-              around how your business actually works.
+              Musk-IT is a custom software development company serving businesses
+              across India — building B2B software and workflow automation
+              (ERP, CRM, dashboards, apps, and integrations) shaped around how
+              your business actually works.
             </p>
             <div className="footer-links footer-contact">
               <a href={`mailto:${contactDetails.email}`}>{contactDetails.email}</a>

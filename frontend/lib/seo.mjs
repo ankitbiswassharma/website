@@ -1,5 +1,18 @@
 export const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || "https://muskit.in").replace(/\/$/, "");
 export const SITE_NAME = "Musk-IT";
+export const OG_IMAGE = "/og-image.png";
+export const SITE_KEYWORDS = [
+  "custom software development",
+  "custom software development company India",
+  "B2B software company",
+  "workflow automation",
+  "custom ERP software",
+  "custom CRM software",
+  "business process automation",
+  "web application development",
+  "API integration services",
+  "software for businesses India",
+];
 export const DEFAULT_DESCRIPTION =
   "Musk-IT is a B2B software company that builds custom software and workflow automation — tailored ERP, CRM, dashboards, and web or mobile apps designed around each business's exact demands and workflows.";
 
@@ -186,6 +199,8 @@ export function buildMetadata(path, overrides = {}) {
   const description = overrides.description || page.description || DEFAULT_DESCRIPTION;
   const url = absoluteUrl(path);
 
+  const ogImage = absoluteUrl(OG_IMAGE);
+
   return {
     title,
     description,
@@ -199,11 +214,13 @@ export function buildMetadata(path, overrides = {}) {
       siteName: SITE_NAME,
       type: "website",
       locale: "en_IN",
+      images: [{ url: ogImage, width: 1200, height: 630, alt: SITE_NAME }],
     },
     twitter: {
-      card: "summary",
+      card: "summary_large_image",
       title: `${title} | ${SITE_NAME}`,
       description,
+      images: [ogImage],
     },
   };
 }
@@ -225,11 +242,56 @@ export function organizationJsonLd() {
     "@context": "https://schema.org",
     "@type": "Organization",
     name: SITE_NAME,
+    legalName: "Musk-IT",
     url: SITE_URL,
+    logo: absoluteUrl(OG_IMAGE),
+    image: absoluteUrl(OG_IMAGE),
+    description: DEFAULT_DESCRIPTION,
     email: "admin@muskit.in",
     telephone: "+91 70478 59422",
+    address: {
+      "@type": "PostalAddress",
+      addressCountry: "IN",
+    },
     areaServed: "IN",
+    contactPoint: {
+      "@type": "ContactPoint",
+      telephone: "+91 70478 59422",
+      email: "admin@muskit.in",
+      contactType: "sales",
+      areaServed: "IN",
+      availableLanguage: ["English", "Hindi"],
+    },
     sameAs: [SITE_URL],
+  };
+}
+
+export function localBusinessJsonLd() {
+  return {
+    "@context": "https://schema.org",
+    "@type": "ProfessionalService",
+    "@id": `${SITE_URL}/#business`,
+    name: SITE_NAME,
+    url: SITE_URL,
+    image: absoluteUrl(OG_IMAGE),
+    logo: absoluteUrl(OG_IMAGE),
+    description: DEFAULT_DESCRIPTION,
+    email: "admin@muskit.in",
+    telephone: "+91 70478 59422",
+    priceRange: "₹₹",
+    address: {
+      "@type": "PostalAddress",
+      addressCountry: "IN",
+    },
+    areaServed: { "@type": "Country", name: "India" },
+    knowsAbout: [
+      "Custom software development",
+      "Workflow automation",
+      "ERP development",
+      "CRM development",
+      "API integration",
+    ],
+    serviceType: "Custom software development and workflow automation",
   };
 }
 
