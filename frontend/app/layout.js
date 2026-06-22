@@ -1,6 +1,7 @@
 import { cookies } from "next/headers";
 import Script from "next/script";
 
+import BookCallWidget from "@/components/BookCallWidget";
 import Footer from "@/components/Footer";
 import JsonLd from "@/components/JsonLd";
 import Navbar from "@/components/Navbar";
@@ -96,6 +97,7 @@ export default async function RootLayout({ children }) {
           <Footer />
         </div>
         <ScrollReveal />
+        <BookCallWidget />
         <JsonLd data={[organizationJsonLd(), websiteJsonLd()]} />
         <Script
           src={`https://www.googletagmanager.com/gtag/js?id=${GOOGLE_ANALYTICS_ID}`}

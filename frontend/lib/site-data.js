@@ -1,17 +1,19 @@
 export const navLinks = [
   { href: "/services", label: "Services" },
-  { href: "/integrations", label: "Integrations" },
+  { href: "/industries", label: "Industries" },
+  { href: "/work", label: "Our Work" },
   { href: "/pricing", label: "Pricing" },
-  { href: "/case-studies", label: "Case Studies" },
-  { href: "/blog", label: "Blog" },
+  { href: "/estimate", label: "Estimate" },
 ];
 
 export const footerExploreLinks = [
   { href: "/", label: "Home" },
   { href: "/services", label: "Services" },
+  { href: "/industries", label: "Industries" },
+  { href: "/work", label: "Our Work" },
   { href: "/integrations", label: "Integrations" },
-  { href: "/modules", label: "How It Works" },
   { href: "/pricing", label: "Pricing" },
+  { href: "/estimate", label: "Cost Estimator" },
   { href: "/consultation", label: "Book a Consultation" },
   { href: "/contact", label: "Contact" },
 ];
@@ -19,6 +21,9 @@ export const footerExploreLinks = [
 export const footerResourceLinks = [
   { href: "/docs", label: "Docs" },
   { href: "/blog", label: "Blog" },
+  { href: "/faq", label: "FAQ" },
+  { href: "/testimonials", label: "Testimonials" },
+  { href: "/case-studies", label: "Case Studies" },
   { href: "/privacy-policy.html", label: "Privacy Policy" },
   { href: "/terms.html", label: "Terms & Conditions" },
 ];
@@ -623,6 +628,304 @@ export const projectTypeOptions = [
   "API / system integration",
   "Not sure yet",
 ];
+
+export const industries = [
+  {
+    key: "manufacturing",
+    name: "Manufacturing",
+    summary:
+      "Replace spreadsheets and paper trails with connected systems for production, inventory, and dispatch.",
+    workflows: [
+      "Production planning and job-card tracking",
+      "Inventory, raw material, and stock movement",
+      "Dispatch, GST invoicing, and reporting",
+    ],
+    outcome: "Real-time visibility from raw material to dispatch.",
+  },
+  {
+    key: "retail",
+    name: "Retail & E-commerce",
+    summary:
+      "Unify storefront, stock, and back office so orders, inventory, and billing stay in sync.",
+    workflows: [
+      "Order capture across channels",
+      "Stock sync and low-stock alerts",
+      "Loyalty, billing, and sales dashboards",
+    ],
+    outcome: "One view of stock, orders, and revenue.",
+  },
+  {
+    key: "logistics",
+    name: "Logistics & Distribution",
+    summary:
+      "Track consignments, automate dispatch paperwork, and give clients live status without phone calls.",
+    workflows: [
+      "Consignment and fleet tracking",
+      "Automated PODs and e-way bills",
+      "Client portals with live status",
+    ],
+    outcome: "Fewer status calls, faster turnaround.",
+  },
+  {
+    key: "healthcare",
+    name: "Healthcare & Clinics",
+    summary:
+      "Manage appointments, records, and billing securely, with role-based access for every staff member.",
+    workflows: [
+      "Appointment and patient records",
+      "Billing, insurance, and reminders",
+      "Role-based access and audit logs",
+    ],
+    outcome: "Less admin, secure records, fewer no-shows.",
+  },
+  {
+    key: "professional-services",
+    name: "Professional Services",
+    summary:
+      "Centralise clients, projects, documents, and invoicing in a portal your clients can actually use.",
+    workflows: [
+      "Client and project tracking",
+      "Document exchange and approvals",
+      "Time, billing, and status portals",
+    ],
+    outcome: "Professional client experience, less busywork.",
+  },
+  {
+    key: "education",
+    name: "Education & Training",
+    summary:
+      "Run admissions, attendance, fees, and communication from a single platform built around your process.",
+    workflows: [
+      "Admissions and enquiry pipelines",
+      "Attendance, fees, and receipts",
+      "Parent / student communication",
+    ],
+    outcome: "Streamlined operations from enquiry to alumni.",
+  },
+];
+
+export const portfolioProjects = [
+  {
+    title: "Production & Inventory ERP",
+    sector: "Manufacturing",
+    summary:
+      "A custom ERP unifying job cards, raw-material inventory, and GST dispatch for a mid-size manufacturer.",
+    highlights: [
+      "Replaced 6 disconnected spreadsheets",
+      "Live stock and production dashboards",
+      "GST-ready invoicing and reports",
+    ],
+    tech: ["Next.js", "FastAPI", "PostgreSQL"],
+    metric: "Manual data entry cut by ~70%",
+  },
+  {
+    title: "Field Service Automation",
+    sector: "Logistics",
+    summary:
+      "Workflow automation for dispatch paperwork, proof-of-delivery, and a live client tracking portal.",
+    highlights: [
+      "Automated e-way bills and PODs",
+      "Client portal with live consignment status",
+      "Webhook events into existing tools",
+    ],
+    tech: ["React Native", "Node.js", "Webhooks"],
+    metric: "Status calls down by half",
+  },
+  {
+    title: "Client Portal & CRM",
+    sector: "Professional Services",
+    summary:
+      "A secure portal and custom CRM replacing email, spreadsheets, and shared drives for a services firm.",
+    highlights: [
+      "Document hub with role-based access",
+      "Pipeline and follow-up automation",
+      "Onboarding flows for new clients",
+    ],
+    tech: ["Next.js", "FastAPI", "PostgreSQL"],
+    metric: "Onboarding time cut by ~60%",
+  },
+  {
+    title: "Appointments & Billing System",
+    sector: "Healthcare",
+    summary:
+      "A clinic platform for appointments, patient records, billing, and automated reminders with audit logs.",
+    highlights: [
+      "Automated SMS / email reminders",
+      "Insurance-ready billing",
+      "Audit logs and access control",
+    ],
+    tech: ["Next.js", "Python", "PostgreSQL"],
+    metric: "No-shows reduced noticeably",
+  },
+  {
+    title: "Multi-channel Retail Sync",
+    sector: "Retail & E-commerce",
+    summary:
+      "Integration layer keeping storefront, inventory, and accounting in sync with signed webhooks.",
+    highlights: [
+      "Real-time stock sync across channels",
+      "Low-stock and reorder alerts",
+      "Sales and margin dashboards",
+    ],
+    tech: ["REST", "Webhooks", "PostgreSQL"],
+    metric: "Overselling effectively eliminated",
+  },
+  {
+    title: "Admissions & Fees Platform",
+    sector: "Education",
+    summary:
+      "Custom platform for admissions pipelines, attendance, fee receipts, and parent communication.",
+    highlights: [
+      "Enquiry-to-admission pipeline",
+      "Automated fee receipts",
+      "Parent / student notifications",
+    ],
+    tech: ["Next.js", "FastAPI", "PostgreSQL"],
+    metric: "Admissions admin streamlined end-to-end",
+  },
+];
+
+export const faqGroups = [
+  {
+    category: "General",
+    items: [
+      {
+        q: "What exactly does Musk-IT do?",
+        a: "We're a B2B software company. We build custom software — ERP, CRM, dashboards, web and mobile apps — and automate the manual workflows your business runs on, shaped around your exact processes rather than a fixed template.",
+      },
+      {
+        q: "Do you only work with large companies?",
+        a: "No. We work with businesses of all sizes, from founders and SMBs to established firms. The engagement is scoped to your needs and budget.",
+      },
+      {
+        q: "Can you work with our existing software?",
+        a: "Yes. We frequently integrate with existing tools — payments, email, ERP, CRM, accounting — using clean APIs and signed webhooks, so your systems share data automatically.",
+      },
+    ],
+  },
+  {
+    category: "Engagement & Pricing",
+    items: [
+      {
+        q: "How is pricing decided?",
+        a: "Pricing is scope-based. You can get an indicative figure from our cost estimator, then we confirm a fixed scope and quotation after a short consultation.",
+      },
+      {
+        q: "Is there any lock-in?",
+        a: "No long-term lock-in. We work in clearly scoped phases, and you own the software and code we deliver.",
+      },
+      {
+        q: "How do payments work?",
+        a: "We share a formal quotation and a secure payment link. Engagements are typically split across milestones so cost tracks delivery.",
+      },
+    ],
+  },
+  {
+    category: "Process & Delivery",
+    items: [
+      {
+        q: "How quickly can we start?",
+        a: "After a consultation and agreed scope, we can typically begin within a few days. The initial call happens within one business day of your enquiry.",
+      },
+      {
+        q: "What do we receive at the end?",
+        a: "Production-ready software with documentation, deployment support, and a structured handover so your team can own and run it confidently.",
+      },
+      {
+        q: "Will we be able to maintain it ourselves?",
+        a: "Yes. We deliver clean, documented code and provide a handover. Optional support plans are available if you'd prefer us to maintain it.",
+      },
+    ],
+  },
+  {
+    category: "Support & Security",
+    items: [
+      {
+        q: "Do you offer ongoing support?",
+        a: "Yes. We offer support plans ranging from short post-launch windows to ongoing priority support and future enhancement work.",
+      },
+      {
+        q: "How do you handle data security?",
+        a: "We build with role-based access, secure authentication, audit logging where needed, and signed webhooks for integrations. Sensitive deployments run on infrastructure you control.",
+      },
+    ],
+  },
+];
+
+export const reviewItems = [
+  {
+    quote:
+      "Musk-IT replaced our spreadsheets with a proper system. Production, stock, and dispatch finally live in one place, and the team actually uses it.",
+    author: "Operations Head",
+    role: "Manufacturing SME",
+    rating: 5,
+  },
+  {
+    quote:
+      "They understood our workflow before writing any code. The automation they built saves our team hours every single week.",
+    author: "Founder",
+    role: "Logistics Startup",
+    rating: 5,
+  },
+  {
+    quote:
+      "The client portal looks professional and works flawlessly. Onboarding new clients is dramatically faster now.",
+    author: "Managing Partner",
+    role: "Professional Services Firm",
+    rating: 5,
+  },
+  {
+    quote:
+      "Clean code, clear documentation, and a proper handover. Our in-house team picked it up without any trouble.",
+    author: "Head of Engineering",
+    role: "Product Company",
+    rating: 5,
+  },
+  {
+    quote:
+      "Fair pricing and no lock-in. They scoped exactly what we needed and delivered on time.",
+    author: "Director",
+    role: "Retail Business",
+    rating: 5,
+  },
+  {
+    quote:
+      "Integrations that used to be manual now just happen. Our tools finally talk to each other.",
+    author: "IT Manager",
+    role: "Distribution Company",
+    rating: 5,
+  },
+];
+
+// Estimator pricing model (INR). Client-facing prices are set so that, against
+// our typical delivery cost (~60-65% of quoted value), gross margin stays at or
+// above 35%. Kept deliberately affordable for the Indian SMB market.
+export const estimator = {
+  currency: "INR",
+  projectTypes: [
+    { value: "erp", label: "Custom ERP system", base: 180000, weeks: 10 },
+    { value: "crm", label: "Custom CRM platform", base: 120000, weeks: 8 },
+    { value: "automation", label: "Workflow automation", base: 80000, weeks: 5 },
+    { value: "webapp", label: "Web application", base: 110000, weeks: 7 },
+    { value: "mobile", label: "Mobile application", base: 200000, weeks: 12 },
+    { value: "integration", label: "API / system integration", base: 60000, weeks: 4 },
+  ],
+  perModule: 18000, // each additional module / major feature
+  perIntegration: 15000, // each third-party integration
+  perRole: 6000, // each user role beyond the first two
+  complexity: [
+    { value: "standard", label: "Standard", factor: 1.0, addWeeks: 0 },
+    { value: "advanced", label: "Advanced / custom UI", factor: 1.3, addWeeks: 2 },
+    { value: "bespoke", label: "Bespoke / complex logic", factor: 1.65, addWeeks: 4 },
+  ],
+  support: [
+    { value: "none", label: "No ongoing support", price: 0 },
+    { value: "basic", label: "3 months support", price: 18000 },
+    { value: "priority", label: "12 months priority support", price: 60000 },
+  ],
+  rushFactor: 1.2, // +20% for an expedited timeline
+  marginFloor: 0.35,
+};
 
 export const aboutCards = [
   {

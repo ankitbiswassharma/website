@@ -74,6 +74,41 @@ export const indexablePages = [
     priority: 0.8,
   },
   {
+    path: "/industries",
+    title: "Industries We Build Software For",
+    description:
+      "See how Musk-IT builds custom software and workflow automation for manufacturing, retail, logistics, healthcare, professional services, and education.",
+    priority: 0.8,
+  },
+  {
+    path: "/work",
+    title: "Our Work and Project Portfolio",
+    description:
+      "A portfolio of custom ERP, CRM, automation, and integration projects Musk-IT has delivered for B2B businesses, with outcomes and the stack used.",
+    priority: 0.8,
+  },
+  {
+    path: "/faq",
+    title: "Frequently Asked Questions",
+    description:
+      "Answers to common questions about working with Musk-IT — what we build, pricing and engagement, delivery and handover, and support and security.",
+    priority: 0.6,
+  },
+  {
+    path: "/testimonials",
+    title: "Client Testimonials and Reviews",
+    description:
+      "Read what businesses say about working with Musk-IT on custom software and workflow automation — delivery quality, pricing, and ongoing support.",
+    priority: 0.6,
+  },
+  {
+    path: "/estimate",
+    title: "Software Cost Estimator",
+    description:
+      "Use the Musk-IT cost estimator to get an indicative budget and timeline for custom ERP, CRM, automation, web, mobile, or integration projects.",
+    priority: 0.7,
+  },
+  {
     path: "/modules",
     title: "ERP, CRM, Dashboard & Automation Modules",
     description:

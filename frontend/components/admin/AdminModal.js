@@ -45,14 +45,28 @@ export default function AdminModal({
         aria-label={title}
         onClick={(event) => event.stopPropagation()}
       >
+        <span className="admin-modal-accent" aria-hidden="true" />
         <div className="admin-modal-head">
           <div className="stack-sm">
             {eyebrow ? <div className="eyebrow">{eyebrow}</div> : null}
             <h2>{title}</h2>
             {description ? <p>{description}</p> : null}
           </div>
-          <button className="button button-ghost admin-modal-close" type="button" onClick={onClose}>
-            Close
+          <button
+            className="admin-modal-close"
+            type="button"
+            onClick={onClose}
+            aria-label="Close"
+            title="Close (Esc)"
+          >
+            <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
+              <path
+                d="M5 5l8 8M13 5l-8 8"
+                stroke="currentColor"
+                strokeWidth="1.7"
+                strokeLinecap="round"
+              />
+            </svg>
           </button>
         </div>
         <div className="admin-modal-body">{children}</div>
