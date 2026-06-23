@@ -23,6 +23,7 @@ const initialState = {
   preferred_demo_date: "",
   preferred_demo_time: "",
   client_requirements_html: "",
+  company_website: "", // honeypot
 };
 
 function todayIso() {
@@ -55,6 +56,7 @@ export default function ConsultationForm() {
       client_requirements_html: form.client_requirements_html,
       preferred_demo_date: form.preferred_demo_date || null,
       preferred_demo_time: form.preferred_demo_time || null,
+      company_website: form.company_website || null,
     };
 
     try {
@@ -86,6 +88,19 @@ export default function ConsultationForm() {
 
       {success ? <div className="success-box">{success}</div> : null}
       {error ? <div className="error-box">{error}</div> : null}
+
+      {/* Honeypot — hidden from real users */}
+      <div className="hp-field" aria-hidden="true">
+        <label htmlFor="cf-company-website">Company website</label>
+        <input
+          id="cf-company-website"
+          type="text"
+          tabIndex={-1}
+          autoComplete="off"
+          value={form.company_website}
+          onChange={(event) => updateField("company_website", event.target.value)}
+        />
+      </div>
 
       <div className="form-grid">
         <div className="field">

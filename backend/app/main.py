@@ -10,6 +10,7 @@ from app.api.routes import (
     admin_dashboard,
     admin_leads,
     admin_users,
+    client_portal,
     health,
     integrations,
     lead_management,
@@ -63,6 +64,7 @@ app.include_router(admin_leads.router, prefix=settings.api_v1_prefix)
 app.include_router(admin_companies.router, prefix=settings.api_v1_prefix)
 app.include_router(admin_dashboard.router, prefix=settings.api_v1_prefix)
 app.include_router(admin_users.router, prefix=settings.api_v1_prefix)
+app.include_router(client_portal.router, prefix=settings.api_v1_prefix)
 app.include_router(staff_auth.router, prefix=settings.api_v1_prefix)
 app.include_router(staff_leads.router, prefix=settings.api_v1_prefix)
 app.include_router(staff_quotations.router, prefix=settings.api_v1_prefix)

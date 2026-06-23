@@ -20,6 +20,8 @@ class PublicLeadCreate(BaseModel):
     preferred_demo_date: date | None = None
     preferred_demo_time: str | None = Field(default=None, max_length=30)
     request_type: LeadRequestType = LeadRequestType.CONTACT
+    # Honeypot: real users never see/fill this; bots usually do.
+    company_website: str | None = Field(default=None, max_length=200)
 
 
 class LeadCreateIn(BaseModel):
@@ -30,6 +32,8 @@ class LeadCreateIn(BaseModel):
     phone: str | None = Field(default=None, max_length=40)
     company_name: str | None = Field(default=None, max_length=160)
     requirements: str = Field(min_length=1, max_length=5000)
+    # Honeypot: real users never see/fill this; bots usually do.
+    company_website: str | None = Field(default=None, max_length=200)
 
 
 class LeadStatusUpdateIn(BaseModel):

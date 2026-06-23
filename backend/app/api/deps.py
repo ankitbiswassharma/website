@@ -28,6 +28,23 @@ def get_admin_session(
     return session
 
 
+def get_client_session(
+    x_client_token: str | None = Header(default=None),
+    db: Session = Depends(get_db),
+):
+    from app.models.client_auth import ClientSession
+
+    if not x_client_token:
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Missing client token")
+    session = db.get(ClientSession, hash_admin_session(x_client_token))
+    if not session or session.revoked_at or session.expires_at <= utcnow():
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Unauthorized")
+    session.last_seen_at = utcnow()
+    db.add(session)
+    db.commit()
+    return session
+
+
 def get_staff_session(
     x_staff_token: str | None = Header(default=None),
     db: Session = Depends(get_db),

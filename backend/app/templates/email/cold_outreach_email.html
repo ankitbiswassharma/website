@@ -127,8 +127,9 @@
 
   <p style="margin:18px 0 0;font-size:11px;line-height:1.7;color:#94a3b8;border-top:1px solid #e2e8f0;padding-top:14px;">
     You received this message because {{ company_name | default('Musk-IT') }} believes our software and IT
-    services may be relevant to your business. If you&#39;d prefer not to hear from us, simply reply with
-    &ldquo;unsubscribe&rdquo; to <a href="mailto:{{ contact_email }}" style="color:#64748b;text-decoration:underline;">{{ contact_email }}</a>
+    services may be relevant to your business. If you&#39;d prefer not to hear from us, you can
+    <a href="{{ unsubscribe_url | default('#') }}" style="color:#64748b;text-decoration:underline;">unsubscribe here</a>
     and we&#39;ll remove you right away.
   </p>
+  {% if pixel_url %}<img src="{{ pixel_url }}" width="1" height="1" alt="" style="display:none;width:1px;height:1px;" />{% endif %}
 {% endblock %}

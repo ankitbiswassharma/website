@@ -25,9 +25,12 @@ class CampaignRecipient(Base):
     error_message: Mapped[str | None] = mapped_column(Text)
 
     click_count: Mapped[int] = mapped_column(Integer, nullable=False, default=0)
+    open_count: Mapped[int] = mapped_column(Integer, nullable=False, default=0)
     last_user_agent: Mapped[str | None] = mapped_column(String(400))
 
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False)
     sent_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
+    first_opened_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
+    last_opened_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
     first_clicked_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
     last_clicked_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))

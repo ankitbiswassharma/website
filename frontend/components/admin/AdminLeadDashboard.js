@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
+import AdminAnalytics from "@/components/admin/AdminAnalytics";
 import AdminCampaignEngagement from "@/components/admin/AdminCampaignEngagement";
 import AdminCampaignSender from "@/components/admin/AdminCampaignSender";
 import AdminCompanyManager from "@/components/admin/AdminCompanyManager";
@@ -131,6 +132,12 @@ const FUNC_ICONS = {
       <path d="M4 4.5l1.4 1.4M3 9h2M4 13.5l1.4-1.4" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round"/>
     </svg>
   ),
+  analytics: (
+    <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
+      <path d="M3 3v16h16" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round"/>
+      <path d="M7 14l3-3 2.5 2.5L18 7" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/>
+    </svg>
+  ),
 };
 
 export default function AdminLeadDashboard() {
@@ -150,6 +157,7 @@ export default function AdminLeadDashboard() {
   const [paymentModalOpen, setPaymentModalOpen] = useState(false);
   const [campaignModalOpen, setCampaignModalOpen] = useState(false);
   const [engagementModalOpen, setEngagementModalOpen] = useState(false);
+  const [analyticsModalOpen, setAnalyticsModalOpen] = useState(false);
   const [workspaceLeadId, setWorkspaceLeadId] = useState("");
   const [workspaceInitialTab, setWorkspaceInitialTab] = useState("overview");
 
@@ -426,6 +434,22 @@ export default function AdminLeadDashboard() {
                 <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
               </svg>
             </button>
+
+            <button
+              className="admin-func-card"
+              type="button"
+              onClick={() => setAnalyticsModalOpen(true)}
+            >
+              <div className="admin-func-icon admin-func-icon-violet">{FUNC_ICONS.analytics}</div>
+              <div className="admin-func-body">
+                <div className="eyebrow" style={{ fontSize: 10 }}>Insights</div>
+                <strong>Pipeline analytics</strong>
+                <p>Conversion funnel, sources, and trend</p>
+              </div>
+              <svg className="admin-func-arrow" width="16" height="16" viewBox="0 0 16 16" fill="none">
+                <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+            </button>
           </div>
 
           {/* ── Lead pipeline table ─────────────────────────────── */}
@@ -666,6 +690,17 @@ export default function AdminLeadDashboard() {
         onClose={() => setEngagementModalOpen(false)}
       >
         <AdminCampaignEngagement session={session} />
+      </AdminModal>
+
+      <AdminModal
+        open={analyticsModalOpen}
+        eyebrow="Insights"
+        title="Pipeline analytics"
+        description="Your lead-to-paid conversion funnel, lead sources, and recent trend."
+        size="xl"
+        onClose={() => setAnalyticsModalOpen(false)}
+      >
+        <AdminAnalytics session={session} />
       </AdminModal>
 
       <AdminModal

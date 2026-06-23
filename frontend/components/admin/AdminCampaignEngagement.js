@@ -14,6 +14,7 @@ function formatDateTime(value) {
 
 export default function AdminCampaignEngagement({ session }) {
   const [engagement, setEngagement] = useState(null);
+  const [suppressions, setSuppressions] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
@@ -22,8 +23,12 @@ export default function AdminCampaignEngagement({ session }) {
     setLoading(true);
     setError("");
     try {
-      const data = await session.authFetch("/admin/campaigns/recipients");
+      const [data, supp] = await Promise.all([
+        session.authFetch("/admin/campaigns/recipients"),
+        session.authFetch("/admin/campaigns/suppressions"),
+      ]);
       setEngagement(data);
+      setSuppressions(supp || []);
     } catch (e) {
       setError(e.message);
     } finally {
@@ -44,8 +49,8 @@ export default function AdminCampaignEngagement({ session }) {
           <h3>Recipients &amp; engagement</h3>
           <p className="muted" style={{ fontSize: 13 }}>
             {engagement
-              ? `${engagement.total} sent · ${engagement.sent} delivered · ${engagement.clicked} clicked the link`
-              : "Track which recipients clicked the consultation link from the email."}
+              ? `${engagement.total} recipients · ${engagement.sent} delivered · ${engagement.opened} opened · ${engagement.clicked} clicked`
+              : "Track which recipients opened the email and clicked the consultation link."}
           </p>
         </div>
         <button
@@ -67,6 +72,7 @@ export default function AdminCampaignEngagement({ session }) {
               <tr>
                 <th>Recipient</th>
                 <th>Delivery</th>
+                <th>Opened</th>
                 <th>Clicked link</th>
                 <th>Sent</th>
                 <th>Last click</th>
@@ -79,15 +85,28 @@ export default function AdminCampaignEngagement({ session }) {
                   <td>
                     <span
                       className={`status-pill ${
-                        row.status === "sent" ? "pill-won" : "pill-lost"
+                        row.status === "sent"
+                          ? "pill-won"
+                          : row.status === "queued"
+                          ? "pill-contacted"
+                          : "pill-lost"
                       }`}
                     >
                       {row.status}
                     </span>
                   </td>
                   <td>
-                    {row.clicked ? (
+                    {row.opened ? (
                       <span className="status-pill pill-qualified">
+                        Opened{row.open_count > 1 ? ` ×${row.open_count}` : ""}
+                      </span>
+                    ) : (
+                      <span className="muted" style={{ fontSize: 13 }}>Not yet</span>
+                    )}
+                  </td>
+                  <td>
+                    {row.clicked ? (
+                      <span className="status-pill pill-won">
                         Clicked{row.click_count > 1 ? ` ×${row.click_count}` : ""}
                       </span>
                     ) : (
@@ -103,6 +122,22 @@ export default function AdminCampaignEngagement({ session }) {
         </div>
       ) : !loading ? (
         <div className="empty-state">No campaign emails have been sent yet.</div>
+      ) : null}
+
+      {suppressions.length ? (
+        <div className="stack-sm" style={{ borderTop: "1px solid var(--border)", paddingTop: 16 }}>
+          <h3 style={{ marginBottom: 0, fontSize: 15 }}>
+            Unsubscribed ({suppressions.length})
+          </h3>
+          <p className="muted" style={{ fontSize: 12 }}>
+            These addresses opted out and are automatically skipped on future sends.
+          </p>
+          <div className="campaign-chip-row">
+            {suppressions.slice(0, 60).map((s) => (
+              <span className="campaign-chip" key={s.email}>{s.email}</span>
+            ))}
+          </div>
+        </div>
       ) : null}
     </section>
   );

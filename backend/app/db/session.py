@@ -47,6 +47,15 @@ def _ensure_runtime_schema() -> None:
             statements.append("ALTER TABLE quotation_items ADD COLUMN unit VARCHAR(30)")
             statements.append("UPDATE quotation_items SET unit = 'Nos' WHERE unit IS NULL OR unit = ''")
 
+    if "campaign_recipients" in table_names:
+        recipient_columns = {column["name"] for column in inspector.get_columns("campaign_recipients")}
+        if "open_count" not in recipient_columns:
+            statements.append("ALTER TABLE campaign_recipients ADD COLUMN open_count INTEGER NOT NULL DEFAULT 0")
+        if "first_opened_at" not in recipient_columns:
+            statements.append("ALTER TABLE campaign_recipients ADD COLUMN first_opened_at TIMESTAMPTZ")
+        if "last_opened_at" not in recipient_columns:
+            statements.append("ALTER TABLE campaign_recipients ADD COLUMN last_opened_at TIMESTAMPTZ")
+
     if not statements:
         return
 
@@ -62,7 +71,7 @@ def _ensure_runtime_schema() -> None:
 
 
 def init_db() -> None:
-    from app.models import activity, auth, campaign_recipient, company, email_log, integration, lead, payment, quotation, user  # noqa: F401
+    from app.models import activity, auth, campaign_recipient, client_auth, company, email_log, email_suppression, integration, lead, payment, quotation, user  # noqa: F401
     from app.services.company_service import company_service
     from app.services.quotation_service import quotation_service
 

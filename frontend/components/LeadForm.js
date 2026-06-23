@@ -10,6 +10,7 @@ const initialState = {
   phone: "",
   company_name: "",
   requirements: "",
+  company_website: "", // honeypot
 };
 
 export default function LeadForm({
@@ -58,6 +59,18 @@ export default function LeadForm({
       </div>
       {success ? <div className="success-box">{success}</div> : null}
       {error ? <div className="error-box">{error}</div> : null}
+      {/* Honeypot — hidden from real users */}
+      <div className="hp-field" aria-hidden="true">
+        <label htmlFor="lf-company-website">Company website</label>
+        <input
+          id="lf-company-website"
+          type="text"
+          tabIndex={-1}
+          autoComplete="off"
+          value={form.company_website}
+          onChange={(event) => updateField("company_website", event.target.value)}
+        />
+      </div>
       <div className="form-grid">
         <div className="field">
           <label>Full Name</label>

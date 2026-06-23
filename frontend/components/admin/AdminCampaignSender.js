@@ -205,10 +205,11 @@ export default function AdminCampaignSender({ session }) {
       {/* ── Send results ─────────────────────────────────────────── */}
       {result ? (
         <div className="stack-sm">
-          <div
-            className={result.failed === 0 ? "success-box" : "error-box"}
-          >
-            {result.sent} sent · {result.failed} failed
+          <div className="success-box">
+            {result.queued} email{result.queued !== 1 ? "s" : ""} queued and sending in the background
+            {result.skipped_suppressed?.length
+              ? ` · ${result.skipped_suppressed.length} unsubscribed skipped`
+              : ""}
             {result.skipped_invalid.length
               ? ` · ${result.skipped_invalid.length} invalid skipped`
               : ""}
@@ -216,40 +217,9 @@ export default function AdminCampaignSender({ session }) {
               ? ` · ${result.skipped_duplicates.length} duplicates skipped`
               : ""}
           </div>
-          {result.results?.length ? (
-            <div className="admin-table-wrap">
-              <table className="dashboard-table">
-                <thead>
-                  <tr>
-                    <th>Recipient</th>
-                    <th>Status</th>
-                    <th>Detail</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {result.results.map((row) => (
-                    <tr key={row.email}>
-                      <td>{row.email}</td>
-                      <td>
-                        <span
-                          className={`status-pill ${
-                            row.status === "sent" ? "pill-won" : "pill-lost"
-                          }`}
-                        >
-                          {row.status}
-                        </span>
-                      </td>
-                      <td className="muted" style={{ fontSize: 12 }}>
-                        {row.error_message || "—"}
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          ) : null}
           <p className="muted" style={{ fontSize: 12 }}>
-            Track who clicked the link in the <strong>Campaign engagement</strong> module.
+            Delivery and engagement update live in the <strong>Campaign engagement</strong> module —
+            open it and hit Refresh to see who was sent to, opened, and clicked.
           </p>
         </div>
       ) : null}

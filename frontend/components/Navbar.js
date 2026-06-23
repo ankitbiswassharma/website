@@ -22,7 +22,7 @@ export default function Navbar() {
         </nav>
         <div className="nav-actions">
           <ThemeToggle />
-          <Link className="button button-ghost" href="/enterprise-login">
+          <Link className="button button-ghost" href="/portal">
             Client Login
           </Link>
           <Link className="button button-primary" href="/consultation">

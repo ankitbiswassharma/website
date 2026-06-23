@@ -36,6 +36,8 @@ export default function BookCallWidget() {
   const onAdmin =
     pathname?.startsWith("/dashboard") ||
     pathname?.startsWith("/enterprise-login") ||
+    pathname?.startsWith("/portal") ||
+    pathname?.startsWith("/staff") ||
     pathname === "/consultation";
 
   if (dismissed || onAdmin) {

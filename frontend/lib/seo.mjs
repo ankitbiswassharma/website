@@ -122,6 +122,20 @@ export const indexablePages = [
     priority: 0.8,
   },
   {
+    path: "/security-audit",
+    title: "Free IT & Security Audit",
+    description:
+      "Claim a free, no-obligation IT and security audit from Musk-IT — we review your cloud, security, and systems and hand you a prioritised findings report and action plan.",
+    priority: 0.8,
+  },
+  {
+    path: "/buyers-guide",
+    title: "Free B2B Software & IT Buyer's Guide",
+    description:
+      "Download the free Musk-IT Buyer's Guide — how to choose, scope, and budget custom software and IT services, with a checklist and the questions to ask any partner.",
+    priority: 0.7,
+  },
+  {
     path: "/industries",
     title: "Industries We Build Software For",
     description:

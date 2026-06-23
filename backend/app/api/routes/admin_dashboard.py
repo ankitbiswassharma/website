@@ -4,7 +4,7 @@ from sqlalchemy.orm import Session
 from app.api.deps import get_admin_session
 from app.db.session import get_db
 from app.repositories.payment_repository import PaymentRepository
-from app.schemas.dashboard import DashboardSummaryOut
+from app.schemas.dashboard import DashboardSummaryOut, FunnelOut
 from app.schemas.payment import PaymentOut
 from app.services.dashboard_service import dashboard_service
 
@@ -16,6 +16,11 @@ payment_repository = PaymentRepository()
 @router.get("/dashboard/summary", response_model=DashboardSummaryOut)
 def dashboard_summary(_: object = Depends(get_admin_session), db: Session = Depends(get_db)):
     return DashboardSummaryOut(**dashboard_service.summary(db))
+
+
+@router.get("/dashboard/funnel", response_model=FunnelOut)
+def dashboard_funnel(_: object = Depends(get_admin_session), db: Session = Depends(get_db)):
+    return FunnelOut(**dashboard_service.funnel(db))
 
 
 @router.get("/payments", response_model=list[PaymentOut])

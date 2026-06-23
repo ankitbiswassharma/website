@@ -1,10 +1,13 @@
-from fastapi import APIRouter, Depends, Header, Request
+import uuid
+
+from fastapi import APIRouter, Depends, Header, HTTPException, Request, status
 from sqlalchemy.orm import Session
 
 from app.db.session import get_db
 from app.models.enums import LeadRequestType
 from app.repositories.company_repository import CompanyRepository
 from app.schemas.lead import LeadCreatedOut, PublicLeadCreate
+from app.utils.rate_limit import client_ip, lead_form_limiter
 from app.schemas.payment import PaymentVerifyIn, PaymentVerifyOut, PaymentWebhookOut
 from app.schemas.company import PublicCompanyOut
 from app.schemas.quotation import PublicPaymentOrderOut, PublicQuotationView, QuotationOut
@@ -18,8 +21,26 @@ quotation_repository = QuotationRepository()
 company_repository = CompanyRepository()
 
 
+def _guard_public_lead(payload: PublicLeadCreate, request: Request) -> LeadCreatedOut | None:
+    """Return a fake-success response for bots (honeypot), enforce rate limiting.
+
+    Returns a LeadCreatedOut to short-circuit the request, or None to proceed.
+    """
+    if (payload.company_website or "").strip():
+        return LeadCreatedOut(lead_id=str(uuid.uuid4()), status="new")
+    if not lead_form_limiter.allow(client_ip(request)):
+        raise HTTPException(
+            status_code=status.HTTP_429_TOO_MANY_REQUESTS,
+            detail="Too many submissions. Please try again in a few minutes.",
+        )
+    return None
+
+
 @router.post("/public/leads/contact", response_model=LeadCreatedOut)
 def submit_contact_form(payload: PublicLeadCreate, request: Request, db: Session = Depends(get_db)):
+    short_circuit = _guard_public_lead(payload, request)
+    if short_circuit is not None:
+        return short_circuit
     payload.request_type = LeadRequestType.CONTACT
     lead = lead_service.create_public_lead(
         db,
@@ -32,6 +53,9 @@ def submit_contact_form(payload: PublicLeadCreate, request: Request, db: Session
 
 @router.post("/public/leads/demo", response_model=LeadCreatedOut)
 def submit_demo_form(payload: PublicLeadCreate, request: Request, db: Session = Depends(get_db)):
+    short_circuit = _guard_public_lead(payload, request)
+    if short_circuit is not None:
+        return short_circuit
     payload.request_type = LeadRequestType.DEMO
     lead = lead_service.create_public_lead(
         db,

@@ -29,7 +29,7 @@ export default function Footer() {
             <Link className="button button-primary" href="/consultation">
               Book a Call
             </Link>
-            <Link className="button button-ghost" href="/enterprise-login">
+            <Link className="button button-ghost" href="/portal">
               Client Login
             </Link>
             <Link className="button button-ghost" href="/staff/login">

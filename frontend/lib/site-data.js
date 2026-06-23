@@ -3,7 +3,7 @@ export const navLinks = [
   { href: "/industries", label: "Industries" },
   { href: "/work", label: "Our Work" },
   { href: "/licensing", label: "Pricing" },
-  { href: "/estimate", label: "Estimate" },
+  { href: "/security-audit", label: "Free Audit" },
 ];
 
 export const footerExploreLinks = [
@@ -19,6 +19,8 @@ export const footerExploreLinks = [
 ];
 
 export const footerResourceLinks = [
+  { href: "/security-audit", label: "Free IT & Security Audit" },
+  { href: "/buyers-guide", label: "Buyer's Guide (PDF)" },
   { href: "/docs", label: "Docs" },
   { href: "/blog", label: "Blog" },
   { href: "/faq", label: "FAQ" },

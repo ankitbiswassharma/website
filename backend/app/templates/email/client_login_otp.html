@@ -1,0 +1,24 @@
+{% extends "base_email.html" %}
+{% from "_macros.html" import panel, closing %}
+{% set shell_kicker = "Client Portal" %}
+{% set shell_title = "Your client portal code" %}
+{% set shell_subtitle = "Use the one-time code below to sign in and view your project status, quotations, and payments." %}
+
+{% block body %}
+  <p style="margin:0 0 22px;font-size:15px;line-height:1.8;color:#475569;">
+    Hello, a sign-in code was requested for your {{ company_name | default('Musk-IT') }} client portal.
+    Enter the code below to continue. It expires in {{ expires_minutes }} minutes.
+  </p>
+
+  {% call panel("One-Time Code", "", accent_color, "#f8fafc") %}
+    <div style="padding:24px;border-radius:18px;background:#0f172a;text-align:center;">
+      <div style="font-size:12px;font-weight:800;letter-spacing:0.18em;text-transform:uppercase;color:#94a3b8;">Code</div>
+      <div style="margin-top:12px;font-size:38px;font-weight:800;letter-spacing:0.35em;color:#ffffff;">{{ otp }}</div>
+    </div>
+  {% endcall %}
+
+  <p style="margin:0 0 18px;font-size:13px;line-height:1.8;color:#94a3b8;">
+    If you didn't request this, you can safely ignore this email — no one can access your portal without the code.
+  </p>
+  {{ closing(company_name | default('Musk-IT') ~ ' Team') }}
+{% endblock %}

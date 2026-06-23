@@ -1,10 +1,14 @@
+import uuid
+
 from fastapi import APIRouter, Depends, HTTPException, Request, status
 from sqlalchemy.orm import Session
 
+from app.core.security import utcnow
 from app.db.session import get_db
 from app.repositories.lead_repository import LeadRepository
 from app.schemas.lead import LeadCreateIn, LeadOut, LeadStatusUpdateIn
 from app.services.lead_service import lead_service
+from app.utils.rate_limit import client_ip, lead_form_limiter
 
 
 router = APIRouter(tags=["leads"])
@@ -13,6 +17,25 @@ lead_repository = LeadRepository()
 
 @router.post("/leads", response_model=LeadOut, status_code=status.HTTP_201_CREATED)
 def create_lead(payload: LeadCreateIn, request: Request, db: Session = Depends(get_db)):
+    # Honeypot: a filled hidden field means a bot — pretend success, persist nothing.
+    if (payload.company_website or "").strip():
+        return LeadOut(
+            id=str(uuid.uuid4()),
+            name=payload.name,
+            email=payload.email,
+            phone=payload.phone,
+            company_name=payload.company_name,
+            requirements=payload.requirements,
+            status="new",
+            created_at=utcnow(),
+        )
+
+    if not lead_form_limiter.allow(client_ip(request)):
+        raise HTTPException(
+            status_code=status.HTTP_429_TOO_MANY_REQUESTS,
+            detail="Too many submissions. Please try again in a few minutes.",
+        )
+
     lead = lead_service.create_lead(
         db,
         payload,
