@@ -20,6 +20,7 @@ export default function AdminLoginCard({
             <label>Admin email</label>
             <input
               type="email"
+              placeholder="Enter admin email"
               value={session.loginEmail}
               onChange={(event) => session.setLoginEmail(event.target.value)}
             />

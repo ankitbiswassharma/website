@@ -2,14 +2,17 @@
 
 import { useEffect, useState } from "react";
 
-import { apiJson, buildApiUrl } from "@/lib/api";
+import { apiJson } from "@/lib/api";
 
-const TOKEN_STORAGE_KEY = "muskit_admin_token";
+const TOKEN_STORAGE_KEY = "muskit_staff_token";
 
-export default function useAdminSession() {
+export default function useStaffSession() {
   const [token, setToken] = useState("");
   const [ready, setReady] = useState(false);
+  const [profile, setProfile] = useState(null);
+
   const [loginEmail, setLoginEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [otp, setOtp] = useState("");
   const [challengeId, setChallengeId] = useState("");
   const [otpDigits, setOtpDigits] = useState(6);
@@ -28,7 +31,9 @@ export default function useAdminSession() {
   function clearSession() {
     window.localStorage.removeItem(TOKEN_STORAGE_KEY);
     setToken("");
+    setProfile(null);
     setOtp("");
+    setPassword("");
     setChallengeId("");
     setAuthError("");
     setAuthMessage("");
@@ -38,12 +43,11 @@ export default function useAdminSession() {
     if (!token) {
       throw new Error("Unauthorized");
     }
-
     try {
       return await apiJson(path, {
         ...options,
         headers: {
-          "x-admin-token": token,
+          "x-staff-token": token,
           ...(options.headers || {}),
         },
       });
@@ -55,63 +59,32 @@ export default function useAdminSession() {
     }
   }
 
-  async function authFetchRaw(path, options = {}) {
-    if (!token) {
-      throw new Error("Unauthorized");
+  async function loadProfile() {
+    if (!token) return;
+    try {
+      const me = await authFetch("/staff/auth/me");
+      setProfile(me);
+    } catch {
+      // handled by authFetch (clears on unauthorized)
     }
-
-    const response = await fetch(buildApiUrl(path), {
-      ...options,
-      headers: {
-        "x-admin-token": token,
-        ...(options.headers || {}),
-      },
-    });
-
-    if (!response.ok) {
-      let data = null;
-      try {
-        data = await response.json();
-      } catch {
-        data = null;
-      }
-      const message = data?.detail || data?.message || "Request failed";
-      if (message === "Unauthorized") {
-        clearSession();
-      }
-      throw new Error(message);
-    }
-
-    return response;
   }
 
-  async function downloadFile(path, fallbackFilename = "download") {
-    const response = await authFetchRaw(path);
-    const blob = await response.blob();
-    const contentDisposition = response.headers.get("content-disposition") || "";
-    const filenameMatch = contentDisposition.match(/filename="?([^"]+)"?/i);
-    const filename = filenameMatch?.[1] || fallbackFilename;
-    const objectUrl = window.URL.createObjectURL(blob);
-    const link = document.createElement("a");
-    link.href = objectUrl;
-    link.download = filename;
-    document.body.appendChild(link);
-    link.click();
-    link.remove();
-    window.URL.revokeObjectURL(objectUrl);
-  }
+  useEffect(() => {
+    if (token) {
+      loadProfile();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [token]);
 
   async function requestOtp() {
     setAuthLoading(true);
     setAuthError("");
     setAuthMessage("");
-
     try {
-      const response = await apiJson("/admin/auth/request-otp", {
+      const response = await apiJson("/staff/auth/login", {
         method: "POST",
-        body: JSON.stringify({ email: loginEmail }),
+        body: JSON.stringify({ email: loginEmail, password }),
       });
-
       setChallengeId(response.challenge_id);
       setOtpDigits(response.otp_digits);
       setAuthMessage(response.message || `OTP sent to ${response.masked_email}.`);
@@ -125,22 +98,22 @@ export default function useAdminSession() {
   async function verifyOtp() {
     setAuthLoading(true);
     setAuthError("");
-
     try {
-      const response = await apiJson("/admin/auth/verify-otp", {
+      const response = await apiJson("/staff/auth/verify-otp", {
         method: "POST",
-        body: JSON.stringify({
-          email: loginEmail,
-          challenge_id: challengeId,
-          otp,
-        }),
+        body: JSON.stringify({ email: loginEmail, challenge_id: challengeId, otp }),
       });
-
       window.localStorage.setItem(TOKEN_STORAGE_KEY, response.token);
       setToken(response.token);
+      setProfile({
+        email: response.email,
+        name: response.name,
+        must_change_password: response.must_change_password,
+      });
       setOtp("");
+      setPassword("");
       setChallengeId("");
-      setAuthMessage("Login successful.");
+      setAuthMessage("");
     } catch (error) {
       setAuthError(error.message);
     } finally {
@@ -148,10 +121,18 @@ export default function useAdminSession() {
     }
   }
 
+  async function changePassword(currentPassword, newPassword) {
+    await authFetch("/staff/auth/change-password", {
+      method: "POST",
+      body: JSON.stringify({ current_password: currentPassword, new_password: newPassword }),
+    });
+    setProfile((current) => (current ? { ...current, must_change_password: false } : current));
+  }
+
   async function logout() {
     if (token) {
       try {
-        await authFetch("/admin/auth/logout", { method: "POST" });
+        await authFetch("/staff/auth/logout", { method: "POST" });
       } catch {}
     }
     clearSession();
@@ -160,8 +141,11 @@ export default function useAdminSession() {
   return {
     token,
     ready,
+    profile,
     loginEmail,
     setLoginEmail,
+    password,
+    setPassword,
     otp,
     setOtp,
     challengeId,
@@ -171,9 +155,8 @@ export default function useAdminSession() {
     authLoading,
     requestOtp,
     verifyOtp,
+    changePassword,
     logout,
     authFetch,
-    authFetchRaw,
-    downloadFile,
   };
 }

@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 
 import AdminCompanyManager from "@/components/admin/AdminCompanyManager";
+import AdminUserManager from "@/components/admin/AdminUserManager";
 import AdminLeadWorkspace from "@/components/admin/AdminLeadWorkspace";
 import AdminLoginCard from "@/components/admin/AdminLoginCard";
 import AdminModal from "@/components/admin/AdminModal";
@@ -108,6 +109,13 @@ const FUNC_ICONS = {
       <path d="M6 14h4M14 14h2" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round"/>
     </svg>
   ),
+  users: (
+    <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
+      <circle cx="8" cy="8" r="3" stroke="currentColor" strokeWidth="1.6"/>
+      <path d="M2.5 18c0-3 2.5-5 5.5-5s5.5 2 5.5 5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round"/>
+      <path d="M15 7.5a2.5 2.5 0 0 1 0 5M17 18c0-2.2-.9-3.7-2-4.5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round"/>
+    </svg>
+  ),
 };
 
 export default function AdminLeadDashboard() {
@@ -120,6 +128,7 @@ export default function AdminLeadDashboard() {
   const [dashboardError, setDashboardError] = useState("");
 
   const [companyModalOpen, setCompanyModalOpen] = useState(false);
+  const [userModalOpen, setUserModalOpen] = useState(false);
   const [quotationModalOpen, setQuotationModalOpen] = useState(false);
   const [paymentModalOpen, setPaymentModalOpen] = useState(false);
   const [workspaceLeadId, setWorkspaceLeadId] = useState("");
@@ -306,6 +315,22 @@ export default function AdminLeadDashboard() {
             <button
               className="admin-func-card"
               type="button"
+              onClick={() => setUserModalOpen(true)}
+            >
+              <div className="admin-func-icon admin-func-icon-indigo">{FUNC_ICONS.users}</div>
+              <div className="admin-func-body">
+                <div className="eyebrow" style={{ fontSize: 10 }}>Team</div>
+                <strong>User management</strong>
+                <p>Create staff accounts that work with leads</p>
+              </div>
+              <svg className="admin-func-arrow" width="16" height="16" viewBox="0 0 16 16" fill="none">
+                <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+            </button>
+
+            <button
+              className="admin-func-card"
+              type="button"
               onClick={() => setQuotationModalOpen(true)}
             >
               <div className="admin-func-icon admin-func-icon-violet">{FUNC_ICONS.quotation}</div>
@@ -439,6 +464,16 @@ export default function AdminLeadDashboard() {
         onClose={() => setCompanyModalOpen(false)}
       >
         <AdminCompanyManager session={session} />
+      </AdminModal>
+
+      <AdminModal
+        open={userModalOpen}
+        eyebrow="Team Access"
+        title="User management"
+        description="Create staff accounts and manage who can work with leads."
+        onClose={() => setUserModalOpen(false)}
+      >
+        <AdminUserManager session={session} />
       </AdminModal>
 
       <AdminModal

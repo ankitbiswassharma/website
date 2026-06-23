@@ -1,0 +1,25 @@
+{% extends "base_email.html" %}
+{% from "_macros.html" import intro, panel, cta, closing %}
+{% set shell_kicker = "Secure Login" %}
+{% set shell_title = "Your staff login code" %}
+{% set shell_subtitle = "Use the one-time passcode below to finish signing in to your staff account." %}
+
+{% block body %}
+  {{ intro(user_name, "A sign-in request was made for your staff account. Enter the one-time code below to complete login.") }}
+
+  {% call panel("One-Time Password", "", accent_color, "#f8fafc") %}
+    <div style="padding:24px;border-radius:18px;background:#0f172a;text-align:center;">
+      <div style="font-size:12px;font-weight:800;letter-spacing:0.18em;text-transform:uppercase;color:#94a3b8;">OTP</div>
+      <div style="margin-top:12px;font-size:38px;font-weight:800;letter-spacing:0.35em;color:#ffffff;">{{ otp }}</div>
+    </div>
+  {% endcall %}
+
+  {% call panel("Request Details", "", accent_color, "#f8fafc") %}
+    This code expires in {{ expires_minutes }} minutes.<br />
+    Request origin: {{ requested_ip }}<br />
+    If you did not try to sign in, you can ignore this email.
+  {% endcall %}
+
+  {{ cta(frontend_url ~ "/staff/login", "Open Staff Portal", accent_color) }}
+  {{ closing(company_name) }}
+{% endblock %}

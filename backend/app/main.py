@@ -8,10 +8,13 @@ from app.api.routes import (
     admin_companies,
     admin_dashboard,
     admin_leads,
+    admin_users,
     health,
     integrations,
     lead_management,
     public,
+    staff_auth,
+    staff_leads,
 )
 from app.core.config import settings
 from app.db.session import init_db
@@ -54,3 +57,6 @@ app.include_router(admin_auth.router, prefix=settings.api_v1_prefix)
 app.include_router(admin_leads.router, prefix=settings.api_v1_prefix)
 app.include_router(admin_companies.router, prefix=settings.api_v1_prefix)
 app.include_router(admin_dashboard.router, prefix=settings.api_v1_prefix)
+app.include_router(admin_users.router, prefix=settings.api_v1_prefix)
+app.include_router(staff_auth.router, prefix=settings.api_v1_prefix)
+app.include_router(staff_leads.router, prefix=settings.api_v1_prefix)
