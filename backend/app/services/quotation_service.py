@@ -129,9 +129,6 @@ class QuotationService:
             else latest_quotation
         )
 
-        if actor_staff_id and not quotation.created_by_staff_id:
-            quotation.created_by_staff_id = actor_staff_id
-
         quotation.payment_page_url = quotation.payment_page_url or self.build_payment_page_url(quotation.quote_code)
         quotation.status = QuotationStatus.DRAFT
         quotation.updated_at = now
@@ -157,6 +154,10 @@ class QuotationService:
 
         self._render_assets(lead=lead, quotation=quotation, render_docx=True)
         db.add(quotation)
+
+        if actor_staff_id:
+            db.flush()
+            quotation_repository.set_staff_owner(db, quotation.id, actor_staff_id)
 
         lead_repository.add_activity(
             db,
@@ -210,9 +211,6 @@ class QuotationService:
         if self._is_locked_revision(quotation):
             quotation = self._new_revision_quotation(lead=quotation.lead, previous=quotation, now=now)
 
-        if actor_staff_id and not quotation.created_by_staff_id:
-            quotation.created_by_staff_id = actor_staff_id
-
         self._apply_quotation_values(
             quotation,
             title=parsed["title"],
@@ -259,6 +257,9 @@ class QuotationService:
         )
 
         db.add(quotation)
+        if actor_staff_id:
+            db.flush()
+            quotation_repository.set_staff_owner(db, quotation.id, actor_staff_id)
         db.commit()
         db.refresh(quotation)
         return quotation
@@ -281,8 +282,8 @@ class QuotationService:
                 detail="Generate and review the quotation PDF before sending it to the client",
             )
 
-        if actor_staff_id and not quotation.created_by_staff_id:
-            quotation.created_by_staff_id = actor_staff_id
+        if actor_staff_id:
+            quotation_repository.set_staff_owner(db, quotation.id, actor_staff_id)
 
         now = utcnow()
         self._send_quotation_email(

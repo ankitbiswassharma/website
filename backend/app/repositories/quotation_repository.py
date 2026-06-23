@@ -3,7 +3,8 @@ from __future__ import annotations
 from sqlalchemy import select
 from sqlalchemy.orm import Session, selectinload
 
-from app.models.quotation import Quotation
+from app.core.security import utcnow
+from app.models.quotation import Quotation, QuotationStaffOwner
 
 
 class QuotationRepository:
@@ -39,6 +40,23 @@ class QuotationRepository:
         if lead_id:
             stmt = stmt.where(Quotation.lead_id == lead_id)
         if created_by_staff_id:
-            stmt = stmt.where(Quotation.created_by_staff_id == created_by_staff_id)
+            stmt = stmt.join(
+                QuotationStaffOwner, QuotationStaffOwner.quotation_id == Quotation.id
+            ).where(QuotationStaffOwner.staff_user_id == created_by_staff_id)
         stmt = stmt.order_by(Quotation.created_at.desc(), Quotation.revision_number.desc())
         return list(db.scalars(stmt).all())
+
+    def get_staff_owner(self, db: Session, quotation_id: str) -> QuotationStaffOwner | None:
+        return db.get(QuotationStaffOwner, quotation_id)
+
+    def set_staff_owner(self, db: Session, quotation_id: str, staff_user_id: str) -> None:
+        if db.get(QuotationStaffOwner, quotation_id):
+            return
+        db.add(
+            QuotationStaffOwner(
+                quotation_id=quotation_id,
+                staff_user_id=staff_user_id,
+                created_at=utcnow(),
+            )
+        )
+        db.flush()

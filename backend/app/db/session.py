@@ -1,10 +1,14 @@
+import logging
+
 from sqlalchemy import create_engine, inspect, text
+from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.orm import Session, sessionmaker
 
 from app.core.config import settings
 from app.db.base import Base
 
 
+logger = logging.getLogger(__name__)
 engine = create_engine(settings.database_url, pool_pre_ping=True, future=True)
 SessionLocal = sessionmaker(bind=engine, autoflush=False, autocommit=False, expire_on_commit=False)
 
@@ -36,8 +40,6 @@ def _ensure_runtime_schema() -> None:
             statements.append("ALTER TABLE quotations ADD COLUMN quotation_series VARCHAR(32)")
         if "revision_number" not in quotation_columns:
             statements.append("ALTER TABLE quotations ADD COLUMN revision_number INTEGER NOT NULL DEFAULT 0")
-        if "created_by_staff_id" not in quotation_columns:
-            statements.append("ALTER TABLE quotations ADD COLUMN created_by_staff_id VARCHAR(36)")
 
     if "quotation_items" in table_names:
         quotation_item_columns = {column["name"] for column in inspector.get_columns("quotation_items")}
@@ -48,9 +50,15 @@ def _ensure_runtime_schema() -> None:
     if not statements:
         return
 
-    with engine.begin() as connection:
-        for statement in statements:
-            connection.execute(text(statement))
+    # Run each statement in its own transaction and never let a single failure
+    # (e.g. insufficient privileges on a table owned by another role) crash app
+    # startup. Such statements are logged and skipped.
+    for statement in statements:
+        try:
+            with engine.begin() as connection:
+                connection.execute(text(statement))
+        except SQLAlchemyError as exc:
+            logger.warning("Skipping runtime schema update %r: %s", statement, exc)
 
 
 def init_db() -> None:

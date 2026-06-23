@@ -19,7 +19,6 @@ class Quotation(Base):
     quotation_series: Mapped[str | None] = mapped_column(String(32), index=True)
     revision_number: Mapped[int] = mapped_column(Integer, nullable=False, default=0)
     lead_id: Mapped[str] = mapped_column(ForeignKey("leads.id", ondelete="CASCADE"), index=True)
-    created_by_staff_id: Mapped[str | None] = mapped_column(String(36), index=True)
     status: Mapped[QuotationStatus] = mapped_column(
         Enum(QuotationStatus, name="quotation_status"),
         nullable=False,
@@ -92,3 +91,19 @@ class QuotationItem(Base):
     line_total: Mapped[Decimal] = mapped_column(Numeric(12, 2), nullable=False)
 
     quotation: Mapped["Quotation"] = relationship(back_populates="items")
+
+
+class QuotationStaffOwner(Base):
+    """Maps a quotation to the staff user who created/sent it.
+
+    Stored in a dedicated, app-owned table so we never need ALTER privileges
+    on the pre-existing ``quotations`` table.
+    """
+
+    __tablename__ = "quotation_staff_owners"
+
+    # No FK to ``quotations`` on purpose: that table may be owned by another DB
+    # role, and a REFERENCES constraint would require privileges we may not have.
+    quotation_id: Mapped[str] = mapped_column(String(36), primary_key=True)
+    staff_user_id: Mapped[str] = mapped_column(String(36), nullable=False, index=True)
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False)
