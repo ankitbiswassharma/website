@@ -9,6 +9,7 @@ import SectionIntro from "@/components/SectionIntro";
 import StatsStrip from "@/components/StatsStrip";
 import TechMarquee from "@/components/TechMarquee";
 import Testimonials from "@/components/Testimonials";
+import TrustStrip from "@/components/TrustStrip";
 import { buildMetadata, serviceJsonLd } from "@/lib/seo.mjs";
 import {
   buildShowcaseItems,
@@ -48,8 +49,9 @@ export default function HomePage() {
 
       {/* ── Stats strip ────────────────────────────────────────── */}
       <section className="page-section" style={{ paddingBlock: "2.5rem" }}>
-        <div className="shell">
+        <div className="shell stack-lg">
           <StatsStrip items={STATS} />
+          <TrustStrip />
         </div>
       </section>
 
