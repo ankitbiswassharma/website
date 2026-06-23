@@ -18,6 +18,8 @@ from app.schemas.lead import (
 )
 from app.schemas.payment import AdminPaymentLinkCreateIn, AdminPaymentLinkOut
 from app.schemas.quotation import AdminQuotationOut, AdminQuotationSendIn, AdminQuotationUpsertIn, QuotationOut
+from app.core.config import settings
+from app.services.email_service import email_service
 from app.services.lead_service import lead_service
 from app.services.payment_service import payment_service
 from app.services.quotation_service import quotation_service
@@ -146,6 +148,26 @@ def assign_lead(
             )
         lead_repository.set_assignment(db, lead_id, payload.staff_user_id, admin_email)
         lead_service.add_activity(db, lead_id, f"Lead assigned to {user.name}", admin_email)
+        email_service.send_template(
+            db=db,
+            template_name="staff_lead_assigned.html",
+            context={
+                "user_name": user.name,
+                "lead_name": lead.full_name,
+                "company": lead.company,
+                "lead_reference": lead.lead_reference,
+                "request_label": (lead.request_type.value if lead.request_type else "").replace("_", " ").title(),
+                "status_label": (lead.status.value if lead.status else "").replace("_", " ").title(),
+                "portal_url": f"{settings.frontend_url}/staff/login",
+                "company_name": settings.company_name,
+                "company_tagline": settings.company_tagline,
+                "accent_color": "#4f46e5",
+            },
+            to_email=user.email,
+            subject=f"You have been assigned a lead — {lead.full_name}",
+            lead_id=lead.id,
+            payload={"event": "lead_assigned", "staff_user_id": user.id},
+        )
     else:
         lead_repository.clear_assignment(db, lead_id)
         lead_service.add_activity(db, lead_id, "Lead assignment cleared", admin_email)

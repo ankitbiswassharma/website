@@ -1,0 +1,25 @@
+{% extends "base_email.html" %}
+{% from "_macros.html" import intro, panel, cta, closing %}
+{% set shell_kicker = "Lead Assigned" %}
+{% set shell_title = "A new lead is waiting for you" %}
+{% set shell_subtitle = "Your administrator has assigned a lead to you. Sign in to your staff portal to review and work on it." %}
+
+{% block body %}
+  {{ intro(user_name, "You have been assigned a new lead to work on. Here are the details:") }}
+
+  {% call panel("Lead Details", "", accent_color, "#f8fafc") %}
+    <strong>{{ lead_name }}</strong><br />
+    {% if company %}Company: {{ company }}<br />{% endif %}
+    {% if lead_reference %}Reference: {{ lead_reference }}<br />{% endif %}
+    Request: {{ request_label }}<br />
+    Current stage: {{ status_label }}
+  {% endcall %}
+
+  {% call panel("What happens next", "", accent_color, "#f8fafc") %}
+    Open your staff portal to update the lead, prepare quotations, and track payment.
+    Only you can act on the leads assigned to you.
+  {% endcall %}
+
+  {{ cta(portal_url, "Open Staff Portal", accent_color) }}
+  {{ closing(company_name) }}
+{% endblock %}

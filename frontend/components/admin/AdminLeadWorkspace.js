@@ -328,6 +328,8 @@ export default function AdminLeadWorkspace({
   const canSendQuotation = Boolean(lead && ["qualified", "proposal_sent", "won"].includes(lead.status));
   const currentQuotation =
     quotations.find((quotation) => quotation.id === selectedQuotationId) || quotations[0] || null;
+  const isPaid =
+    lead?.latest_payment_status === "paid" || currentQuotation?.status === "paid";
   const quoteTotals = calculateTotals(quoteDraft.items, quoteDraft.tax_rate);
 
   function syncLeadList() {
@@ -963,14 +965,19 @@ export default function AdminLeadWorkspace({
               <button
                 className="button button-primary"
                 type="button"
-                disabled={!canSendQuotation || savingQuotation}
+                disabled={!canSendQuotation || savingQuotation || isPaid}
                 onClick={generateQuotationDraft}
               >
                 {savingQuotation ? "Generating..." : "Generate quotation draft"}
               </button>
             </div>
 
-            {!canSendQuotation ? (
+            {isPaid ? (
+              <div className="empty-state">
+                This lead has been marked <strong>Paid</strong>. Quotation generation is locked for
+                paid leads.
+              </div>
+            ) : !canSendQuotation ? (
               <div className="empty-state">
                 Save this lead as <strong>Qualified</strong> first to enable quotation generation.
               </div>
