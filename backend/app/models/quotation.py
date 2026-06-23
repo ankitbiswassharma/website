@@ -19,6 +19,7 @@ class Quotation(Base):
     quotation_series: Mapped[str | None] = mapped_column(String(32), index=True)
     revision_number: Mapped[int] = mapped_column(Integer, nullable=False, default=0)
     lead_id: Mapped[str] = mapped_column(ForeignKey("leads.id", ondelete="CASCADE"), index=True)
+    created_by_staff_id: Mapped[str | None] = mapped_column(String(36), index=True)
     status: Mapped[QuotationStatus] = mapped_column(
         Enum(QuotationStatus, name="quotation_status"),
         nullable=False,

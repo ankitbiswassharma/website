@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 
-import { apiJson } from "@/lib/api";
+import { apiJson, buildApiUrl } from "@/lib/api";
 
 const TOKEN_STORAGE_KEY = "muskit_staff_token";
 
@@ -57,6 +57,49 @@ export default function useStaffSession() {
       }
       throw error;
     }
+  }
+
+  async function authFetchRaw(path, options = {}) {
+    if (!token) {
+      throw new Error("Unauthorized");
+    }
+    const response = await fetch(buildApiUrl(path), {
+      ...options,
+      headers: {
+        "x-staff-token": token,
+        ...(options.headers || {}),
+      },
+    });
+    if (!response.ok) {
+      let data = null;
+      try {
+        data = await response.json();
+      } catch {
+        data = null;
+      }
+      const message = data?.detail || data?.message || "Request failed";
+      if (message === "Unauthorized") {
+        clearSession();
+      }
+      throw new Error(message);
+    }
+    return response;
+  }
+
+  async function downloadFile(path, fallbackFilename = "download") {
+    const response = await authFetchRaw(path);
+    const blob = await response.blob();
+    const contentDisposition = response.headers.get("content-disposition") || "";
+    const filenameMatch = contentDisposition.match(/filename="?([^"]+)"?/i);
+    const filename = filenameMatch?.[1] || fallbackFilename;
+    const objectUrl = window.URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = objectUrl;
+    link.download = filename;
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+    window.URL.revokeObjectURL(objectUrl);
   }
 
   async function loadProfile() {
@@ -158,5 +201,7 @@ export default function useStaffSession() {
     changePassword,
     logout,
     authFetch,
+    authFetchRaw,
+    downloadFile,
   };
 }

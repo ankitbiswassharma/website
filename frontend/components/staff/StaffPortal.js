@@ -2,6 +2,8 @@
 
 import { useEffect, useState } from "react";
 
+import AdminLeadWorkspace from "@/components/admin/AdminLeadWorkspace";
+import AdminModal from "@/components/admin/AdminModal";
 import StaffChangePassword from "@/components/staff/StaffChangePassword";
 
 const STATUS_OPTIONS = [
@@ -25,33 +27,58 @@ const STATUS_CLS = {
 };
 
 function StatusPill({ status }) {
-  const label = STATUS_OPTIONS.find((option) => option.value === status)?.label || status;
+  const label =
+    STATUS_OPTIONS.find((option) => option.value === status)?.label || String(status).replace(/_/g, " ");
   return <span className={`status-pill ${STATUS_CLS[status] || ""}`}>{label}</span>;
 }
 
 function formatDate(value) {
+  if (!value) return "-";
   return new Date(value).toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" });
 }
 
+function formatMoney(value, currency = "INR") {
+  const amount = Number(value || 0);
+  return new Intl.NumberFormat("en-IN", {
+    style: "currency",
+    currency,
+    maximumFractionDigits: 0,
+  }).format(Number.isFinite(amount) ? amount : 0);
+}
+
+const PAYMENT_CLS = {
+  paid: "pill-won",
+  captured: "pill-won",
+  pending: "pill-proposal",
+  created: "pill-contacted",
+  failed: "pill-lost",
+};
+
 export default function StaffPortal({ session }) {
+  const [view, setView] = useState("leads");
   const [leads, setLeads] = useState([]);
   const [statusFilter, setStatusFilter] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-  const [selectedId, setSelectedId] = useState("");
-  const [detail, setDetail] = useState(null);
-  const [detailLoading, setDetailLoading] = useState(false);
-  const [draftStatus, setDraftStatus] = useState("");
-  const [draftNotes, setDraftNotes] = useState("");
-  const [savingLead, setSavingLead] = useState(false);
-  const [leadMessage, setLeadMessage] = useState("");
-  const [showPasswordPanel, setShowPasswordPanel] = useState(false);
+  const [workspaceLeadId, setWorkspaceLeadId] = useState("");
+  const [refreshTick, setRefreshTick] = useState(0);
+
+  const [quotations, setQuotations] = useState([]);
+  const [payments, setPayments] = useState([]);
+  const [commerceLoading, setCommerceLoading] = useState(false);
+  const [commerceError, setCommerceError] = useState("");
 
   useEffect(() => {
-    if (!session.token) return;
+    if (!session.token || view !== "leads") return;
     loadLeads();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [session.token, statusFilter]);
+  }, [session.token, statusFilter, view, refreshTick]);
+
+  useEffect(() => {
+    if (!session.token || view !== "commerce") return;
+    loadCommerce();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [session.token, view, refreshTick]);
 
   async function loadLeads() {
     setLoading(true);
@@ -67,51 +94,25 @@ export default function StaffPortal({ session }) {
     }
   }
 
-  async function openLead(leadId) {
-    setSelectedId(leadId);
-    setDetail(null);
-    setLeadMessage("");
-    setDetailLoading(true);
+  async function loadCommerce() {
+    setCommerceLoading(true);
+    setCommerceError("");
     try {
-      const response = await session.authFetch(`/staff/leads/${leadId}`);
-      setDetail(response);
-      setDraftStatus(response.status);
-      setDraftNotes(response.admin_notes || "");
+      const [quotationsResponse, paymentsResponse] = await Promise.all([
+        session.authFetch("/staff/quotations?mine=true"),
+        session.authFetch("/staff/payments"),
+      ]);
+      setQuotations(quotationsResponse);
+      setPayments(paymentsResponse);
     } catch (loadError) {
-      setError(loadError.message);
+      setCommerceError(loadError.message);
     } finally {
-      setDetailLoading(false);
+      setCommerceLoading(false);
     }
   }
 
-  async function saveLead() {
-    if (!detail) return;
-    setSavingLead(true);
-    setLeadMessage("");
-    setError("");
-    try {
-      const body = {};
-      if (draftStatus !== detail.status) body.status = draftStatus;
-      if (draftNotes !== (detail.admin_notes || "")) body.admin_notes = draftNotes;
-      if (Object.keys(body).length === 0) {
-        setLeadMessage("No changes to save.");
-        setSavingLead(false);
-        return;
-      }
-      const updated = await session.authFetch(`/staff/leads/${detail.id}`, {
-        method: "PATCH",
-        body: JSON.stringify(body),
-      });
-      setDetail(updated);
-      setDraftStatus(updated.status);
-      setDraftNotes(updated.admin_notes || "");
-      setLeadMessage("Lead updated.");
-      loadLeads();
-    } catch (saveError) {
-      setError(saveError.message);
-    } finally {
-      setSavingLead(false);
-    }
+  function paymentForQuotation(quotationId) {
+    return payments.find((payment) => payment.quotation_id === quotationId) || null;
   }
 
   const profile = session.profile;
@@ -139,36 +140,53 @@ export default function StaffPortal({ session }) {
   }
 
   return (
-    <section className="dashboard-wrapper">
-      <div className="shell stack-lg">
-        <div className="admin-page-head">
-          <div className="stack-sm">
-            <div className="eyebrow">Staff Portal</div>
-            <h1 className="admin-page-title">Lead workspace</h1>
-            <p className="admin-page-sub">
-              {profile ? `Signed in as ${profile.name}` : "Review and update the lead pipeline."}
-            </p>
+    <>
+      <section className="dashboard-wrapper">
+        <div className="shell stack-lg">
+          <div className="admin-page-head">
+            <div className="stack-sm">
+              <div className="eyebrow">Staff Portal</div>
+              <h1 className="admin-page-title">
+                {view === "password" ? "Account security" : "Lead workspace"}
+              </h1>
+              <p className="admin-page-sub">
+                {profile ? `Signed in as ${profile.name}` : "Review and update the lead pipeline."}
+              </p>
+            </div>
+            <div className="dashboard-toolbar">
+              <button className="button button-ghost admin-icon-btn" type="button" onClick={session.logout}>
+                Logout
+              </button>
+            </div>
           </div>
-          <div className="dashboard-toolbar">
+
+          <div className="admin-tab-strip">
             <button
-              className="button button-ghost admin-icon-btn"
+              className={`admin-tab-button${view === "leads" ? " is-active" : ""}`}
               type="button"
-              onClick={() => setShowPasswordPanel((value) => !value)}
+              onClick={() => setView("leads")}
             >
-              {showPasswordPanel ? "Back to leads" : "Change password"}
+              Leads
             </button>
-            <button className="button button-ghost admin-icon-btn" type="button" onClick={session.logout}>
-              Logout
+            <button
+              className={`admin-tab-button${view === "commerce" ? " is-active" : ""}`}
+              type="button"
+              onClick={() => setView("commerce")}
+            >
+              My quotations &amp; payments
+            </button>
+            <button
+              className={`admin-tab-button${view === "password" ? " is-active" : ""}`}
+              type="button"
+              onClick={() => setView("password")}
+            >
+              Change password
             </button>
           </div>
-        </div>
 
-        {error ? <div className="error-box">{error}</div> : null}
+          {error && view === "leads" ? <div className="error-box">{error}</div> : null}
 
-        {showPasswordPanel ? (
-          <StaffChangePassword session={session} onDone={() => setShowPasswordPanel(false)} />
-        ) : (
-          <>
+          {view === "leads" ? (
             <div className="card dashboard-card stack-md">
               <div className="dashboard-toolbar toolbar-spread">
                 <div className="stack-sm">
@@ -225,11 +243,11 @@ export default function StaffPortal({ session }) {
                         </td>
                         <td>
                           <button
-                            className="button button-ghost btn-sm"
+                            className="button button-primary btn-sm"
                             type="button"
-                            onClick={() => openLead(lead.id)}
+                            onClick={() => setWorkspaceLeadId(lead.id)}
                           >
-                            Open
+                            Open workspace
                           </button>
                         </td>
                       </tr>
@@ -241,81 +259,147 @@ export default function StaffPortal({ session }) {
                 ) : null}
               </div>
             </div>
+          ) : null}
 
-            {selectedId ? (
+          {view === "commerce" ? (
+            <div className="stack-lg">
+              {commerceError ? <div className="error-box">{commerceError}</div> : null}
+
               <div className="card dashboard-card stack-md">
-                {detailLoading ? <div className="empty-state">Loading lead…</div> : null}
-                {detail ? (
-                  <>
-                    <div className="dashboard-toolbar toolbar-spread">
-                      <div className="stack-sm">
-                        <div className="eyebrow">{detail.lead_reference || "Lead"}</div>
-                        <h3>{detail.full_name}</h3>
-                        <p className="muted">
-                          {detail.email}
-                          {detail.phone ? ` · ${detail.phone}` : ""}
-                          {detail.company ? ` · ${detail.company}` : ""}
-                        </p>
-                      </div>
-                      <button
-                        className="button button-ghost btn-sm"
-                        type="button"
-                        onClick={() => {
-                          setSelectedId("");
-                          setDetail(null);
-                        }}
-                      >
-                        Close
-                      </button>
+                <div className="dashboard-toolbar toolbar-spread">
+                  <div className="stack-sm">
+                    <h3>My quotations</h3>
+                    <p className="muted" style={{ fontSize: 13 }}>
+                      {commerceLoading ? "Loading…" : `${quotations.length} quotation(s) you created`}
+                    </p>
+                  </div>
+                </div>
+                <div className="admin-table-wrap">
+                  <table className="dashboard-table">
+                    <thead>
+                      <tr>
+                        <th>Quotation</th>
+                        <th>Client</th>
+                        <th>Status</th>
+                        <th>Total</th>
+                        <th>Payment</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {quotations.map((quotation) => {
+                        const payment = paymentForQuotation(quotation.id);
+                        const paid = payment && ["paid", "captured"].includes(payment.status);
+                        return (
+                          <tr key={quotation.id}>
+                            <td>
+                              <strong>{quotation.quotation_number}</strong>
+                            </td>
+                            <td>
+                              <div className="stack-sm">
+                                <span>{quotation.lead_name}</span>
+                                <span className="muted" style={{ fontSize: 12 }}>
+                                  {quotation.company || quotation.lead_email}
+                                </span>
+                              </div>
+                            </td>
+                            <td>
+                              <span className="status-pill">{String(quotation.status).replace(/_/g, " ")}</span>
+                            </td>
+                            <td>{formatMoney(quotation.total_amount, quotation.currency)}</td>
+                            <td>
+                              {payment ? (
+                                <span className={`status-pill ${PAYMENT_CLS[payment.status] || ""}`}>
+                                  {paid ? "Received" : String(payment.status).replace(/_/g, " ")}
+                                </span>
+                              ) : (
+                                <span className="muted">No payment yet</span>
+                              )}
+                            </td>
+                          </tr>
+                        );
+                      })}
+                    </tbody>
+                  </table>
+                  {!commerceLoading && !quotations.length ? (
+                    <div className="empty-state">
+                      You haven&apos;t created any quotations yet. Open a lead workspace to build one.
                     </div>
-
-                    {detail.client_requirements_text ? (
-                      <div className="stack-sm">
-                        <span className="muted">Requirement</span>
-                        <p>{detail.client_requirements_text}</p>
-                      </div>
-                    ) : null}
-
-                    {leadMessage ? <div className="success-box">{leadMessage}</div> : null}
-
-                    <div className="form-grid company-form-grid">
-                      <div className="field">
-                        <label>Status</label>
-                        <select value={draftStatus} onChange={(event) => setDraftStatus(event.target.value)}>
-                          {STATUS_OPTIONS.map((option) => (
-                            <option key={option.value} value={option.value}>
-                              {option.label}
-                            </option>
-                          ))}
-                        </select>
-                      </div>
-                      <div className="field full">
-                        <label>Notes</label>
-                        <textarea
-                          value={draftNotes}
-                          onChange={(event) => setDraftNotes(event.target.value)}
-                          placeholder="Add an internal note about this lead"
-                        />
-                      </div>
-                    </div>
-
-                    <div className="dashboard-toolbar">
-                      <button
-                        className="button button-primary"
-                        type="button"
-                        disabled={savingLead}
-                        onClick={saveLead}
-                      >
-                        {savingLead ? "Saving…" : "Save changes"}
-                      </button>
-                    </div>
-                  </>
-                ) : null}
+                  ) : null}
+                </div>
               </div>
-            ) : null}
-          </>
-        )}
-      </div>
-    </section>
+
+              <div className="card dashboard-card stack-md">
+                <div className="dashboard-toolbar toolbar-spread">
+                  <div className="stack-sm">
+                    <h3>Payments received</h3>
+                    <p className="muted" style={{ fontSize: 13 }}>
+                      Payment activity for the quotations you sent.
+                    </p>
+                  </div>
+                </div>
+                <div className="admin-table-wrap">
+                  <table className="dashboard-table">
+                    <thead>
+                      <tr>
+                        <th>Quotation</th>
+                        <th>Client</th>
+                        <th>Status</th>
+                        <th>Amount</th>
+                        <th>Paid on</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {payments.map((payment) => (
+                        <tr key={payment.id}>
+                          <td>{payment.quotation_number || "-"}</td>
+                          <td>{payment.lead_name || payment.company || "-"}</td>
+                          <td>
+                            <span className={`status-pill ${PAYMENT_CLS[payment.status] || ""}`}>
+                              {String(payment.status).replace(/_/g, " ")}
+                            </span>
+                          </td>
+                          <td>{formatMoney(payment.total_amount, payment.currency)}</td>
+                          <td className="muted" style={{ fontSize: 13 }}>
+                            {payment.paid_at ? formatDate(payment.paid_at) : "Awaiting"}
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                  {!commerceLoading && !payments.length ? (
+                    <div className="empty-state">No payments have been recorded for your quotations yet.</div>
+                  ) : null}
+                </div>
+              </div>
+            </div>
+          ) : null}
+
+          {view === "password" ? (
+            <StaffChangePassword session={session} onDone={() => setView("leads")} />
+          ) : null}
+        </div>
+      </section>
+
+      <AdminModal
+        open={Boolean(workspaceLeadId)}
+        eyebrow="Lead Workspace"
+        title="Lead workspace"
+        description="Update the lead, build quotations, send them, and track payment."
+        size="xxl"
+        onClose={() => {
+          setWorkspaceLeadId("");
+          setRefreshTick((tick) => tick + 1);
+        }}
+      >
+        {workspaceLeadId ? (
+          <AdminLeadWorkspace
+            session={session}
+            leadId={workspaceLeadId}
+            apiBase="/staff"
+            onLeadChange={() => setRefreshTick((tick) => tick + 1)}
+          />
+        ) : null}
+      </AdminModal>
+    </>
   );
 }

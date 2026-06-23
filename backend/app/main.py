@@ -15,6 +15,7 @@ from app.api.routes import (
     public,
     staff_auth,
     staff_leads,
+    staff_quotations,
 )
 from app.core.config import settings
 from app.db.session import init_db
@@ -60,3 +61,4 @@ app.include_router(admin_dashboard.router, prefix=settings.api_v1_prefix)
 app.include_router(admin_users.router, prefix=settings.api_v1_prefix)
 app.include_router(staff_auth.router, prefix=settings.api_v1_prefix)
 app.include_router(staff_leads.router, prefix=settings.api_v1_prefix)
+app.include_router(staff_quotations.router, prefix=settings.api_v1_prefix)

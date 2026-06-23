@@ -106,7 +106,15 @@ class QuotationService:
 
         db.commit()
 
-    def upsert_for_lead(self, db: Session, *, lead_id: str, payload):
+    def upsert_for_lead(
+        self,
+        db: Session,
+        *,
+        lead_id: str,
+        payload,
+        actor_label: str = "admin",
+        actor_staff_id: str | None = None,
+    ):
         lead = lead_repository.get(db, lead_id)
         if not lead:
             raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Lead not found")
@@ -120,6 +128,9 @@ class QuotationService:
             if is_new_revision
             else latest_quotation
         )
+
+        if actor_staff_id and not quotation.created_by_staff_id:
+            quotation.created_by_staff_id = actor_staff_id
 
         quotation.payment_page_url = quotation.payment_page_url or self.build_payment_page_url(quotation.quote_code)
         quotation.status = QuotationStatus.DRAFT
@@ -155,7 +166,7 @@ class QuotationService:
                 f"Quotation draft {quotation.quotation_number} prepared for "
                 f"{quotation.total_amount} {quotation.currency}"
             ),
-            created_by="admin",
+            created_by=actor_label,
             payload={"quote_code": quotation.quote_code, "quotation_id": quotation.id},
         )
 
@@ -166,13 +177,22 @@ class QuotationService:
                 quotation=quotation,
                 personalized_message=payload.personalized_message,
                 now=now,
+                actor_label=actor_label,
             )
 
         db.commit()
         db.refresh(quotation)
         return quotation
 
-    def apply_uploaded_docx(self, db: Session, *, quotation_id: str, file_bytes: bytes):
+    def apply_uploaded_docx(
+        self,
+        db: Session,
+        *,
+        quotation_id: str,
+        file_bytes: bytes,
+        actor_label: str = "admin",
+        actor_staff_id: str | None = None,
+    ):
         quotation = quotation_repository.get(db, quotation_id)
         if not quotation:
             raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Quotation not found")
@@ -189,6 +209,9 @@ class QuotationService:
         source_quotation = quotation
         if self._is_locked_revision(quotation):
             quotation = self._new_revision_quotation(lead=quotation.lead, previous=quotation, now=now)
+
+        if actor_staff_id and not quotation.created_by_staff_id:
+            quotation.created_by_staff_id = actor_staff_id
 
         self._apply_quotation_values(
             quotation,
@@ -228,7 +251,7 @@ class QuotationService:
                     f"{source_quotation.quotation_number}"
                 )
             ),
-            created_by="admin",
+            created_by=actor_label,
             payload={
                 "quotation_id": quotation.id,
                 "source_quotation_id": source_quotation.id,
@@ -240,7 +263,15 @@ class QuotationService:
         db.refresh(quotation)
         return quotation
 
-    def send_to_client(self, db: Session, *, quotation_id: str, personalized_message: str | None = None):
+    def send_to_client(
+        self,
+        db: Session,
+        *,
+        quotation_id: str,
+        personalized_message: str | None = None,
+        actor_label: str = "admin",
+        actor_staff_id: str | None = None,
+    ):
         quotation = quotation_repository.get(db, quotation_id)
         if not quotation:
             raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Quotation not found")
@@ -250,6 +281,9 @@ class QuotationService:
                 detail="Generate and review the quotation PDF before sending it to the client",
             )
 
+        if actor_staff_id and not quotation.created_by_staff_id:
+            quotation.created_by_staff_id = actor_staff_id
+
         now = utcnow()
         self._send_quotation_email(
             db,
@@ -257,6 +291,7 @@ class QuotationService:
             quotation=quotation,
             personalized_message=personalized_message,
             now=now,
+            actor_label=actor_label,
         )
 
         db.commit()
@@ -370,6 +405,7 @@ class QuotationService:
         quotation: Quotation,
         personalized_message: str | None,
         now,
+        actor_label: str = "admin",
     ) -> None:
         message_to_send = (personalized_message or quotation.personalized_message or quotation.intro_message or "").strip() or None
         quotation.personalized_message = message_to_send
@@ -411,7 +447,7 @@ class QuotationService:
             lead_id=lead.id,
             activity_type=ActivityType.QUOTE,
             description=f"Quotation {quotation.quotation_number} approved for client delivery",
-            created_by="admin",
+            created_by=actor_label,
             payload={"quotation_id": quotation.id},
         )
         lead_repository.add_activity(

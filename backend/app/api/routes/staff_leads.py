@@ -7,7 +7,7 @@ from app.db.session import get_db
 from app.models.enums import LeadStatus
 from app.repositories.lead_repository import LeadRepository
 from app.repositories.user_repository import UserRepository
-from app.schemas.lead import LeadDetail, LeadListItem, LeadUpdateIn
+from app.schemas.lead import LeadDetail, LeadListItem, LeadNotesUpdateIn, LeadUpdateIn
 from app.services.lead_service import lead_service
 
 
@@ -60,5 +60,17 @@ def update_lead(
             f"Status updated by staff member {user.name if user else staff_session.email}",
             staff_session.email,
         )
+    refreshed = lead_repository.get(db, lead.id)
+    return serialize_lead_detail(db, refreshed)
+
+
+@router.patch("/leads/{lead_id}/notes", response_model=LeadDetail)
+def update_lead_notes(
+    lead_id: str,
+    payload: LeadNotesUpdateIn,
+    _: object = Depends(get_staff_session),
+    db: Session = Depends(get_db),
+):
+    lead = lead_service.update_lead(db, lead_id, admin_notes=payload.admin_notes)
     refreshed = lead_repository.get(db, lead.id)
     return serialize_lead_detail(db, refreshed)

@@ -32,6 +32,9 @@ export default function Footer() {
             <Link className="button button-ghost" href="/enterprise-login">
               Client Login
             </Link>
+            <Link className="button button-ghost" href="/staff/login">
+              Staff Login
+            </Link>
             <Link className="button button-ghost button-admin" href="/dashboard/login">
               Admin
             </Link>

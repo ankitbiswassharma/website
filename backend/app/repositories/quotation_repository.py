@@ -28,9 +28,17 @@ class QuotationRepository:
         )
         return db.scalar(stmt)
 
-    def list(self, db: Session, *, lead_id: str | None = None) -> list[Quotation]:
+    def list(
+        self,
+        db: Session,
+        *,
+        lead_id: str | None = None,
+        created_by_staff_id: str | None = None,
+    ) -> list[Quotation]:
         stmt = select(Quotation).options(selectinload(Quotation.items), selectinload(Quotation.lead))
         if lead_id:
             stmt = stmt.where(Quotation.lead_id == lead_id)
+        if created_by_staff_id:
+            stmt = stmt.where(Quotation.created_by_staff_id == created_by_staff_id)
         stmt = stmt.order_by(Quotation.created_at.desc(), Quotation.revision_number.desc())
         return list(db.scalars(stmt).all())

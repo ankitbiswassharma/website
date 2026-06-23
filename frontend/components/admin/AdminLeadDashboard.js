@@ -4,7 +4,8 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 
 import AdminCompanyManager from "@/components/admin/AdminCompanyManager";
-import AdminUserManager from "@/components/admin/AdminUserManager";
+import AdminUserCreate from "@/components/admin/AdminUserCreate";
+import AdminUserList from "@/components/admin/AdminUserList";
 import AdminLeadWorkspace from "@/components/admin/AdminLeadWorkspace";
 import AdminLoginCard from "@/components/admin/AdminLoginCard";
 import AdminModal from "@/components/admin/AdminModal";
@@ -128,7 +129,9 @@ export default function AdminLeadDashboard() {
   const [dashboardError, setDashboardError] = useState("");
 
   const [companyModalOpen, setCompanyModalOpen] = useState(false);
-  const [userModalOpen, setUserModalOpen] = useState(false);
+  const [userCreateModalOpen, setUserCreateModalOpen] = useState(false);
+  const [userListModalOpen, setUserListModalOpen] = useState(false);
+  const [userRefreshKey, setUserRefreshKey] = useState(0);
   const [quotationModalOpen, setQuotationModalOpen] = useState(false);
   const [paymentModalOpen, setPaymentModalOpen] = useState(false);
   const [workspaceLeadId, setWorkspaceLeadId] = useState("");
@@ -315,13 +318,29 @@ export default function AdminLeadDashboard() {
             <button
               className="admin-func-card"
               type="button"
-              onClick={() => setUserModalOpen(true)}
+              onClick={() => setUserCreateModalOpen(true)}
             >
               <div className="admin-func-icon admin-func-icon-indigo">{FUNC_ICONS.users}</div>
               <div className="admin-func-body">
                 <div className="eyebrow" style={{ fontSize: 10 }}>Team</div>
-                <strong>User management</strong>
-                <p>Create staff accounts that work with leads</p>
+                <strong>Create user</strong>
+                <p>Add a staff account that works with leads</p>
+              </div>
+              <svg className="admin-func-arrow" width="16" height="16" viewBox="0 0 16 16" fill="none">
+                <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+            </button>
+
+            <button
+              className="admin-func-card"
+              type="button"
+              onClick={() => setUserListModalOpen(true)}
+            >
+              <div className="admin-func-icon admin-func-icon-violet">{FUNC_ICONS.users}</div>
+              <div className="admin-func-body">
+                <div className="eyebrow" style={{ fontSize: 10 }}>Team</div>
+                <strong>View users</strong>
+                <p>See current staff and enable or disable access</p>
               </div>
               <svg className="admin-func-arrow" width="16" height="16" viewBox="0 0 16 16" fill="none">
                 <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
@@ -467,13 +486,26 @@ export default function AdminLeadDashboard() {
       </AdminModal>
 
       <AdminModal
-        open={userModalOpen}
+        open={userCreateModalOpen}
         eyebrow="Team Access"
-        title="User management"
-        description="Create staff accounts and manage who can work with leads."
-        onClose={() => setUserModalOpen(false)}
+        title="Create user"
+        description="Add a new staff account. Login credentials are emailed automatically."
+        onClose={() => setUserCreateModalOpen(false)}
       >
-        <AdminUserManager session={session} />
+        <AdminUserCreate
+          session={session}
+          onCreated={() => setUserRefreshKey((key) => key + 1)}
+        />
+      </AdminModal>
+
+      <AdminModal
+        open={userListModalOpen}
+        eyebrow="Team Access"
+        title="Current users"
+        description="Review staff accounts and enable or disable who can work with leads."
+        onClose={() => setUserListModalOpen(false)}
+      >
+        <AdminUserList session={session} refreshKey={userRefreshKey} />
       </AdminModal>
 
       <AdminModal

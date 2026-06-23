@@ -4,6 +4,7 @@ from sqlalchemy import select
 from sqlalchemy.orm import Session, selectinload
 
 from app.models.payment import Payment
+from app.models.quotation import Quotation
 
 
 class PaymentRepository:
@@ -33,5 +34,15 @@ class PaymentRepository:
     def list(self, db: Session) -> list[Payment]:
         stmt = select(Payment).options(selectinload(Payment.lead), selectinload(Payment.quotation)).order_by(
             Payment.created_at.desc()
+        )
+        return list(db.scalars(stmt).all())
+
+    def list_for_staff(self, db: Session, staff_id: str) -> list[Payment]:
+        stmt = (
+            select(Payment)
+            .join(Quotation, Payment.quotation_id == Quotation.id)
+            .where(Quotation.created_by_staff_id == staff_id)
+            .options(selectinload(Payment.lead), selectinload(Payment.quotation))
+            .order_by(Payment.created_at.desc())
         )
         return list(db.scalars(stmt).all())

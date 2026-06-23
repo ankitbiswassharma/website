@@ -205,6 +205,7 @@ export default function AdminLeadWorkspace({
   leadId,
   initialTab = "overview",
   onLeadChange,
+  apiBase = "/admin",
 }) {
   const [lead, setLead] = useState(null);
   const [quotations, setQuotations] = useState([]);
@@ -254,8 +255,8 @@ export default function AdminLeadWorkspace({
 
       try {
         const [leadResponse, quotationsResponse] = await Promise.all([
-          session.authFetch(`/admin/leads/${leadId}`),
-          session.authFetch(`/admin/quotations?lead_id=${encodeURIComponent(leadId)}`),
+          session.authFetch(`${apiBase}/leads/${leadId}`),
+          session.authFetch(`${apiBase}/quotations?lead_id=${encodeURIComponent(leadId)}`),
         ]);
         setLead(leadResponse);
         setStatusValue(leadResponse.status);
@@ -373,7 +374,7 @@ export default function AdminLeadWorkspace({
     setWorkspaceMessage("");
 
     try {
-      const updatedLead = await session.authFetch(`/admin/leads/${leadId}`, {
+      const updatedLead = await session.authFetch(`${apiBase}/leads/${leadId}`, {
         method: "PATCH",
         body: JSON.stringify({ status: statusValue }),
       });
@@ -398,7 +399,7 @@ export default function AdminLeadWorkspace({
     setWorkspaceMessage("");
 
     try {
-      const updatedLead = await session.authFetch(`/admin/leads/${leadId}/notes`, {
+      const updatedLead = await session.authFetch(`${apiBase}/leads/${leadId}/notes`, {
         method: "PATCH",
         body: JSON.stringify({ admin_notes: notesValue }),
       });
@@ -443,7 +444,7 @@ export default function AdminLeadWorkspace({
             content: section.content.trim(),
           })),
       };
-      const createdQuotation = await session.authFetch(`/admin/leads/${leadId}/quotation`, {
+      const createdQuotation = await session.authFetch(`${apiBase}/leads/${leadId}/quotation`, {
         method: "POST",
         body: JSON.stringify(payload),
       });
@@ -481,7 +482,7 @@ export default function AdminLeadWorkspace({
     try {
       const formData = new FormData();
       formData.append("file", selectedDocx);
-      const updatedQuotation = await session.authFetch(`/admin/quotations/${currentQuotation.id}/edited-docx`, {
+      const updatedQuotation = await session.authFetch(`${apiBase}/quotations/${currentQuotation.id}/edited-docx`, {
         method: "POST",
         body: formData,
       });
@@ -517,7 +518,7 @@ export default function AdminLeadWorkspace({
     setWorkspaceMessage("");
 
     try {
-      const sentQuotation = await session.authFetch(`/admin/quotations/${currentQuotation.id}/send`, {
+      const sentQuotation = await session.authFetch(`${apiBase}/quotations/${currentQuotation.id}/send`, {
         method: "POST",
         body: JSON.stringify({
           personalized_message: quoteDraft.personalized_message.trim() || null,
@@ -555,7 +556,7 @@ export default function AdminLeadWorkspace({
     setWorkspaceMessage("");
 
     try {
-      const result = await session.authFetch(`/admin/quotations/${currentQuotation.id}/payment-link`, {
+      const result = await session.authFetch(`${apiBase}/quotations/${currentQuotation.id}/payment-link`, {
         method: "POST",
         body: JSON.stringify({
           send_email: true,
@@ -1097,7 +1098,7 @@ export default function AdminLeadWorkspace({
                       type="button"
                       onClick={() =>
                         session.downloadFile(
-                          `/admin/quotations/${currentQuotation.id}/docx`,
+                          `${apiBase}/quotations/${currentQuotation.id}/docx`,
                           `${currentQuotation.quotation_number}.docx`
                         )
                       }
@@ -1109,7 +1110,7 @@ export default function AdminLeadWorkspace({
                       type="button"
                       onClick={() =>
                         session.downloadFile(
-                          `/admin/quotations/${currentQuotation.id}/pdf`,
+                          `${apiBase}/quotations/${currentQuotation.id}/pdf`,
                           `${currentQuotation.quotation_number}.pdf`
                         )
                       }
@@ -1258,7 +1259,7 @@ export default function AdminLeadWorkspace({
                           type="button"
                           onClick={() =>
                             session.downloadFile(
-                              `/admin/quotations/${quotation.id}/docx`,
+                              `${apiBase}/quotations/${quotation.id}/docx`,
                               `${quotation.quotation_number}.docx`
                             )
                           }
@@ -1270,7 +1271,7 @@ export default function AdminLeadWorkspace({
                           type="button"
                           onClick={() =>
                             session.downloadFile(
-                              `/admin/quotations/${quotation.id}/pdf`,
+                              `${apiBase}/quotations/${quotation.id}/pdf`,
                               `${quotation.quotation_number}.pdf`
                             )
                           }

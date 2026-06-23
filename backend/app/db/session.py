@@ -36,6 +36,8 @@ def _ensure_runtime_schema() -> None:
             statements.append("ALTER TABLE quotations ADD COLUMN quotation_series VARCHAR(32)")
         if "revision_number" not in quotation_columns:
             statements.append("ALTER TABLE quotations ADD COLUMN revision_number INTEGER NOT NULL DEFAULT 0")
+        if "created_by_staff_id" not in quotation_columns:
+            statements.append("ALTER TABLE quotations ADD COLUMN created_by_staff_id VARCHAR(36)")
 
     if "quotation_items" in table_names:
         quotation_item_columns = {column["name"] for column in inspector.get_columns("quotation_items")}
