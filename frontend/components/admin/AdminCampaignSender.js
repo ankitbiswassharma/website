@@ -6,16 +6,6 @@ const EMAIL_RE = /^[^@\s]+@[^@\s]+\.[^@\s]+$/;
 const DEFAULT_SUBJECT =
   "Custom software & IT solutions, built around how your business runs — Musk-IT";
 
-function formatDateTime(value) {
-  if (!value) return "—";
-  return new Date(value).toLocaleString("en-IN", {
-    day: "numeric",
-    month: "short",
-    hour: "2-digit",
-    minute: "2-digit",
-  });
-}
-
 function parseEmails(raw) {
   const valid = [];
   const invalid = [];
@@ -49,30 +39,7 @@ export default function AdminCampaignSender({ session }) {
   const [previewError, setPreviewError] = useState("");
   const [showPreview, setShowPreview] = useState(false);
 
-  const [engagement, setEngagement] = useState(null);
-  const [engagementLoading, setEngagementLoading] = useState(false);
-  const [engagementError, setEngagementError] = useState("");
-
   const { valid, invalid, duplicates } = useMemo(() => parseEmails(emails), [emails]);
-
-  async function loadEngagement() {
-    if (!session.token) return;
-    setEngagementLoading(true);
-    setEngagementError("");
-    try {
-      const data = await session.authFetch("/admin/campaigns/recipients");
-      setEngagement(data);
-    } catch (e) {
-      setEngagementError(e.message);
-    } finally {
-      setEngagementLoading(false);
-    }
-  }
-
-  useEffect(() => {
-    if (session.token) loadEngagement();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [session.token]);
 
   useEffect(() => {
     if (!showPreview || previewHtml || !session.token) return;
@@ -118,7 +85,6 @@ export default function AdminCampaignSender({ session }) {
       if (response.failed === 0) {
         setEmails("");
       }
-      loadEngagement();
     } catch (sendError) {
       setError(sendError.message);
     } finally {
@@ -282,77 +248,11 @@ export default function AdminCampaignSender({ session }) {
               </table>
             </div>
           ) : null}
+          <p className="muted" style={{ fontSize: 12 }}>
+            Track who clicked the link in the <strong>Campaign engagement</strong> module.
+          </p>
         </div>
       ) : null}
-
-      {/* ── Engagement / click tracking ──────────────────────────── */}
-      <div className="stack-sm" style={{ borderTop: "1px solid var(--border)", paddingTop: 18 }}>
-        <div className="dashboard-toolbar toolbar-spread">
-          <div className="stack-sm">
-            <h3 style={{ marginBottom: 0 }}>Recipients &amp; engagement</h3>
-            <p className="muted" style={{ fontSize: 13 }}>
-              {engagement
-                ? `${engagement.total} sent · ${engagement.clicked} clicked the link`
-                : "Track who opened the consultation link from the email."}
-            </p>
-          </div>
-          <button
-            className="button button-ghost btn-sm"
-            type="button"
-            onClick={loadEngagement}
-            disabled={engagementLoading}
-          >
-            {engagementLoading ? "Refreshing…" : "Refresh"}
-          </button>
-        </div>
-
-        {engagementError ? <div className="error-box">{engagementError}</div> : null}
-
-        {engagement?.recipients?.length ? (
-          <div className="admin-table-wrap">
-            <table className="dashboard-table">
-              <thead>
-                <tr>
-                  <th>Recipient</th>
-                  <th>Delivery</th>
-                  <th>Clicked link</th>
-                  <th>Sent</th>
-                  <th>Last click</th>
-                </tr>
-              </thead>
-              <tbody>
-                {engagement.recipients.map((row) => (
-                  <tr key={row.id}>
-                    <td>{row.recipient_email}</td>
-                    <td>
-                      <span
-                        className={`status-pill ${
-                          row.status === "sent" ? "pill-won" : "pill-lost"
-                        }`}
-                      >
-                        {row.status}
-                      </span>
-                    </td>
-                    <td>
-                      {row.clicked ? (
-                        <span className="status-pill pill-qualified">
-                          Clicked{row.click_count > 1 ? ` ×${row.click_count}` : ""}
-                        </span>
-                      ) : (
-                        <span className="muted" style={{ fontSize: 13 }}>Not yet</span>
-                      )}
-                    </td>
-                    <td className="muted" style={{ fontSize: 12 }}>{formatDateTime(row.sent_at)}</td>
-                    <td className="muted" style={{ fontSize: 12 }}>{formatDateTime(row.last_clicked_at)}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        ) : !engagementLoading ? (
-          <div className="empty-state">No campaign emails have been sent yet.</div>
-        ) : null}
-      </div>
     </section>
   );
 }

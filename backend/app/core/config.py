@@ -45,7 +45,7 @@ class Settings(BaseSettings):
         default="",
         validation_alias=AliasChoices("SMTP_ENCRYPTION", "MAIL_ENCRYPTION"),
     )
-    smtp_timeout: int = Field(default=20, validation_alias=AliasChoices("SMTP_TIMEOUT", "MAIL_TIMEOUT"))
+    smtp_timeout: int = Field(default=120, validation_alias=AliasChoices("SMTP_TIMEOUT", "MAIL_TIMEOUT"))
     email_provider: str = Field(default="smtp", validation_alias=AliasChoices("EMAIL_PROVIDER", "MAIL_MAILER"))
     email_reply_to: str = Field(default="", alias="EMAIL_REPLY_TO")
     sendgrid_api_key: str = Field(default="", alias="SENDGRID_API_KEY")

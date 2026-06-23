@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
+import AdminCampaignEngagement from "@/components/admin/AdminCampaignEngagement";
 import AdminCampaignSender from "@/components/admin/AdminCampaignSender";
 import AdminCompanyManager from "@/components/admin/AdminCompanyManager";
 import AdminUserCreate from "@/components/admin/AdminUserCreate";
@@ -124,6 +125,12 @@ const FUNC_ICONS = {
       <path d="M3 6l8 6 8-6" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/>
     </svg>
   ),
+  engagement: (
+    <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
+      <path d="M9 3l9 4-4 1.6L19 13l-2 2-4.4-4.4L11 15z" stroke="currentColor" strokeWidth="1.6" strokeLinejoin="round"/>
+      <path d="M4 4.5l1.4 1.4M3 9h2M4 13.5l1.4-1.4" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round"/>
+    </svg>
+  ),
 };
 
 export default function AdminLeadDashboard() {
@@ -142,6 +149,7 @@ export default function AdminLeadDashboard() {
   const [quotationModalOpen, setQuotationModalOpen] = useState(false);
   const [paymentModalOpen, setPaymentModalOpen] = useState(false);
   const [campaignModalOpen, setCampaignModalOpen] = useState(false);
+  const [engagementModalOpen, setEngagementModalOpen] = useState(false);
   const [workspaceLeadId, setWorkspaceLeadId] = useState("");
   const [workspaceInitialTab, setWorkspaceInitialTab] = useState("overview");
 
@@ -402,6 +410,22 @@ export default function AdminLeadDashboard() {
                 <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
               </svg>
             </button>
+
+            <button
+              className="admin-func-card"
+              type="button"
+              onClick={() => setEngagementModalOpen(true)}
+            >
+              <div className="admin-func-icon admin-func-icon-emerald">{FUNC_ICONS.engagement}</div>
+              <div className="admin-func-body">
+                <div className="eyebrow" style={{ fontSize: 10 }}>Outreach</div>
+                <strong>Campaign engagement</strong>
+                <p>See who received and clicked the email</p>
+              </div>
+              <svg className="admin-func-arrow" width="16" height="16" viewBox="0 0 16 16" fill="none">
+                <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+            </button>
           </div>
 
           {/* ── Lead pipeline table ─────────────────────────────── */}
@@ -631,6 +655,17 @@ export default function AdminLeadDashboard() {
         onClose={() => setCampaignModalOpen(false)}
       >
         <AdminCampaignSender session={session} />
+      </AdminModal>
+
+      <AdminModal
+        open={engagementModalOpen}
+        eyebrow="Click Tracking"
+        title="Campaign engagement"
+        description="See which recipients received the email and who clicked the consultation link."
+        size="xl"
+        onClose={() => setEngagementModalOpen(false)}
+      >
+        <AdminCampaignEngagement session={session} />
       </AdminModal>
 
       <AdminModal
