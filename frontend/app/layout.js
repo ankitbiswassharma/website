@@ -63,7 +63,7 @@ export const metadata = {
   metadataBase: new URL(SITE_URL),
   applicationName: SITE_NAME,
   title: {
-    default: `${SITE_NAME} | B2B Custom Software & Workflow Automation`,
+    default: `${SITE_NAME} | B2B Custom Software & IT Solutions Provider`,
     template: `%s | ${SITE_NAME}`,
   },
   description: DEFAULT_DESCRIPTION,
@@ -76,7 +76,7 @@ export const metadata = {
     canonical: SITE_URL,
   },
   openGraph: {
-    title: `${SITE_NAME} | B2B Custom Software & Workflow Automation`,
+    title: `${SITE_NAME} | B2B Custom Software & IT Solutions Provider`,
     description: DEFAULT_DESCRIPTION,
     url: SITE_URL,
     siteName: SITE_NAME,
@@ -86,7 +86,7 @@ export const metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: `${SITE_NAME} | B2B Custom Software & Workflow Automation`,
+    title: `${SITE_NAME} | B2B Custom Software & IT Solutions Provider`,
     description: DEFAULT_DESCRIPTION,
     images: [OG_IMAGE],
   },

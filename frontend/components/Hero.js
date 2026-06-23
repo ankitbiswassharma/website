@@ -10,20 +10,20 @@ export default function Hero() {
         <div className="hero-copy">
           <div className="hero-badge">
             <span className="hero-badge-pip" />
-            B2B software partner — now onboarding for Q3
+            B2B software & IT solutions partner — now onboarding for Q3
           </div>
-          <div className="eyebrow">B2B Custom Software &amp; Workflow Automation</div>
+          <div className="eyebrow">B2B Custom Software &amp; IT Solutions Provider</div>
           <h1>
-            Custom B2B Software,
+            Custom Software &amp; IT Solutions,
             <br />
-            <span className="text-gradient">Built Around Your Workflows.</span>
+            <span className="text-gradient">Built Around Your Business.</span>
           </h1>
           <p>
-            Musk-IT is a B2B software company. We build custom software tailored
-            to each business&apos;s exact demands and workflows — automating
-            manual processes, connecting your tools, and delivering ERP, CRM,
-            dashboards, and web or mobile apps that fit how your team actually
-            operates.
+            Musk-IT is a B2B custom software and IT solutions provider. We build
+            software tailored to your exact demands and workflows — ERP, CRM,
+            dashboards, web and mobile apps — and run the IT behind it: cloud
+            infrastructure, managed support, cybersecurity, and the consulting to
+            plan it all.
           </p>
           <div className="hero-actions">
             <Link className="button button-primary" href="/contact">
@@ -36,7 +36,7 @@ export default function Hero() {
           <div className="hero-trust-rail">
             <span className="hero-trust-item">
               <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><circle cx="7" cy="7" r="7" fill="#4f46e5" opacity=".15"/><path d="M4 7l2 2 4-4" stroke="#4f46e5" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
-              Built for B2B
+              Custom software builds
             </span>
             <span className="hero-trust-item">
               <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><circle cx="7" cy="7" r="7" fill="#4f46e5" opacity=".15"/><path d="M4 7l2 2 4-4" stroke="#4f46e5" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
@@ -44,7 +44,7 @@ export default function Hero() {
             </span>
             <span className="hero-trust-item">
               <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><circle cx="7" cy="7" r="7" fill="#4f46e5" opacity=".15"/><path d="M4 7l2 2 4-4" stroke="#4f46e5" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
-              Workflow automation
+              Managed IT &amp; security
             </span>
           </div>
         </div>

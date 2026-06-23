@@ -574,6 +574,98 @@ export const services = [
     tech: ["REST", "GraphQL", "Webhooks", "OAuth"],
     related: ["workflow-automation", "web-mobile-apps"],
   },
+  {
+    slug: "cloud-infrastructure",
+    name: "Cloud & Infrastructure",
+    eyebrow: "Cloud",
+    highlight: "scale without surprises",
+    summary:
+      "Cloud migration, hosting, and managed infrastructure on AWS, Azure, or Google Cloud — provisioned, secured, and automated so your systems stay fast, reliable, and cost-efficient as you grow.",
+    problem:
+      "Servers fall over, cloud bills creep up, and deployments are manual and risky. Without proper infrastructure, scaling means downtime, firefighting, and unpredictable costs.",
+    capabilities: [
+      "Cloud migration and architecture on AWS, Azure, GCP",
+      "Infrastructure-as-code, containers, and orchestration",
+      "CI/CD pipelines and automated, zero-downtime deploys",
+      "Monitoring, backups, and cost optimisation",
+    ],
+    outcomes: [
+      "Reliable, auto-scaling infrastructure",
+      "Faster, safer releases with rollback",
+      "Lower, predictable cloud spend",
+    ],
+    tech: ["AWS", "Azure", "Docker", "Kubernetes", "Terraform"],
+    related: ["managed-it-support", "cybersecurity"],
+  },
+  {
+    slug: "managed-it-support",
+    name: "Managed IT & Support",
+    eyebrow: "Managed IT",
+    highlight: "your IT, handled",
+    summary:
+      "Ongoing IT support, monitoring, and maintenance for your software, systems, and infrastructure — proactive helpdesk and managed services so issues are resolved before they slow your team down.",
+    problem:
+      "When something breaks, work stops while you scramble for help. Patching, monitoring, and updates get neglected until they become incidents — and there's no clear owner for IT.",
+    capabilities: [
+      "24/7 monitoring and proactive maintenance",
+      "Helpdesk and incident response with SLAs",
+      "Patching, updates, and uptime management",
+      "User access, accounts, and device administration",
+    ],
+    outcomes: [
+      "Less downtime and faster resolution",
+      "A single accountable IT partner",
+      "Systems kept secure and up to date",
+    ],
+    tech: ["Monitoring", "Helpdesk", "SLAs", "Backups"],
+    related: ["cloud-infrastructure", "cybersecurity"],
+  },
+  {
+    slug: "cybersecurity",
+    name: "Cybersecurity",
+    eyebrow: "Security",
+    highlight: "protect what you've built",
+    summary:
+      "Security audits, hardening, access control, and compliance for your apps, infrastructure, and data — so your business is protected against breaches and ready for the standards your customers expect.",
+    problem:
+      "A single breach can cost trust, revenue, and compliance standing. Most teams don't know where they're exposed until an audit — or an attacker — finds out for them.",
+    capabilities: [
+      "Security audits and vulnerability assessments",
+      "Infrastructure and application hardening",
+      "Access control, encryption, and secrets management",
+      "Compliance readiness and data protection",
+    ],
+    outcomes: [
+      "Reduced attack surface and exposure",
+      "Audit-ready security posture",
+      "Customer and regulatory trust protected",
+    ],
+    tech: ["Audits", "IAM", "Encryption", "Compliance"],
+    related: ["cloud-infrastructure", "managed-it-support"],
+  },
+  {
+    slug: "it-consulting",
+    name: "IT Consulting & Digital Transformation",
+    eyebrow: "Consulting",
+    highlight: "technology with a strategy",
+    summary:
+      "Technology strategy, systems modernisation, and digital transformation advisory — we assess where you are, map where you're going, and plan the IT roadmap that gets your operations there.",
+    problem:
+      "Technology decisions get made reactively, tools pile up without a plan, and legacy systems hold the business back. There's no roadmap connecting IT spend to business outcomes.",
+    capabilities: [
+      "Technology strategy and IT roadmapping",
+      "Legacy systems assessment and modernisation",
+      "Process digitisation and tooling consolidation",
+      "Vendor evaluation and architecture advisory",
+    ],
+    outcomes: [
+      "A clear, costed IT roadmap",
+      "Modernised systems aligned to goals",
+      "Technology spend tied to business value",
+    ],
+    tech: ["Strategy", "Architecture", "Roadmapping", "Audits"],
+    related: ["cloud-infrastructure", "workflow-automation"],
+  },
 ];
 
 export function getService(slug) {

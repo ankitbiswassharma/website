@@ -5,6 +5,13 @@ export const SITE_KEYWORDS = [
   "custom software development",
   "custom software development company India",
   "B2B software company",
+  "IT solutions provider",
+  "IT solutions provider India",
+  "IT services company India",
+  "managed IT services",
+  "cloud infrastructure services",
+  "cybersecurity services",
+  "IT consulting and digital transformation",
   "workflow automation",
   "custom ERP software",
   "custom CRM software",
@@ -14,12 +21,12 @@ export const SITE_KEYWORDS = [
   "software for businesses India",
 ];
 export const DEFAULT_DESCRIPTION =
-  "Musk-IT is a B2B software company that builds custom software and workflow automation — tailored ERP, CRM, dashboards, and web or mobile apps designed around each business's exact demands and workflows.";
+  "Musk-IT is a B2B custom software and IT solutions provider — building tailored ERP, CRM, dashboards, web and mobile apps, plus cloud infrastructure, managed IT support, cybersecurity, and IT consulting around each business's exact demands and workflows.";
 
 export const indexablePages = [
   {
     path: "/",
-    title: "B2B Custom Software & Workflow Automation",
+    title: "B2B Custom Software & IT Solutions Provider",
     description: DEFAULT_DESCRIPTION,
     priority: 1,
   },
@@ -32,9 +39,9 @@ export const indexablePages = [
   },
   {
     path: "/services",
-    title: "Custom Software Development Services",
+    title: "Custom Software & IT Solutions Services",
     description:
-      "Explore Musk-IT B2B software services: custom ERP, CRM, workflow automation, web and mobile apps, and API integrations built around your operations.",
+      "Explore Musk-IT B2B services: custom ERP, CRM, workflow automation, web and mobile apps, API integrations, plus cloud infrastructure, managed IT, cybersecurity, and IT consulting.",
     priority: 0.9,
   },
   {
@@ -70,6 +77,34 @@ export const indexablePages = [
     title: "API Development and System Integrations",
     description:
       "Musk-IT designs clean APIs and connects payments, email, ERP, CRM, and cloud tools with signed inbound and outbound webhooks for reliable connectivity.",
+    priority: 0.8,
+  },
+  {
+    path: "/services/cloud-infrastructure",
+    title: "Cloud & Infrastructure Services",
+    description:
+      "Musk-IT handles cloud migration, hosting, and managed infrastructure on AWS, Azure, and Google Cloud — with infrastructure-as-code, CI/CD, monitoring, and cost optimisation.",
+    priority: 0.8,
+  },
+  {
+    path: "/services/managed-it-support",
+    title: "Managed IT Services and Support",
+    description:
+      "Musk-IT provides managed IT services — 24/7 monitoring, proactive maintenance, helpdesk, patching, and uptime management so your systems stay secure and running.",
+    priority: 0.8,
+  },
+  {
+    path: "/services/cybersecurity",
+    title: "Cybersecurity Services",
+    description:
+      "Musk-IT delivers security audits, infrastructure and application hardening, access control, encryption, and compliance readiness to protect your business and data.",
+    priority: 0.8,
+  },
+  {
+    path: "/services/it-consulting",
+    title: "IT Consulting and Digital Transformation",
+    description:
+      "Musk-IT provides IT strategy, systems modernisation, and digital transformation advisory — assessing your stack and mapping an IT roadmap aligned to business outcomes.",
     priority: 0.8,
   },
   {
@@ -290,8 +325,12 @@ export function localBusinessJsonLd() {
       "ERP development",
       "CRM development",
       "API integration",
+      "Cloud infrastructure",
+      "Managed IT services",
+      "Cybersecurity",
+      "IT consulting and digital transformation",
     ],
-    serviceType: "Custom software development and workflow automation",
+    serviceType: "Custom software development and IT solutions",
   };
 }
 

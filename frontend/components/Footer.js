@@ -15,10 +15,10 @@ export default function Footer() {
               </span>
             </Link>
             <p className="footer-copy">
-              Musk-IT is a custom software development company serving businesses
-              across India — building B2B software and workflow automation
-              (ERP, CRM, dashboards, apps, and integrations) shaped around how
-              your business actually works.
+              Musk-IT is a B2B custom software and IT solutions provider serving
+              businesses across India — building software (ERP, CRM, dashboards,
+              apps, and integrations) and running the IT behind it: cloud
+              infrastructure, managed support, cybersecurity, and consulting.
             </p>
             <div className="footer-links footer-contact">
               <a href={`mailto:${contactDetails.email}`}>{contactDetails.email}</a>
@@ -63,11 +63,11 @@ export default function Footer() {
             </nav>
           </div>
           <div className="footer-spotlight">
-            <div className="eyebrow">Custom Software & Automation</div>
-            <h3>Software shaped around your workflows.</h3>
+            <div className="eyebrow">Custom Software & IT Solutions</div>
+            <h3>Software built and IT handled, end to end.</h3>
             <p>
               Tell us how your business runs and where the manual work piles up.
-              We scope it, build it, and automate it — end to end, with no lock-in.
+              We scope it, build it, and run the IT behind it — with no lock-in.
             </p>
           </div>
         </div>

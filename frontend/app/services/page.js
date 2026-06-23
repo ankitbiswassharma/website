@@ -14,9 +14,9 @@ export default function ServicesPage() {
     <>
       <PageHero
         eyebrow="Services"
-        title="Custom B2B software,"
-        highlight="built around your workflows"
-        text="Five ways Musk-IT helps businesses run better — from full ERP and CRM systems to workflow automation, custom apps, and the integrations that tie everything together."
+        title="Custom software & IT solutions,"
+        highlight="built around your business"
+        text="From full ERP and CRM systems, workflow automation, custom apps, and integrations to the IT behind them — cloud infrastructure, managed support, cybersecurity, and consulting."
         primaryHref="/consultation"
         primaryLabel="Book a Consultation"
         secondaryHref="/integrations"
@@ -62,9 +62,9 @@ export default function ServicesPage() {
             { name: "Services", path: "/services" },
           ]),
           serviceJsonLd({
-            name: "Custom B2B Software Development Services",
+            name: "Custom Software Development & IT Solutions Services",
             description:
-              "Custom ERP, CRM, workflow automation, web and mobile apps, and API integrations for B2B businesses.",
+              "Custom ERP, CRM, workflow automation, web and mobile apps, and API integrations, plus cloud infrastructure, managed IT, cybersecurity, and IT consulting for B2B businesses.",
             path: "/services",
           }),
         ]}

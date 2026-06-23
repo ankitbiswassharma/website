@@ -22,7 +22,7 @@ export const metadata = buildMetadata("/");
 
 const STATS = [
   { num: "100%", label: "Custom-built around each client's workflows" },
-  { num: "B2B", label: "Software partner for businesses & teams" },
+  { num: "Software + IT", label: "One partner for builds and the IT behind them" },
   { num: "48h", label: "Average project kickoff time" },
   { num: "5★", label: "Average client satisfaction" },
 ];
@@ -70,8 +70,8 @@ export default function HomePage() {
         <div className="shell stack-lg">
           <SectionIntro
             eyebrow="Our Approach"
-            title="B2B software, built around how you work"
-            text="Musk-IT is a B2B software partner. We start from your business demands and real workflows, then design and build custom software around them — automating the manual steps, removing the busywork, and delivering systems your team will actually use."
+            title="Custom software and IT solutions, built around how you work"
+            text="Musk-IT is a B2B custom software and IT solutions provider. We start from your business demands and real workflows, then design and build custom software around them — and run the IT it depends on, from cloud infrastructure and managed support to security and strategy."
           />
           <FeatureGrid items={solutionItems} variant="solution" />
         </div>
@@ -89,8 +89,8 @@ export default function HomePage() {
         <div className="shell stack-lg">
           <SectionIntro
             eyebrow="What We Deliver"
-            title="Custom software & automation for your business"
-            text="Custom B2B builds, workflow automation, technical consulting, or a configurable SaaS foundation — every engagement is shaped around your operations, not a one-size-fits-all template."
+            title="Custom software & IT solutions for your business"
+            text="Custom B2B builds, workflow automation, cloud and infrastructure, managed IT and security, or technical consulting — every engagement is shaped around your operations, not a one-size-fits-all template."
             centered
           />
           <BentoShowcase items={buildShowcaseItems} />
@@ -132,8 +132,8 @@ export default function HomePage() {
       <CtaBanner
         gradient
         eyebrow="Get Started"
-        title="Let's automate your workflows."
-        text="Tell us how your business runs today and where the manual work piles up. We'll scope custom B2B software that fits your workflows and kick off within 48 hours."
+        title="Let's build and run your software."
+        text="Tell us how your business runs today and where the manual work piles up. We'll scope custom software and the IT solutions to support it, and kick off within 48 hours."
         primaryHref="/contact"
         primaryLabel="Book a Consultation"
         secondaryHref="/case-studies"
@@ -142,9 +142,9 @@ export default function HomePage() {
 
       <JsonLd
         data={serviceJsonLd({
-          name: "B2B Custom Software Development & Workflow Automation",
+          name: "B2B Custom Software Development & IT Solutions",
           description:
-            "B2B custom software development and workflow automation — tailored ERP, CRM, dashboards, web and mobile apps, integrations, and process automation built around each business's demands and workflows.",
+            "B2B custom software and IT solutions — tailored ERP, CRM, dashboards, web and mobile apps, and integrations, plus cloud infrastructure, managed IT support, cybersecurity, and IT consulting built around each business's demands and workflows.",
           path: "/",
         })}
       />
