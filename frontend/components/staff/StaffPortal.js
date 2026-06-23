@@ -255,7 +255,11 @@ export default function StaffPortal({ session }) {
                   </tbody>
                 </table>
                 {!loading && !leads.length ? (
-                  <div className="empty-state">No leads match the selected status.</div>
+                  <div className="empty-state">
+                    {statusFilter
+                      ? "No assigned leads match the selected status."
+                      : "No leads have been assigned to you yet. Your admin assigns leads you can work on."}
+                  </div>
                 ) : null}
               </div>
             </div>

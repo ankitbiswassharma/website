@@ -84,3 +84,18 @@ class Lead(Base):
     @requirements.setter
     def requirements(self, value: str | None) -> None:
         self.client_requirements_text = value
+
+
+class LeadAssignment(Base):
+    """Maps a lead to the staff user it is assigned to.
+
+    App-owned table with no FK to ``leads`` so it needs no special privileges
+    on that (possibly externally-owned) table.
+    """
+
+    __tablename__ = "lead_assignments"
+
+    lead_id: Mapped[str] = mapped_column(String(36), primary_key=True)
+    staff_user_id: Mapped[str] = mapped_column(String(36), nullable=False, index=True)
+    assigned_by: Mapped[str | None] = mapped_column(String(320))
+    assigned_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False)

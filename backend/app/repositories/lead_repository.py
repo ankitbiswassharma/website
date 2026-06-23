@@ -8,7 +8,7 @@ from sqlalchemy.orm import Session, selectinload
 from app.core.security import utcnow
 from app.models.activity import LeadActivity
 from app.models.enums import ActivityType, LeadStatus
-from app.models.lead import Lead
+from app.models.lead import Lead, LeadAssignment
 from app.models.payment import Payment
 from app.models.quotation import Quotation
 
@@ -40,8 +40,13 @@ class LeadRepository:
         request_type: str | None = None,
         created_from: date | None = None,
         created_to: date | None = None,
+        ids: list[str] | None = None,
     ) -> list[Lead]:
+        if ids is not None and not ids:
+            return []
         stmt = select(Lead).order_by(Lead.created_at.desc())
+        if ids is not None:
+            stmt = stmt.where(Lead.id.in_(ids))
         if status:
             stmt = stmt.where(Lead.status == status)
         if search:
@@ -103,3 +108,41 @@ class LeadRepository:
             .limit(1)
         )
         return db.scalar(stmt)
+
+    # ── Lead assignment (lead -> staff user) ─────────────────────────────────
+    def get_assignment(self, db: Session, lead_id: str) -> LeadAssignment | None:
+        return db.get(LeadAssignment, lead_id)
+
+    def assignment_map(self, db: Session, lead_ids: list[str]) -> dict[str, str]:
+        if not lead_ids:
+            return {}
+        stmt = select(LeadAssignment).where(LeadAssignment.lead_id.in_(lead_ids))
+        return {row.lead_id: row.staff_user_id for row in db.scalars(stmt).all()}
+
+    def lead_ids_for_staff(self, db: Session, staff_user_id: str) -> list[str]:
+        stmt = select(LeadAssignment.lead_id).where(LeadAssignment.staff_user_id == staff_user_id)
+        return list(db.scalars(stmt).all())
+
+    def set_assignment(self, db: Session, lead_id: str, staff_user_id: str, assigned_by: str | None) -> None:
+        existing = db.get(LeadAssignment, lead_id)
+        if existing:
+            existing.staff_user_id = staff_user_id
+            existing.assigned_by = assigned_by
+            existing.assigned_at = utcnow()
+            db.add(existing)
+        else:
+            db.add(
+                LeadAssignment(
+                    lead_id=lead_id,
+                    staff_user_id=staff_user_id,
+                    assigned_by=assigned_by,
+                    assigned_at=utcnow(),
+                )
+            )
+        db.flush()
+
+    def clear_assignment(self, db: Session, lead_id: str) -> None:
+        existing = db.get(LeadAssignment, lead_id)
+        if existing:
+            db.delete(existing)
+            db.flush()

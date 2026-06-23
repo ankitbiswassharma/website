@@ -6,8 +6,16 @@ from app.api.deps import get_admin_session
 from app.db.session import get_db
 from app.repositories.lead_repository import LeadRepository
 from app.repositories.quotation_repository import QuotationRepository
+from app.repositories.user_repository import UserRepository
 from app.models.enums import LeadStatus
-from app.schemas.lead import LeadActivityCreate, LeadDetail, LeadListItem, LeadNotesUpdateIn, LeadUpdateIn
+from app.schemas.lead import (
+    LeadActivityCreate,
+    LeadAssignmentIn,
+    LeadDetail,
+    LeadListItem,
+    LeadNotesUpdateIn,
+    LeadUpdateIn,
+)
 from app.schemas.payment import AdminPaymentLinkCreateIn, AdminPaymentLinkOut
 from app.schemas.quotation import AdminQuotationOut, AdminQuotationSendIn, AdminQuotationUpsertIn, QuotationOut
 from app.services.lead_service import lead_service
@@ -18,13 +26,23 @@ from app.services.quotation_service import quotation_service
 router = APIRouter(prefix="/admin", tags=["admin-leads"])
 lead_repository = LeadRepository()
 quotation_repository = QuotationRepository()
+user_repository = UserRepository()
 
 
 def serialize_lead_detail(db: Session, lead) -> LeadDetail:
     latest_quote = lead_repository.latest_quotation(db, lead.id)
     latest_payment = lead_repository.latest_payment(db, lead.id)
+    assignment = lead_repository.get_assignment(db, lead.id)
+    assigned_staff_id = assignment.staff_user_id if assignment else None
+    assigned_staff_name = None
+    if assigned_staff_id:
+        assigned_user = user_repository.get(db, assigned_staff_id)
+        assigned_staff_name = assigned_user.name if assigned_user else None
+    base = LeadListItem.model_validate(lead).model_dump()
+    base["assigned_staff_id"] = assigned_staff_id
+    base["assigned_staff_name"] = assigned_staff_name
     return LeadDetail(
-        **LeadListItem.model_validate(lead).model_dump(),
+        **base,
         designation=lead.designation,
         source=lead.source,
         client_requirements_html=lead.client_requirements_html,
@@ -63,7 +81,16 @@ def list_leads(
     except ValueError as exc:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Invalid lead status filter") from exc
     leads = lead_repository.list(db, status=parsed_status, search=search, request_type=request_type)
-    return [LeadListItem.model_validate(lead) for lead in leads]
+    items = [LeadListItem.model_validate(lead) for lead in leads]
+    assignment_map = lead_repository.assignment_map(db, [lead.id for lead in leads])
+    if assignment_map:
+        staff_names = {user.id: user.name for user in user_repository.list(db)}
+        for item in items:
+            staff_id = assignment_map.get(item.id)
+            if staff_id:
+                item.assigned_staff_id = staff_id
+                item.assigned_staff_name = staff_names.get(staff_id)
+    return items
 
 
 @router.get("/leads/{lead_id}", response_model=LeadDetail)
@@ -95,6 +122,36 @@ def update_lead_notes(
 ):
     lead = lead_service.update_lead(db, lead_id, admin_notes=payload.admin_notes)
     refreshed = lead_repository.get(db, lead.id)
+    return serialize_lead_detail(db, refreshed)
+
+
+@router.put("/leads/{lead_id}/assignment", response_model=LeadDetail)
+def assign_lead(
+    lead_id: str,
+    payload: LeadAssignmentIn,
+    admin_session=Depends(get_admin_session),
+    db: Session = Depends(get_db),
+):
+    lead = lead_repository.get(db, lead_id)
+    if not lead:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Lead not found")
+
+    admin_email = getattr(admin_session, "email", "admin")
+    if payload.staff_user_id:
+        user = user_repository.get(db, payload.staff_user_id)
+        if not user or not user.is_active:
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail="Select an active staff user to assign this lead to.",
+            )
+        lead_repository.set_assignment(db, lead_id, payload.staff_user_id, admin_email)
+        lead_service.add_activity(db, lead_id, f"Lead assigned to {user.name}", admin_email)
+    else:
+        lead_repository.clear_assignment(db, lead_id)
+        lead_service.add_activity(db, lead_id, "Lead assignment cleared", admin_email)
+
+    db.commit()
+    refreshed = lead_repository.get(db, lead_id)
     return serialize_lead_detail(db, refreshed)
 
 

@@ -16,26 +16,38 @@ lead_repository = LeadRepository()
 user_repository = UserRepository()
 
 
+def ensure_lead_assigned(db: Session, lead_id: str, staff_user_id: str) -> None:
+    """Raise unless ``lead_id`` is currently assigned to this staff user."""
+    assignment = lead_repository.get_assignment(db, lead_id)
+    if not assignment or assignment.staff_user_id != staff_user_id:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="This lead is not assigned to you.",
+        )
+
+
 @router.get("/leads", response_model=list[LeadListItem])
 def list_leads(
     status_filter: str | None = None,
     search: str | None = None,
-    _: object = Depends(get_staff_session),
+    staff_session=Depends(get_staff_session),
     db: Session = Depends(get_db),
 ):
     try:
         parsed_status = LeadStatus(status_filter) if status_filter else None
     except ValueError as exc:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Invalid lead status filter") from exc
-    leads = lead_repository.list(db, status=parsed_status, search=search)
+    assigned_ids = lead_repository.lead_ids_for_staff(db, staff_session.user_id)
+    leads = lead_repository.list(db, status=parsed_status, search=search, ids=assigned_ids)
     return [LeadListItem.model_validate(lead) for lead in leads]
 
 
 @router.get("/leads/{lead_id}", response_model=LeadDetail)
-def get_lead(lead_id: str, _: object = Depends(get_staff_session), db: Session = Depends(get_db)):
+def get_lead(lead_id: str, staff_session=Depends(get_staff_session), db: Session = Depends(get_db)):
     lead = lead_repository.get(db, lead_id)
     if not lead:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Lead not found")
+    ensure_lead_assigned(db, lead_id, staff_session.user_id)
     return serialize_lead_detail(db, lead)
 
 
@@ -46,6 +58,7 @@ def update_lead(
     staff_session=Depends(get_staff_session),
     db: Session = Depends(get_db),
 ):
+    ensure_lead_assigned(db, lead_id, staff_session.user_id)
     lead = lead_service.update_lead(
         db,
         lead_id,
@@ -68,9 +81,10 @@ def update_lead(
 def update_lead_notes(
     lead_id: str,
     payload: LeadNotesUpdateIn,
-    _: object = Depends(get_staff_session),
+    staff_session=Depends(get_staff_session),
     db: Session = Depends(get_db),
 ):
+    ensure_lead_assigned(db, lead_id, staff_session.user_id)
     lead = lead_service.update_lead(db, lead_id, admin_notes=payload.admin_notes)
     refreshed = lead_repository.get(db, lead.id)
     return serialize_lead_detail(db, refreshed)

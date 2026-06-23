@@ -76,6 +76,8 @@ class LeadListItem(ORMModel):
     updated_at: datetime
     preferred_demo_date: date | None
     preferred_demo_time: str | None
+    assigned_staff_id: str | None = None
+    assigned_staff_name: str | None = None
 
 
 class LeadDetail(LeadListItem):
@@ -102,6 +104,12 @@ class LeadNotesUpdateIn(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
     admin_notes: str | None = None
+
+
+class LeadAssignmentIn(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
+    staff_user_id: str | None = None  # null clears the assignment
 
 
 class LeadActivityCreate(BaseModel):

@@ -236,6 +236,11 @@ export default function AdminLeadWorkspace({
   const [paymentLink, setPaymentLink] = useState(null);
   const [copiedLink, setCopiedLink] = useState(false);
 
+  const isAdmin = apiBase === "/admin";
+  const [staffUsers, setStaffUsers] = useState([]);
+  const [assignSelection, setAssignSelection] = useState("");
+  const [assigning, setAssigning] = useState(false);
+
   useEffect(() => {
     setActiveTab(initialTab);
   }, [initialTab, leadId]);
@@ -261,6 +266,7 @@ export default function AdminLeadWorkspace({
         setLead(leadResponse);
         setStatusValue(leadResponse.status);
         setNotesValue(leadResponse.admin_notes || "");
+        setAssignSelection(leadResponse.assigned_staff_id || "");
         setQuotations(quotationsResponse);
 
         if (quotationsResponse.length) {
@@ -279,6 +285,45 @@ export default function AdminLeadWorkspace({
 
     loadWorkspace();
   }, [session.token, leadId]);
+
+  useEffect(() => {
+    if (!isAdmin || !session.token) {
+      return;
+    }
+    async function loadStaffUsers() {
+      try {
+        const response = await session.authFetch("/admin/users");
+        setStaffUsers(response);
+      } catch {
+        setStaffUsers([]);
+      }
+    }
+    loadStaffUsers();
+  }, [isAdmin, session.token]);
+
+  async function assignLead(staffUserId) {
+    setAssigning(true);
+    setWorkspaceError("");
+    setWorkspaceMessage("");
+    try {
+      const updatedLead = await session.authFetch(`${apiBase}/leads/${leadId}/assignment`, {
+        method: "PUT",
+        body: JSON.stringify({ staff_user_id: staffUserId || null }),
+      });
+      setLead(updatedLead);
+      setAssignSelection(updatedLead.assigned_staff_id || "");
+      setWorkspaceMessage(
+        updatedLead.assigned_staff_name
+          ? `Lead assigned to ${updatedLead.assigned_staff_name}.`
+          : "Lead assignment cleared."
+      );
+      syncLeadList();
+    } catch (error) {
+      setWorkspaceError(error.message);
+    } finally {
+      setAssigning(false);
+    }
+  }
 
   const canSendQuotation = Boolean(lead && ["qualified", "proposal_sent", "won"].includes(lead.status));
   const currentQuotation =
@@ -729,6 +774,63 @@ export default function AdminLeadWorkspace({
               )}
             </div>
           </div>
+
+          {isAdmin ? (
+            <div className="card detail-card stack-md">
+              <div className="stack-sm">
+                <div className="eyebrow">Assignment</div>
+                <h3>Assign this lead to a user</h3>
+                <p>
+                  Assigned staff can view and work on this lead from their portal. Only the assigned
+                  user can act on it.
+                </p>
+              </div>
+              <div className="meta-item">
+                <span className="muted">Currently assigned to</span>
+                <strong>{lead.assigned_staff_name || "Unassigned"}</strong>
+              </div>
+              <div className="field">
+                <label>Assign to</label>
+                <select
+                  value={assignSelection}
+                  onChange={(event) => setAssignSelection(event.target.value)}
+                >
+                  <option value="">Unassigned</option>
+                  {staffUsers.map((user) => (
+                    <option key={user.id} value={user.id} disabled={!user.is_active}>
+                      {user.name}
+                      {user.is_active ? "" : " (disabled)"}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <div className="dashboard-toolbar">
+                <button
+                  className="button button-primary"
+                  type="button"
+                  disabled={assigning || assignSelection === (lead.assigned_staff_id || "")}
+                  onClick={() => assignLead(assignSelection)}
+                >
+                  {assigning ? "Saving..." : "Save assignment"}
+                </button>
+                {lead.assigned_staff_id ? (
+                  <button
+                    className="button button-ghost"
+                    type="button"
+                    disabled={assigning}
+                    onClick={() => assignLead("")}
+                  >
+                    Unassign
+                  </button>
+                ) : null}
+              </div>
+              {!staffUsers.length ? (
+                <p className="muted" style={{ fontSize: 13 }}>
+                  No staff users yet. Create one from the dashboard&apos;s “Create user” panel.
+                </p>
+              ) : null}
+            </div>
+          ) : null}
         </section>
       ) : null}
 

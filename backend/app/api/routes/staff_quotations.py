@@ -4,6 +4,7 @@ from sqlalchemy.orm import Session
 
 from app.api.deps import get_staff_session
 from app.api.routes.admin_leads import serialize_admin_quotation
+from app.api.routes.staff_leads import ensure_lead_assigned
 from app.db.session import get_db
 from app.repositories.payment_repository import PaymentRepository
 from app.repositories.quotation_repository import QuotationRepository
@@ -26,6 +27,15 @@ def _actor(db: Session, staff_session) -> tuple[str, str]:
     return label, staff_session.user_id
 
 
+def _load_assigned_quotation(db: Session, quotation_id: str, staff_user_id: str):
+    """Fetch a quotation, ensuring its lead is assigned to this staff user."""
+    quotation = quotation_repository.get(db, quotation_id)
+    if not quotation:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Quotation not found")
+    ensure_lead_assigned(db, quotation.lead_id, staff_user_id)
+    return quotation
+
+
 @router.get("/quotations", response_model=list[AdminQuotationOut])
 def list_quotations(
     lead_id: str | None = None,
@@ -33,6 +43,8 @@ def list_quotations(
     staff_session=Depends(get_staff_session),
     db: Session = Depends(get_db),
 ):
+    if lead_id:
+        ensure_lead_assigned(db, lead_id, staff_session.user_id)
     created_by_staff_id = staff_session.user_id if mine else None
     quotations = quotation_repository.list(db, lead_id=lead_id, created_by_staff_id=created_by_staff_id)
     return [serialize_admin_quotation(quotation) for quotation in quotations]
@@ -45,6 +57,7 @@ def create_quotation(
     staff_session=Depends(get_staff_session),
     db: Session = Depends(get_db),
 ):
+    ensure_lead_assigned(db, lead_id, staff_session.user_id)
     actor_label, actor_staff_id = _actor(db, staff_session)
     quotation = quotation_service.upsert_for_lead(
         db,
@@ -57,17 +70,17 @@ def create_quotation(
 
 
 @router.get("/quotations/{quotation_id}/pdf")
-def get_quotation_pdf(quotation_id: str, _: object = Depends(get_staff_session), db: Session = Depends(get_db)):
-    quotation = quotation_repository.get(db, quotation_id)
-    if not quotation or not quotation.pdf_path:
+def get_quotation_pdf(quotation_id: str, staff_session=Depends(get_staff_session), db: Session = Depends(get_db)):
+    quotation = _load_assigned_quotation(db, quotation_id, staff_session.user_id)
+    if not quotation.pdf_path:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Quotation PDF not found")
     return FileResponse(quotation.pdf_path, media_type="application/pdf", filename=f"{quotation.quotation_number}.pdf")
 
 
 @router.get("/quotations/{quotation_id}/docx")
-def get_quotation_docx(quotation_id: str, _: object = Depends(get_staff_session), db: Session = Depends(get_db)):
-    quotation = quotation_repository.get(db, quotation_id)
-    if not quotation or not quotation.docx_path:
+def get_quotation_docx(quotation_id: str, staff_session=Depends(get_staff_session), db: Session = Depends(get_db)):
+    quotation = _load_assigned_quotation(db, quotation_id, staff_session.user_id)
+    if not quotation.docx_path:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Quotation DOCX not found")
     return FileResponse(
         quotation.docx_path,
@@ -83,6 +96,7 @@ async def upload_edited_docx(
     staff_session=Depends(get_staff_session),
     db: Session = Depends(get_db),
 ):
+    _load_assigned_quotation(db, quotation_id, staff_session.user_id)
     if not file.filename.lower().endswith(".docx"):
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Please upload a .docx quotation file")
     actor_label, actor_staff_id = _actor(db, staff_session)
@@ -104,6 +118,7 @@ def send_quotation(
     staff_session=Depends(get_staff_session),
     db: Session = Depends(get_db),
 ):
+    _load_assigned_quotation(db, quotation_id, staff_session.user_id)
     actor_label, actor_staff_id = _actor(db, staff_session)
     quotation = quotation_service.send_to_client(
         db,
@@ -119,9 +134,10 @@ def send_quotation(
 async def create_payment_link(
     quotation_id: str,
     payload: AdminPaymentLinkCreateIn,
-    _: object = Depends(get_staff_session),
+    staff_session=Depends(get_staff_session),
     db: Session = Depends(get_db),
 ):
+    _load_assigned_quotation(db, quotation_id, staff_session.user_id)
     result = await payment_service.create_admin_payment_link(
         db,
         quotation_id=quotation_id,
