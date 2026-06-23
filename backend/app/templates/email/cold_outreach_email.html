@@ -1,0 +1,134 @@
+{% extends "base_email.html" %}
+{% set accent = accent_color | default('#4f46e5') %}
+{% set shell_kicker = "Custom Software & IT Solutions" %}
+{% set shell_title = "Software built around how your business runs." %}
+{% set shell_subtitle = "Musk-IT is a B2B partner that builds custom software and runs the IT behind it — so your team spends less time fighting tools and more time growing." %}
+
+{% block body %}
+  <p style="margin:0 0 12px;font-size:16px;line-height:1.7;color:#0f172a;font-weight:700;">
+    Hello there,
+  </p>
+  <p style="margin:0 0 18px;font-size:15px;line-height:1.8;color:#475569;">
+    Most businesses don&#39;t need more software — they need the <strong style="color:#0f172a;">right</strong>
+    software, shaped around how they actually work, plus a reliable team to run the IT underneath it.
+    That&#39;s exactly what <strong style="color:#0f172a;">Musk-IT</strong> does: we design and build custom
+    systems around your real workflows, then keep them fast, secure, and online.
+  </p>
+
+  <!-- ── Capabilities: Custom Software ─────────────────────────── -->
+  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="margin:0 0 16px;">
+    <tr>
+      <td style="padding:20px 22px;border-radius:18px;border:1px solid #e2e8f0;background:#f8fafc;">
+        <div style="margin:0 0 14px;font-size:12px;font-weight:800;letter-spacing:0.16em;text-transform:uppercase;color:{{ accent }};">
+          Custom Software We Build
+        </div>
+        <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
+          <tr>
+            <td width="50%" style="vertical-align:top;padding:0 10px 12px 0;">
+              <div style="font-size:14px;font-weight:700;color:#0f172a;">ERP &amp; CRM systems</div>
+              <div style="font-size:13px;line-height:1.6;color:#64748b;">One source of truth for orders, inventory, sales, and finance.</div>
+            </td>
+            <td width="50%" style="vertical-align:top;padding:0 0 12px 10px;">
+              <div style="font-size:14px;font-weight:700;color:#0f172a;">Workflow automation</div>
+              <div style="font-size:13px;line-height:1.6;color:#64748b;">Approvals, reports, and data sync that just run — no busywork.</div>
+            </td>
+          </tr>
+          <tr>
+            <td width="50%" style="vertical-align:top;padding:0 10px 0 0;">
+              <div style="font-size:14px;font-weight:700;color:#0f172a;">Web &amp; mobile apps</div>
+              <div style="font-size:13px;line-height:1.6;color:#64748b;">Customer portals, internal tools, and dashboards, production-grade.</div>
+            </td>
+            <td width="50%" style="vertical-align:top;padding:0 0 0 10px;">
+              <div style="font-size:14px;font-weight:700;color:#0f172a;">APIs &amp; integrations</div>
+              <div style="font-size:13px;line-height:1.6;color:#64748b;">Connect the tools you already use, with reliable signed webhooks.</div>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+  </table>
+
+  <!-- ── Capabilities: IT Solutions ────────────────────────────── -->
+  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="margin:0 0 18px;">
+    <tr>
+      <td style="padding:20px 22px;border-radius:18px;border:1px solid #e2e8f0;background:#0f172a;">
+        <div style="margin:0 0 14px;font-size:12px;font-weight:800;letter-spacing:0.16em;text-transform:uppercase;color:#a5b4fc;">
+          IT Solutions We Run
+        </div>
+        <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
+          <tr>
+            <td width="50%" style="vertical-align:top;padding:0 10px 12px 0;">
+              <div style="font-size:14px;font-weight:700;color:#ffffff;">Cloud &amp; infrastructure</div>
+              <div style="font-size:13px;line-height:1.6;color:#94a3b8;">Migration, hosting, and deploys on AWS, Azure, and GCP.</div>
+            </td>
+            <td width="50%" style="vertical-align:top;padding:0 0 12px 10px;">
+              <div style="font-size:14px;font-weight:700;color:#ffffff;">Managed IT &amp; support</div>
+              <div style="font-size:13px;line-height:1.6;color:#94a3b8;">Monitoring, maintenance, and a helpdesk with real SLAs.</div>
+            </td>
+          </tr>
+          <tr>
+            <td width="50%" style="vertical-align:top;padding:0 10px 0 0;">
+              <div style="font-size:14px;font-weight:700;color:#ffffff;">Cybersecurity</div>
+              <div style="font-size:13px;line-height:1.6;color:#94a3b8;">Audits, hardening, access control, and compliance readiness.</div>
+            </td>
+            <td width="50%" style="vertical-align:top;padding:0 0 0 10px;">
+              <div style="font-size:14px;font-weight:700;color:#ffffff;">IT consulting</div>
+              <div style="font-size:13px;line-height:1.6;color:#94a3b8;">Strategy and modernisation with a costed, practical roadmap.</div>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+  </table>
+
+  <!-- ── Proof strip ───────────────────────────────────────────── -->
+  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="margin:0 0 8px;">
+    <tr>
+      <td width="33%" align="center" style="padding:14px 8px;border:1px solid #e2e8f0;border-radius:14px;background:#ffffff;">
+        <div style="font-size:22px;font-weight:800;color:{{ accent }};letter-spacing:-0.03em;">48h</div>
+        <div style="font-size:11px;line-height:1.5;color:#64748b;">Average project kickoff</div>
+      </td>
+      <td width="2%"></td>
+      <td width="33%" align="center" style="padding:14px 8px;border:1px solid #e2e8f0;border-radius:14px;background:#ffffff;">
+        <div style="font-size:22px;font-weight:800;color:{{ accent }};letter-spacing:-0.03em;">100%</div>
+        <div style="font-size:11px;line-height:1.5;color:#64748b;">Built around your workflows</div>
+      </td>
+      <td width="2%"></td>
+      <td width="33%" align="center" style="padding:14px 8px;border:1px solid #e2e8f0;border-radius:14px;background:#ffffff;">
+        <div style="font-size:22px;font-weight:800;color:{{ accent }};letter-spacing:-0.03em;">B2B</div>
+        <div style="font-size:11px;line-height:1.5;color:#64748b;">No lock-in, you own the code</div>
+      </td>
+    </tr>
+  </table>
+
+  <!-- ── CTA ───────────────────────────────────────────────────── -->
+  <table role="presentation" cellpadding="0" cellspacing="0" border="0" style="margin:26px 0 18px;">
+    <tr>
+      <td style="border-radius:14px;background:{{ accent }};box-shadow:0 14px 34px rgba(79,70,229,0.28);">
+        <a href="{{ consultation_url }}" style="display:inline-block;padding:15px 32px;font-size:15px;font-weight:800;color:#ffffff;text-decoration:none;">
+          Book a free consultation →
+        </a>
+      </td>
+    </tr>
+  </table>
+
+  <p style="margin:0 0 18px;font-size:14px;line-height:1.8;color:#475569;">
+    Tell us how your business runs today and where the manual work piles up — we&#39;ll scope the right
+    build and kick off within 48 hours. Reach us any time at
+    <a href="mailto:{{ contact_email }}" style="color:{{ accent }};text-decoration:underline;">{{ contact_email }}</a>{% if contact_phone %}
+    or <a href="tel:{{ contact_phone | replace(' ', '') }}" style="color:{{ accent }};text-decoration:underline;">{{ contact_phone }}</a>{% endif %}.
+  </p>
+
+  <p style="margin:22px 0 0;font-size:14px;line-height:1.8;color:#475569;">
+    Warm regards,<br />
+    <strong style="color:#0f172a;">{{ sender_name | default('The Musk-IT Team') }}</strong><br />
+    <a href="{{ website_url }}" style="color:{{ accent }};text-decoration:underline;">{{ website_url | replace('https://', '') | replace('http://', '') }}</a>
+  </p>
+
+  <p style="margin:18px 0 0;font-size:11px;line-height:1.7;color:#94a3b8;border-top:1px solid #e2e8f0;padding-top:14px;">
+    You received this message because {{ company_name | default('Musk-IT') }} believes our software and IT
+    services may be relevant to your business. If you&#39;d prefer not to hear from us, simply reply with
+    &ldquo;unsubscribe&rdquo; to <a href="mailto:{{ contact_email }}" style="color:#64748b;text-decoration:underline;">{{ contact_email }}</a>
+    and we&#39;ll remove you right away.
+  </p>
+{% endblock %}

@@ -55,6 +55,9 @@ class Settings(BaseSettings):
     company_name: str = Field(default="Musk-IT", alias="COMPANY_NAME")
     company_tagline: str = Field(default="Build | Automate | Grow", alias="COMPANY_TAGLINE")
     company_website: str = Field(default="https://muskit.in", alias="COMPANY_WEBSITE")
+    # Public base used to build click-tracking links embedded in outbound emails.
+    # Must be reachable by recipients and proxy /api/v1 to the backend.
+    public_base_url: str = Field(default="", alias="PUBLIC_BASE_URL")
     company_address: str = Field(default="India", alias="COMPANY_ADDRESS")
     company_tax_label: str = Field(default="GST", alias="COMPANY_TAX_LABEL")
     default_tax_rate: float = Field(default=18.0, alias="DEFAULT_TAX_RATE")

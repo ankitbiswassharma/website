@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
+import AdminCampaignSender from "@/components/admin/AdminCampaignSender";
 import AdminCompanyManager from "@/components/admin/AdminCompanyManager";
 import AdminUserCreate from "@/components/admin/AdminUserCreate";
 import AdminUserList from "@/components/admin/AdminUserList";
@@ -117,6 +118,12 @@ const FUNC_ICONS = {
       <path d="M15 7.5a2.5 2.5 0 0 1 0 5M17 18c0-2.2-.9-3.7-2-4.5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round"/>
     </svg>
   ),
+  campaign: (
+    <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
+      <rect x="2.5" y="5" width="17" height="12" rx="2" stroke="currentColor" strokeWidth="1.6"/>
+      <path d="M3 6l8 6 8-6" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/>
+    </svg>
+  ),
 };
 
 export default function AdminLeadDashboard() {
@@ -134,6 +141,7 @@ export default function AdminLeadDashboard() {
   const [userRefreshKey, setUserRefreshKey] = useState(0);
   const [quotationModalOpen, setQuotationModalOpen] = useState(false);
   const [paymentModalOpen, setPaymentModalOpen] = useState(false);
+  const [campaignModalOpen, setCampaignModalOpen] = useState(false);
   const [workspaceLeadId, setWorkspaceLeadId] = useState("");
   const [workspaceInitialTab, setWorkspaceInitialTab] = useState("overview");
 
@@ -378,6 +386,22 @@ export default function AdminLeadDashboard() {
                 <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
               </svg>
             </button>
+
+            <button
+              className="admin-func-card"
+              type="button"
+              onClick={() => setCampaignModalOpen(true)}
+            >
+              <div className="admin-func-icon admin-func-icon-indigo">{FUNC_ICONS.campaign}</div>
+              <div className="admin-func-body">
+                <div className="eyebrow" style={{ fontSize: 10 }}>Outreach</div>
+                <strong>Email campaign</strong>
+                <p>Send the capabilities email to prospects</p>
+              </div>
+              <svg className="admin-func-arrow" width="16" height="16" viewBox="0 0 16 16" fill="none">
+                <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+            </button>
           </div>
 
           {/* ── Lead pipeline table ─────────────────────────────── */}
@@ -596,6 +620,17 @@ export default function AdminLeadDashboard() {
             </article>
           ))}
         </div>
+      </AdminModal>
+
+      <AdminModal
+        open={campaignModalOpen}
+        eyebrow="Cold Outreach"
+        title="Email campaign"
+        description="Enter prospect emails (comma separated) and send the Musk-IT capabilities email to each."
+        size="xl"
+        onClose={() => setCampaignModalOpen(false)}
+      >
+        <AdminCampaignSender session={session} />
       </AdminModal>
 
       <AdminModal

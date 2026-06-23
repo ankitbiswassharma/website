@@ -5,6 +5,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from app.api.routes import (
     admin_auth,
+    admin_campaigns,
     admin_companies,
     admin_dashboard,
     admin_leads,
@@ -16,6 +17,7 @@ from app.api.routes import (
     staff_auth,
     staff_leads,
     staff_quotations,
+    tracking,
 )
 from app.core.config import settings
 from app.db.session import init_db
@@ -53,8 +55,10 @@ async def add_api_crawl_headers(request: Request, call_next):
 app.include_router(health.router, prefix=settings.api_v1_prefix)
 app.include_router(lead_management.router, prefix=settings.api_v1_prefix)
 app.include_router(public.router, prefix=settings.api_v1_prefix)
+app.include_router(tracking.router, prefix=settings.api_v1_prefix)
 app.include_router(integrations.router, prefix=settings.api_v1_prefix)
 app.include_router(admin_auth.router, prefix=settings.api_v1_prefix)
+app.include_router(admin_campaigns.router, prefix=settings.api_v1_prefix)
 app.include_router(admin_leads.router, prefix=settings.api_v1_prefix)
 app.include_router(admin_companies.router, prefix=settings.api_v1_prefix)
 app.include_router(admin_dashboard.router, prefix=settings.api_v1_prefix)
