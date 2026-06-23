@@ -15,6 +15,12 @@ export default function StaffLoginCard({ session }) {
   return (
     <section className="login-screen shell">
       <div className="login-card stack-md">
+        <div className="auth-brand">
+          <span className="brand-wordmark">
+            <span>Musk</span>
+            <span>-IT</span>
+          </span>
+        </div>
         <div className="eyebrow">Staff access</div>
         <h1 style={{ fontSize: "42px" }}>Staff sign-in</h1>
         <p>

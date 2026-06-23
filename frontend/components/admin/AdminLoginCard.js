@@ -8,6 +8,12 @@ export default function AdminLoginCard({
   return (
     <section className="login-screen shell">
       <div className="login-card stack-md">
+        <div className="auth-brand">
+          <span className="brand-wordmark">
+            <span>Musk</span>
+            <span>-IT</span>
+          </span>
+        </div>
         <div className="eyebrow">Admin access</div>
         <h1 style={{ fontSize: "42px" }}>{title}</h1>
         <p>{description}</p>
