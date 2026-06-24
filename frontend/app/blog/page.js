@@ -3,8 +3,8 @@ import FeatureGrid from "@/components/FeatureGrid";
 import JsonLd from "@/components/JsonLd";
 import PageHero from "@/components/PageHero";
 import SectionIntro from "@/components/SectionIntro";
-import { blogPosts } from "@/lib/site-data";
-import { absoluteUrl, breadcrumbJsonLd, buildMetadata } from "@/lib/seo.mjs";
+import { blogArticles, blogCards } from "@/lib/blog-articles.mjs";
+import { absoluteUrl, breadcrumbJsonLd, buildMetadata, OG_IMAGE } from "@/lib/seo.mjs";
 
 export const metadata = buildMetadata("/blog");
 
@@ -28,7 +28,7 @@ export default function BlogPage() {
             title="Practical writing on software delivery and product engineering"
             text="These articles reflect the same thinking we bring into consulting sessions and sprint delivery."
           />
-          <FeatureGrid items={blogPosts} />
+          <FeatureGrid items={blogCards} variant="service" />
         </div>
       </section>
       <CtaBanner
@@ -43,20 +43,18 @@ export default function BlogPage() {
             { name: "Home", path: "/" },
             { name: "Blog", path: "/blog" },
           ]),
-          ...blogPosts.map((post) => ({
+          ...blogArticles.map((post) => ({
             "@context": "https://schema.org",
             "@type": "Article",
             headline: post.title,
-            description: post.text,
-            author: {
-              "@type": "Organization",
-              name: "Musk-IT",
-            },
-            publisher: {
-              "@type": "Organization",
-              name: "Musk-IT",
-            },
-            mainEntityOfPage: absoluteUrl("/blog"),
+            description: post.description,
+            image: absoluteUrl(OG_IMAGE),
+            datePublished: post.datePublished,
+            dateModified: post.dateModified || post.datePublished,
+            author: { "@type": "Organization", name: "Musk-IT" },
+            publisher: { "@type": "Organization", name: "Musk-IT" },
+            mainEntityOfPage: absoluteUrl(`/blog/${post.slug}`),
+            url: absoluteUrl(`/blog/${post.slug}`),
           })),
         ]}
       />

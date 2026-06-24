@@ -3,6 +3,8 @@ const internalApiBaseUrl = (process.env.INTERNAL_API_BASE_URL || "http://backend
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
+  poweredByHeader: false,
+  compress: true,
   async redirects() {
     return [
       {

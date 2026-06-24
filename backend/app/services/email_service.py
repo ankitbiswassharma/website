@@ -4,7 +4,9 @@ import base64
 import logging
 import mimetypes
 import smtplib
+import socket
 import ssl
+import time
 from dataclasses import dataclass
 from email.message import EmailMessage
 from email.utils import formataddr, parseaddr
@@ -180,37 +182,74 @@ class EmailService:
                     filename=attachment_path.name,
                 )
 
-        try:
-            if settings.smtp_use_ssl:
-                server_cm = smtplib.SMTP_SSL(
-                    settings.smtp_host,
-                    settings.smtp_port,
-                    timeout=settings.smtp_timeout,
-                )
-            else:
-                server_cm = smtplib.SMTP(
-                    settings.smtp_host,
-                    settings.smtp_port,
-                    timeout=settings.smtp_timeout,
-                )
-            with server_cm as server:
-                server.ehlo()
-                if settings.smtp_use_starttls and not settings.smtp_use_ssl:
-                    if not server.has_extn("starttls"):
-                        raise smtplib.SMTPNotSupportedError("SMTP server does not support STARTTLS")
-                    server.starttls(context=ssl.create_default_context())
-                    server.ehlo()
-                self._smtp_login(server)
-                server.send_message(message)
-            return EmailDeliveryResult(success=True, status="sent", provider="smtp")
-        except (smtplib.SMTPException, OSError) as exc:
-            logger.exception("SMTP delivery failed for %s", to_email)
-            return EmailDeliveryResult(
-                success=False,
-                status="failed",
-                provider="smtp",
-                error_message=f"{exc.__class__.__name__}: {exc}",
+        # Many SMTP relays drop or defer the very first connection (cold TLS/DNS handshake,
+        # transient disconnects), which previously surfaced to the user as a hard failure that
+        # "worked after a page refresh". Retry on connection-level errors with a fresh connection
+        # so a transient first attempt never reaches the caller.
+        attempts = max(1, settings.smtp_max_attempts)
+        last_exc: Exception | None = None
+        for attempt in range(1, attempts + 1):
+            try:
+                self._deliver_over_smtp(message)
+                return EmailDeliveryResult(success=True, status="sent", provider="smtp")
+            except self._RETRYABLE_SMTP_ERRORS as exc:
+                last_exc = exc
+                if attempt < attempts:
+                    logger.warning(
+                        "Transient SMTP error sending to %s (attempt %s/%s): %s — retrying",
+                        to_email,
+                        attempt,
+                        attempts,
+                        exc,
+                    )
+                    time.sleep(settings.smtp_retry_delay)
+                    continue
+                logger.exception("SMTP delivery failed for %s after %s attempts", to_email, attempts)
+            except (smtplib.SMTPException, OSError) as exc:
+                # Non-retryable errors (e.g. authentication, malformed recipients): fail fast.
+                last_exc = exc
+                logger.exception("SMTP delivery failed for %s", to_email)
+                break
+
+        return EmailDeliveryResult(
+            success=False,
+            status="failed",
+            provider="smtp",
+            error_message=f"{last_exc.__class__.__name__}: {last_exc}" if last_exc else "SMTP delivery failed.",
+        )
+
+    # Connection-level errors that are typically resolved by reconnecting and retrying.
+    _RETRYABLE_SMTP_ERRORS = (
+        smtplib.SMTPServerDisconnected,
+        smtplib.SMTPConnectError,
+        smtplib.SMTPHeloError,
+        ConnectionError,
+        socket.timeout,
+        TimeoutError,
+    )
+
+    def _deliver_over_smtp(self, message: EmailMessage) -> None:
+        if settings.smtp_use_ssl:
+            server_cm = smtplib.SMTP_SSL(
+                settings.smtp_host,
+                settings.smtp_port,
+                timeout=settings.smtp_timeout,
             )
+        else:
+            server_cm = smtplib.SMTP(
+                settings.smtp_host,
+                settings.smtp_port,
+                timeout=settings.smtp_timeout,
+            )
+        with server_cm as server:
+            server.ehlo()
+            if settings.smtp_use_starttls and not settings.smtp_use_ssl:
+                if not server.has_extn("starttls"):
+                    raise smtplib.SMTPNotSupportedError("SMTP server does not support STARTTLS")
+                server.starttls(context=ssl.create_default_context())
+                server.ehlo()
+            self._smtp_login(server)
+            server.send_message(message)
 
     def _smtp_login(self, server: smtplib.SMTP) -> None:
         auth_mechanisms = {
