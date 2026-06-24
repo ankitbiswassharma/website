@@ -71,6 +71,17 @@ export default function Footer() {
             </p>
           </div>
         </div>
+
+        <div className="footer-bottom">
+          <p className="footer-copyright">
+            © {new Date().getFullYear()} Muskan Chhetri | Musk-IT | All Rights Reserved
+          </p>
+          <nav className="footer-legal-links" aria-label="Legal">
+            <a href="/privacy-policy.html">Privacy Policy</a>
+            <a href="/terms.html">Terms &amp; Conditions</a>
+            <Link href="/contact">Contact</Link>
+          </nav>
+        </div>
       </div>
     </footer>
   );

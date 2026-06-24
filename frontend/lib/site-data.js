@@ -43,7 +43,7 @@ export const platformHighlights = [
 ];
 
 export const heroProofStats = [
-  { value: "48h", label: "Average time to kick off a new sprint engagement" },
+  { value: "You Own It", label: "Full code handover with no vendor lock-in" },
   { value: "SaaS + Custom", label: "Pre-built modules and fully bespoke software delivery" },
   { value: "End-to-End", label: "From architecture consulting to production deployment" },
 ];
@@ -243,24 +243,24 @@ export const processSteps = [
   },
 ];
 
-export const testimonials = [
+// Forward-looking commitments shown on the homepage in place of unverified
+// customer testimonials. These describe what every engagement includes — not
+// claims attributed to specific clients.
+export const clientCommitments = [
   {
-    quote:
-      "We needed a senior team fast, without the hiring overhead. Musk-IT kicked off our sprint within two days and delivered a production-ready platform inside six weeks. Exactly what we needed.",
-    author: "Founder",
-    role: "B2B SaaS Startup",
+    eyebrow: "Senior team, fast",
+    title: "We start in days, not months",
+    text: "You work with senior engineers who have shipped production software before — no long hiring cycles, and no juniors learning on your project.",
   },
   {
-    quote:
-      "The consulting session alone saved us months of rework. They identified three architectural decisions we were about to make wrong, and restructured the whole roadmap around what would actually scale.",
-    author: "CTO",
-    role: "Series A Product Company",
+    eyebrow: "Honest scoping",
+    title: "We flag the costly decisions early",
+    text: "Before any code is written, we scope honestly and call out the architecture choices that get expensive at scale — so you avoid the rework most teams pay for later.",
   },
   {
-    quote:
-      "Other agencies built us something that technically worked but couldn't be maintained. Musk-IT handed over clean code, proper tests, and documentation our team could actually own.",
-    author: "Head of Engineering",
-    role: "Digital Product Studio",
+    eyebrow: "Code you own",
+    title: "Clean handover, no lock-in",
+    text: "You get documented, tested code with a proper handover. You own the code, the data, and the IP — no black boxes and no vendor lock-in.",
   },
 ];
 

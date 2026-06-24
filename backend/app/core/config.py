@@ -61,6 +61,9 @@ class Settings(BaseSettings):
     # Must be reachable by recipients and proxy /api/v1 to the backend.
     public_base_url: str = Field(default="", alias="PUBLIC_BASE_URL")
     company_address: str = Field(default="India", alias="COMPANY_ADDRESS")
+    # Full registered postal address shown in commercial/outreach emails (CAN-SPAM requirement).
+    # Set this to a complete mailing address in .env, e.g. "Musk-IT, 12 MG Road, Bengaluru, KA 560001, India".
+    company_postal_address: str = Field(default="", alias="COMPANY_POSTAL_ADDRESS")
     company_tax_label: str = Field(default="GST", alias="COMPANY_TAX_LABEL")
     default_tax_rate: float = Field(default=18.0, alias="DEFAULT_TAX_RATE")
     quote_validity_days: int = Field(default=14, alias="QUOTE_VALIDITY_DAYS")

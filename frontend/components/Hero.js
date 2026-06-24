@@ -51,73 +51,65 @@ export default function Hero() {
           </div>
         </div>
 
-        <div className="hero-float-scene" aria-label="Sprint delivery metrics">
-          {/* ── Main KPI card ── */}
+        <div className="hero-float-scene" aria-label="What Musk-IT builds and the IT it runs">
+          {/* ── What we build ── */}
           <div className="float-card float-card-main">
-            <div className="float-card-head">
-              <div className="float-sparkline" aria-hidden="true">
-                {[40, 55, 48, 70, 62, 85, 78, 96].map((h, i) => (
-                  <span key={i} style={{ height: `${h}%` }} />
-                ))}
-              </div>
+            <div className="float-card-head" style={{ justifyContent: "space-between" }}>
+              <span className="float-kpi-label" style={{ marginBottom: 0 }}>What we build</span>
               <span className="float-status-dot" />
             </div>
-            <div className="float-kpi">96%</div>
-            <div className="float-kpi-label">Sprint velocity</div>
-            <div className="float-kpi-trend">▲ 12% vs last sprint</div>
-            <div className="float-progress-row" aria-hidden="true">
-              <div className="float-progress-bar">
-                <div className="float-progress-fill" style={{ width: "96%" }} />
-              </div>
-              <span className="float-progress-val">96/100</span>
+            <div className="float-card-mini-title">Custom software & IT, end to end</div>
+            <div className="float-build-list">
+              <span>ERP &amp; CRM systems</span>
+              <span>Workflow automation</span>
+              <span>Web &amp; mobile apps</span>
+              <span>APIs &amp; integrations</span>
             </div>
           </div>
 
-          {/* ── Stories card ── */}
+          {/* ── The IT behind it ── */}
           <div className="float-card float-card-stories">
-            <div className="float-badge float-badge-green">Active</div>
-            <div className="float-kpi float-kpi-sm">42</div>
-            <div className="float-kpi-label">Stories shipped</div>
-            <div className="float-sublabel">Across 3 sprints</div>
+            <div className="float-badge float-badge-green">Managed</div>
+            <div className="float-card-mini-title">The IT behind it</div>
+            <div className="float-sublabel">Cloud, security &amp; support</div>
           </div>
 
-          {/* ── Kickoff card ── */}
+          {/* ── Ownership ── */}
           <div className="float-card float-card-kickoff">
             <svg className="float-card-icon" width="22" height="22" viewBox="0 0 22 22" fill="none" aria-hidden="true">
               <path d="M11 2v8l5 2.5" stroke="#818cf8" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
               <circle cx="11" cy="11" r="9" stroke="#4f46e5" strokeWidth="1.8" opacity=".5"/>
             </svg>
-            <div className="float-kpi float-kpi-sm">48h</div>
-            <div className="float-kpi-label">Avg. kickoff</div>
-            <div className="float-sublabel">Brief to first commit</div>
+            <div className="float-card-mini-title">You own the code</div>
+            <div className="float-sublabel">No lock-in, full handover</div>
           </div>
 
-          {/* ── Pipeline card ── */}
+          {/* ── How we work ── */}
           <div className="float-card float-card-pipeline">
             <div className="float-card-head" style={{ justifyContent: "space-between" }}>
-              <span className="float-kpi-label" style={{ marginBottom: 0 }}>Delivery pipeline</span>
-              <span className="float-badge float-badge-indigo">Sprint 12</span>
+              <span className="float-kpi-label" style={{ marginBottom: 0 }}>How we work</span>
+              <span className="float-badge float-badge-indigo">4 steps</span>
             </div>
             <div className="float-pipeline" aria-hidden="true">
-              {["Scoped", "In Build", "Review", "Shipped"].map((stage, i) => (
-                <div key={stage} className={`float-pipeline-step${i < 2 ? " is-done" : i === 2 ? " is-active" : ""}`}>
+              {["Scope", "Build", "Review", "Ship"].map((stage) => (
+                <div key={stage} className="float-pipeline-step is-done">
                   <div className="float-pipeline-dot" />
                   <span>{stage}</span>
                 </div>
               ))}
             </div>
             <div className="float-pipeline-track" aria-hidden="true">
-              <div className="float-pipeline-fill" style={{ width: "62%" }} />
+              <div className="float-pipeline-fill" style={{ width: "100%" }} />
             </div>
           </div>
 
-          {/* ── Activity card ── */}
+          {/* ── What you get ── */}
           <div className="float-card float-card-activity">
-            <div className="float-kpi-label" style={{ marginBottom: 10 }}>Recent activity</div>
+            <div className="float-kpi-label" style={{ marginBottom: 10 }}>What you get</div>
             {[
-              { dot: "#818cf8", text: "Auth module deployed — awaiting sign-off" },
-              { dot: "#34d399", text: "API spec locked with client" },
-              { dot: "#f59e0b", text: "Sprint 13 scope agreed — kickoff 09:00" },
+              { dot: "#818cf8", text: "Clean, documented code you own" },
+              { dot: "#34d399", text: "Tests and a proper handover" },
+              { dot: "#f59e0b", text: "Ongoing support when you want it" },
             ].map((item, i) => (
               <div className="float-activity-row" key={i}>
                 <span className="float-activity-dot" style={{ background: item.dot }} />

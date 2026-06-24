@@ -8,15 +8,14 @@ import ProcessSteps from "@/components/ProcessSteps";
 import SectionIntro from "@/components/SectionIntro";
 import StatsStrip from "@/components/StatsStrip";
 import TechMarquee from "@/components/TechMarquee";
-import Testimonials from "@/components/Testimonials";
 import TrustStrip from "@/components/TrustStrip";
 import { buildMetadata, serviceJsonLd } from "@/lib/seo.mjs";
 import {
   buildShowcaseItems,
+  clientCommitments,
   problemItems,
   processSteps,
   solutionItems,
-  testimonials,
 } from "@/lib/site-data";
 
 export const metadata = buildMetadata("/");
@@ -24,8 +23,8 @@ export const metadata = buildMetadata("/");
 const STATS = [
   { num: "100%", label: "Custom-built around each client's workflows" },
   { num: "Software + IT", label: "One partner for builds and the IT behind them" },
-  { num: "48h", label: "Average project kickoff time" },
-  { num: "5★", label: "Average client satisfaction" },
+  { num: "End-to-End", label: "From scoping and architecture to deployment and support" },
+  { num: "No Lock-In", label: "You own the code, the data, and the IP" },
 ];
 
 const TECH = [
@@ -115,11 +114,11 @@ export default function HomePage() {
       <section className="page-section section-tinted">
         <div className="shell stack-lg">
           <SectionIntro
-            eyebrow="Client Feedback"
-            title="Trusted by product teams and founders"
-            text="Here's what teams say about delivery speed, code quality, and what it's like to work with Musk-IT."
+            eyebrow="What To Expect"
+            title="What working with us looks like"
+            text="We're a focused, early-stage partner — so instead of borrowed quotes, here's exactly what we commit to on every engagement."
           />
-          <Testimonials items={testimonials} />
+          <FeatureGrid items={clientCommitments} variant="solution" />
           <div style={{ borderTop: "1px solid var(--border)", paddingTop: "3rem" }}>
             <LeadForm
               title="Tell us what you need to build"

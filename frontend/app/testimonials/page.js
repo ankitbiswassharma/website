@@ -1,32 +1,21 @@
 import CtaBanner from "@/components/CtaBanner";
+import FeatureGrid from "@/components/FeatureGrid";
 import JsonLd from "@/components/JsonLd";
 import PageHero from "@/components/PageHero";
 import SectionIntro from "@/components/SectionIntro";
-import { reviewItems } from "@/lib/site-data";
+import { clientCommitments } from "@/lib/site-data";
 import { breadcrumbJsonLd, buildMetadata, serviceJsonLd } from "@/lib/seo.mjs";
 
 export const metadata = buildMetadata("/testimonials");
-
-function Stars({ rating = 5 }) {
-  return (
-    <div className="review-stars" aria-label={`${rating} out of 5 stars`}>
-      {[1, 2, 3, 4, 5].map((n) => (
-        <span key={n} className={n <= rating ? "is-filled" : ""} aria-hidden="true">
-          ★
-        </span>
-      ))}
-    </div>
-  );
-}
 
 export default function TestimonialsPage() {
   return (
     <>
       <PageHero
-        eyebrow="Testimonials"
-        title="What clients say about"
-        highlight="working with us"
-        text="We're judged on delivery, clarity, and software that actually gets used. Here's what businesses say after working with Musk-IT."
+        eyebrow="What To Expect"
+        title="What it's like to"
+        highlight="work with us"
+        text="We're a focused, early-stage partner. Rather than publish testimonials we can't yet attribute to named clients, here's exactly what we commit to on every engagement — and we'll add real client stories here as projects complete."
         primaryHref="/consultation"
         primaryLabel="Book a Consultation"
         secondaryHref="/work"
@@ -35,37 +24,18 @@ export default function TestimonialsPage() {
 
       <section className="page-section">
         <div className="shell stack-lg">
-          <div className="review-summary">
-            <div className="review-summary-score">
-              <strong>5.0</strong>
-              <Stars rating={5} />
-              <span className="muted">Average client rating</span>
-            </div>
-            <SectionIntro
-              eyebrow="Client Feedback"
-              title="Trusted by businesses across sectors"
-              text="From manufacturers to professional services firms, teams choose us for delivery speed, honest scoping, and code they can own."
-            />
-          </div>
-
-          <div className="review-grid">
-            {reviewItems.map((review) => (
-              <article className="card review-card" key={review.quote}>
-                <Stars rating={review.rating} />
-                <p className="review-quote">“{review.quote}”</p>
-                <div className="review-meta">
-                  <strong>{review.author}</strong>
-                  <span>{review.role}</span>
-                </div>
-              </article>
-            ))}
-          </div>
+          <SectionIntro
+            eyebrow="Our Commitments"
+            title="The standards we hold on every project"
+            text="Delivery speed, honest scoping, and code you can own — these are the things we hold ourselves to, whatever the engagement."
+          />
+          <FeatureGrid items={clientCommitments} variant="solution" />
         </div>
       </section>
 
       <CtaBanner
         gradient
-        eyebrow="Join them"
+        eyebrow="Get Started"
         title="Let's build something you'll recommend."
         text="Book a consultation and tell us what you need. We'll scope it honestly and deliver software your team will actually use."
         primaryHref="/consultation"
@@ -83,7 +53,7 @@ export default function TestimonialsPage() {
           serviceJsonLd({
             name: "Custom Software Development",
             description:
-              "Client testimonials for Musk-IT custom software development and workflow automation services.",
+              "What to expect when working with Musk-IT on custom software development and workflow automation — our delivery commitments.",
             path: "/testimonials",
           }),
         ]}

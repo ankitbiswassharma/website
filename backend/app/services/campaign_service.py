@@ -92,6 +92,7 @@ class CampaignService:
         return {
             "company_name": settings.company_name,
             "company_tagline": settings.company_tagline,
+            "company_address": settings.company_postal_address or settings.company_address,
             "accent_color": "#4f46e5",
             "website_url": website,
             "consultation_url": consultation_url or self._consultation_target(),
