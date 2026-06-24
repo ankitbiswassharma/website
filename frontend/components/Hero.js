@@ -10,28 +10,30 @@ export default function Hero() {
         <div className="hero-copy">
           <div className="hero-badge">
             <span className="hero-badge-pip" />
-            B2B software & IT solutions partner — now onboarding for Q3
+            Now onboarding new clients for Q3
           </div>
-          <div className="eyebrow">B2B Custom Software &amp; IT Solutions Provider</div>
           <h1>
             Custom Software &amp; IT Solutions,
             <br />
             <span className="text-gradient">Built Around Your Business.</span>
           </h1>
           <p>
-            Musk-IT is a B2B custom software and IT solutions provider. We build
-            software tailored to your exact demands and workflows — ERP, CRM,
-            dashboards, web and mobile apps — and run the IT behind it: cloud
-            infrastructure, managed support, cybersecurity, and the consulting to
-            plan it all.
+            We build the software your business actually runs on — ERP, CRM,
+            dashboards, web and mobile apps — then run the cloud, security, and
+            support behind it. One partner, tailored to your exact workflows.
           </p>
-          <div className="hero-actions">
-            <Link className="button button-primary" href="/contact">
-              Start a Sprint
-            </Link>
-            <Link className="button button-ghost" href="/features">
-              See What We Build
-            </Link>
+          <div className="hero-cta-group">
+            <div className="hero-actions">
+              <Link className="button button-primary" href="/consultation">
+                Book a Free Consultation
+              </Link>
+              <Link className="button button-ghost" href="/work">
+                See Our Work
+              </Link>
+            </div>
+            <p className="hero-cta-note">
+              Free 30-minute consultation · No obligation · We reply within 24 hours
+            </p>
           </div>
           <div className="hero-trust-rail">
             <span className="hero-trust-item">
@@ -62,6 +64,7 @@ export default function Hero() {
             </div>
             <div className="float-kpi">96%</div>
             <div className="float-kpi-label">Sprint velocity</div>
+            <div className="float-kpi-trend">▲ 12% vs last sprint</div>
             <div className="float-progress-row" aria-hidden="true">
               <div className="float-progress-bar">
                 <div className="float-progress-fill" style={{ width: "96%" }} />
