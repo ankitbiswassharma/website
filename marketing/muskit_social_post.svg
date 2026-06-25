@@ -1,0 +1,152 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1080" height="1350" viewBox="0 0 1080 1350">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0a1020"/>
+      <stop offset="1" stop-color="#0c1730"/>
+    </linearGradient>
+    <linearGradient id="grad" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#818cf8"/>
+      <stop offset="1" stop-color="#38bdf8"/>
+    </linearGradient>
+    <linearGradient id="chip" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#1b2547"/>
+      <stop offset="1" stop-color="#141d39"/>
+    </linearGradient>
+    <radialGradient id="glowA" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#4f46e5" stop-opacity="0.55"/>
+      <stop offset="1" stop-color="#4f46e5" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="glowB" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#0ea5e9" stop-opacity="0.4"/>
+      <stop offset="1" stop-color="#0ea5e9" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="btn" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#6366f1"/>
+      <stop offset="1" stop-color="#4f46e5"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="1080" height="1350" fill="url(#bg)"/>
+  <circle cx="920" cy="120" r="430" fill="url(#glowA)"/>
+  <circle cx="120" cy="1180" r="420" fill="url(#glowB)"/>
+
+  <!-- faint grid -->
+  <g stroke="#ffffff" stroke-opacity="0.035" stroke-width="1">
+    <line x1="0" y1="0" x2="0" y2="1350"/><line x1="60" y1="0" x2="60" y2="1350"/><line x1="120" y1="0" x2="120" y2="1350"/><line x1="180" y1="0" x2="180" y2="1350"/><line x1="240" y1="0" x2="240" y2="1350"/><line x1="300" y1="0" x2="300" y2="1350"/><line x1="360" y1="0" x2="360" y2="1350"/><line x1="420" y1="0" x2="420" y2="1350"/><line x1="480" y1="0" x2="480" y2="1350"/><line x1="540" y1="0" x2="540" y2="1350"/><line x1="600" y1="0" x2="600" y2="1350"/><line x1="660" y1="0" x2="660" y2="1350"/><line x1="720" y1="0" x2="720" y2="1350"/><line x1="780" y1="0" x2="780" y2="1350"/><line x1="840" y1="0" x2="840" y2="1350"/><line x1="900" y1="0" x2="900" y2="1350"/><line x1="960" y1="0" x2="960" y2="1350"/><line x1="1020" y1="0" x2="1020" y2="1350"/><line x1="1080" y1="0" x2="1080" y2="1350"/>
+    <line x1="0" y1="0" x2="1080" y2="0"/><line x1="0" y1="60" x2="1080" y2="60"/><line x1="0" y1="120" x2="1080" y2="120"/><line x1="0" y1="180" x2="1080" y2="180"/><line x1="0" y1="240" x2="1080" y2="240"/><line x1="0" y1="300" x2="1080" y2="300"/><line x1="0" y1="360" x2="1080" y2="360"/><line x1="0" y1="420" x2="1080" y2="420"/><line x1="0" y1="480" x2="1080" y2="480"/><line x1="0" y1="540" x2="1080" y2="540"/><line x1="0" y1="600" x2="1080" y2="600"/><line x1="0" y1="660" x2="1080" y2="660"/><line x1="0" y1="720" x2="1080" y2="720"/><line x1="0" y1="780" x2="1080" y2="780"/><line x1="0" y1="840" x2="1080" y2="840"/><line x1="0" y1="900" x2="1080" y2="900"/><line x1="0" y1="960" x2="1080" y2="960"/><line x1="0" y1="1020" x2="1080" y2="1020"/><line x1="0" y1="1080" x2="1080" y2="1080"/><line x1="0" y1="1140" x2="1080" y2="1140"/><line x1="0" y1="1200" x2="1080" y2="1200"/><line x1="0" y1="1260" x2="1080" y2="1260"/><line x1="0" y1="1320" x2="1080" y2="1320"/>
+  </g>
+
+  <!-- header -->
+  <text x="64" y="98" font-family="Liberation Sans, DejaVu Sans, sans-serif" font-size="42" font-weight="700" fill="#f8fafc">Musk<tspan fill="#818cf8">-IT</tspan></text>
+  <text x="1016" y="92" text-anchor="end" font-family="Liberation Sans, DejaVu Sans, sans-serif" font-size="19" font-weight="600" fill="#94a3b8">muskit.in</text>
+
+  <!-- eyebrow pill -->
+  <rect x="64" y="150" width="430" height="40" rx="20" fill="#4f46e5" fill-opacity="0.12" stroke="#4f46e5" stroke-opacity="0.4"/>
+  <circle cx="88" cy="170" r="5" fill="#818cf8"/>
+  <text x="104" y="176" font-family="Liberation Sans, DejaVu Sans, sans-serif" font-size="16" font-weight="700" letter-spacing="1.5" fill="#c7d2fe">B2B CUSTOM SOFTWARE &amp; IT SOLUTIONS</text>
+
+  <!-- headline -->
+  <text x="64" y="270" font-family="Liberation Sans, DejaVu Sans, sans-serif" font-size="58" font-weight="700" fill="#f8fafc">One partner for your</text>
+  <text x="64" y="336" font-family="Liberation Sans, DejaVu Sans, sans-serif" font-size="58" font-weight="700" fill="#f8fafc"><tspan fill="url(#grad)">software</tspan> and your <tspan fill="url(#grad)">IT</tspan>.</text>
+  <text x="64" y="392" font-family="Liberation Sans, DejaVu Sans, sans-serif" font-size="22" fill="#9aa6bd">Custom-built around how your business actually works.</text>
+
+  <!-- service cards -->
+  
+  <g>
+    <rect x="64" y="452" width="464" height="116" rx="18"
+          fill="#0d1830" stroke="#23304d" stroke-width="1"/>
+    <rect x="86" y="484" width="52" height="52" rx="14"
+          fill="url(#chip)" stroke="#3b4a73" stroke-width="1"/>
+    <g transform="translate(98,496)" fill="none" stroke="#a5b4fc"
+       stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 4c4.4 0 8 1.3 8 3s-3.6 3-8 3-8-1.3-8-3 3.6-3 8-3z"/><path d="M6 7v14c0 1.7 3.6 3 8 3s8-1.3 8-3V7"/><path d="M6 14c0 1.7 3.6 3 8 3s8-1.3 8-3"/></g>
+    <text x="156" y="502" font-family="Liberation Sans, DejaVu Sans, sans-serif" font-size="25.5" font-weight="700"
+          fill="#f1f5f9">ERP &amp; CRM Systems</text>
+    <text x="156" y="530" font-family="Liberation Sans, DejaVu Sans, sans-serif" font-size="16" fill="#94a3b8">One source of truth for ops</text>
+  </g>
+  <g>
+    <rect x="552" y="452" width="464" height="116" rx="18"
+          fill="#0d1830" stroke="#23304d" stroke-width="1"/>
+    <rect x="574" y="484" width="52" height="52" rx="14"
+          fill="url(#chip)" stroke="#3b4a73" stroke-width="1"/>
+    <g transform="translate(586,496)" fill="none" stroke="#a5b4fc"
+       stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 14a8 8 0 1 1-2.3-5.6"/><path d="M22 5v4h-4"/></g>
+    <text x="644" y="502" font-family="Liberation Sans, DejaVu Sans, sans-serif" font-size="25.5" font-weight="700"
+          fill="#f1f5f9">Workflow Automation</text>
+    <text x="644" y="530" font-family="Liberation Sans, DejaVu Sans, sans-serif" font-size="16" fill="#94a3b8">Approvals, reports, data sync</text>
+  </g>
+  <g>
+    <rect x="64" y="586" width="464" height="116" rx="18"
+          fill="#0d1830" stroke="#23304d" stroke-width="1"/>
+    <rect x="86" y="618" width="52" height="52" rx="14"
+          fill="url(#chip)" stroke="#3b4a73" stroke-width="1"/>
+    <g transform="translate(98,630)" fill="none" stroke="#a5b4fc"
+       stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="8" y="3" width="12" height="22" rx="2.5"/><line x1="12" y1="21.5" x2="16" y2="21.5"/></g>
+    <text x="156" y="636" font-family="Liberation Sans, DejaVu Sans, sans-serif" font-size="25.5" font-weight="700"
+          fill="#f1f5f9">Web &amp; Mobile Apps</text>
+    <text x="156" y="664" font-family="Liberation Sans, DejaVu Sans, sans-serif" font-size="16" fill="#94a3b8">Portals, tools, dashboards</text>
+  </g>
+  <g>
+    <rect x="552" y="586" width="464" height="116" rx="18"
+          fill="#0d1830" stroke="#23304d" stroke-width="1"/>
+    <rect x="574" y="618" width="52" height="52" rx="14"
+          fill="url(#chip)" stroke="#3b4a73" stroke-width="1"/>
+    <g transform="translate(586,630)" fill="none" stroke="#a5b4fc"
+       stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="7" cy="14" r="2.6"/><circle cx="21" cy="7" r="2.6"/><circle cx="21" cy="21" r="2.6"/><line x1="9.3" y1="12.8" x2="18.7" y2="8.2"/><line x1="9.3" y1="15.2" x2="18.7" y2="19.8"/></g>
+    <text x="644" y="636" font-family="Liberation Sans, DejaVu Sans, sans-serif" font-size="25.5" font-weight="700"
+          fill="#f1f5f9">API &amp; Integrations</text>
+    <text x="644" y="664" font-family="Liberation Sans, DejaVu Sans, sans-serif" font-size="16" fill="#94a3b8">Connect the tools you use</text>
+  </g>
+  <g>
+    <rect x="64" y="720" width="464" height="116" rx="18"
+          fill="#0d1830" stroke="#23304d" stroke-width="1"/>
+    <rect x="86" y="752" width="52" height="52" rx="14"
+          fill="url(#chip)" stroke="#3b4a73" stroke-width="1"/>
+    <g transform="translate(98,764)" fill="none" stroke="#a5b4fc"
+       stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 20a5 5 0 0 1 .4-10 6.5 6.5 0 0 1 12 1.6A4.2 4.2 0 0 1 20.5 20z"/></g>
+    <text x="156" y="770" font-family="Liberation Sans, DejaVu Sans, sans-serif" font-size="25.5" font-weight="700"
+          fill="#f1f5f9">Cloud &amp; Infrastructure</text>
+    <text x="156" y="798" font-family="Liberation Sans, DejaVu Sans, sans-serif" font-size="16" fill="#94a3b8">AWS, Azure &amp; Google Cloud</text>
+  </g>
+  <g>
+    <rect x="552" y="720" width="464" height="116" rx="18"
+          fill="#0d1830" stroke="#23304d" stroke-width="1"/>
+    <rect x="574" y="752" width="52" height="52" rx="14"
+          fill="url(#chip)" stroke="#3b4a73" stroke-width="1"/>
+    <g transform="translate(586,764)" fill="none" stroke="#a5b4fc"
+       stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3l8 3v6c0 5.8-3.9 9.2-8 11-4.1-1.8-8-5.2-8-11V6z"/><path d="M10.2 13.8l2.6 2.6 5-5.4"/></g>
+    <text x="644" y="770" font-family="Liberation Sans, DejaVu Sans, sans-serif" font-size="25.5" font-weight="700"
+          fill="#f1f5f9">Cybersecurity</text>
+    <text x="644" y="798" font-family="Liberation Sans, DejaVu Sans, sans-serif" font-size="16" fill="#94a3b8">Audits, hardening, access</text>
+  </g>
+  <g>
+    <rect x="64" y="854" width="464" height="116" rx="18"
+          fill="#0d1830" stroke="#23304d" stroke-width="1"/>
+    <rect x="86" y="886" width="52" height="52" rx="14"
+          fill="url(#chip)" stroke="#3b4a73" stroke-width="1"/>
+    <g transform="translate(98,898)" fill="none" stroke="#a5b4fc"
+       stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 16v-2a8 8 0 0 1 16 0v2"/><rect x="4" y="15" width="4.5" height="7.5" rx="2"/><rect x="19.5" y="15" width="4.5" height="7.5" rx="2"/><path d="M22 22.5a4 4 0 0 1-4 3h-2.5"/></g>
+    <text x="156" y="904" font-family="Liberation Sans, DejaVu Sans, sans-serif" font-size="25.5" font-weight="700"
+          fill="#f1f5f9">Managed IT &amp; Support</text>
+    <text x="156" y="932" font-family="Liberation Sans, DejaVu Sans, sans-serif" font-size="16" fill="#94a3b8">Monitoring, helpdesk, SLAs</text>
+  </g>
+  <g>
+    <rect x="552" y="854" width="464" height="116" rx="18"
+          fill="#0d1830" stroke="#23304d" stroke-width="1"/>
+    <rect x="574" y="886" width="52" height="52" rx="14"
+          fill="url(#chip)" stroke="#3b4a73" stroke-width="1"/>
+    <g transform="translate(586,898)" fill="none" stroke="#a5b4fc"
+       stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 4a7 7 0 0 0-4 12.6V19h8v-2.4A7 7 0 0 0 14 4z"/><line x1="11" y1="22.5" x2="17" y2="22.5"/></g>
+    <text x="644" y="904" font-family="Liberation Sans, DejaVu Sans, sans-serif" font-size="25.5" font-weight="700"
+          fill="#f1f5f9">IT Consulting</text>
+    <text x="644" y="932" font-family="Liberation Sans, DejaVu Sans, sans-serif" font-size="16" fill="#94a3b8">Strategy &amp; digital roadmaps</text>
+  </g>
+
+  <!-- footer -->
+  <line x1="64" y1="1066" x2="1016" y2="1066" stroke="#23304d" stroke-width="1"/>
+  <text x="64" y="1120" font-family="Liberation Sans, DejaVu Sans, sans-serif" font-size="18" font-weight="700" letter-spacing="3" fill="#818cf8">BUILD &#183; AUTOMATE &#183; GROW</text>
+  <text x="64" y="1170" font-family="Liberation Sans, DejaVu Sans, sans-serif" font-size="36" font-weight="700" fill="#f8fafc">Book your free consultation today.</text>
+
+  <rect x="64" y="1212" width="350" height="68" rx="34" fill="url(#btn)"/>
+  <text x="239" y="1255" text-anchor="middle" font-family="Liberation Sans, DejaVu Sans, sans-serif" font-size="23" font-weight="700" fill="#ffffff">Visit muskit.in  &#8594;</text>
+  <text x="1016" y="1248" text-anchor="end" font-family="Liberation Sans, DejaVu Sans, sans-serif" font-size="20" font-weight="600" fill="#94a3b8">+91 70478 59422</text>
+</svg>
