@@ -2,6 +2,8 @@
 
 import { useEffect, useMemo, useState } from "react";
 
+import AdminModal from "@/components/admin/AdminModal";
+
 function formatDateTime(value) {
   if (!value) return "—";
   return new Date(value).toLocaleString("en-IN", {
@@ -151,6 +153,7 @@ export default function AdminCampaignEngagement({ session }) {
   }, [hasHistoryFilter, historyRecipients, historyDate, historySearch]);
 
   return (
+    <>
     <section className="card dashboard-card stack-lg">
       <div className="dashboard-toolbar toolbar-spread">
         <div className="stack-sm">
@@ -199,65 +202,6 @@ export default function AdminCampaignEngagement({ session }) {
         </div>
       ) : null}
 
-      {/* History panel */}
-      {showHistory ? (
-        <div
-          className="stack-sm"
-          style={{ borderTop: "1px solid var(--border)", paddingTop: 16 }}
-        >
-          <h3 style={{ marginBottom: 0, fontSize: 15 }}>
-            History ({historyRecipients.length})
-          </h3>
-          <p className="muted" style={{ fontSize: 12 }}>
-            Pick a date or search by email to view earlier sends.
-          </p>
-
-          <div className="dashboard-toolbar" style={{ gap: 12, flexWrap: "wrap" }}>
-            <div className="field" style={{ marginBottom: 0 }}>
-              <label>Date sent</label>
-              <input
-                type="date"
-                value={historyDate}
-                max={todayKey}
-                onChange={(event) => setHistoryDate(event.target.value)}
-              />
-            </div>
-            <div className="field" style={{ marginBottom: 0, flex: 1, minWidth: 200 }}>
-              <label>Search email</label>
-              <input
-                type="search"
-                placeholder="Search by recipient email…"
-                value={historySearch}
-                onChange={(event) => setHistorySearch(event.target.value)}
-              />
-            </div>
-            {hasHistoryFilter ? (
-              <button
-                className="button button-ghost btn-sm"
-                type="button"
-                style={{ alignSelf: "flex-end" }}
-                onClick={() => {
-                  setHistoryDate("");
-                  setHistorySearch("");
-                }}
-              >
-                Clear
-              </button>
-            ) : null}
-          </div>
-
-          {!hasHistoryFilter ? (
-            <div className="empty-state">
-              Select a date or type an email above to load history.
-            </div>
-          ) : filteredHistory.length ? (
-            <RecipientsTable rows={filteredHistory} />
-          ) : (
-            <div className="empty-state">No recipients match this filter.</div>
-          )}
-        </div>
-      ) : null}
-
       {suppressions.length ? (
         <div className="stack-sm" style={{ borderTop: "1px solid var(--border)", paddingTop: 16 }}>
           <h3 style={{ marginBottom: 0, fontSize: 15 }}>
@@ -274,5 +218,63 @@ export default function AdminCampaignEngagement({ session }) {
         </div>
       ) : null}
     </section>
+
+    <AdminModal
+      open={showHistory}
+      onClose={() => setShowHistory(false)}
+      eyebrow="Click Tracking"
+      title="Campaign History"
+      description="Earlier sends, kept out of the main view. Pick a date or search by email to load them."
+      size="xl"
+    >
+      <div className="stack-md">
+        <div className="dashboard-toolbar" style={{ gap: 12, flexWrap: "wrap" }}>
+          <div className="field" style={{ marginBottom: 0 }}>
+            <label>Date sent</label>
+            <input
+              type="date"
+              value={historyDate}
+              max={todayKey}
+              onChange={(event) => setHistoryDate(event.target.value)}
+            />
+          </div>
+          <div className="field" style={{ marginBottom: 0, flex: 1, minWidth: 200 }}>
+            <label>Search email</label>
+            <input
+              type="search"
+              placeholder="Search by recipient email…"
+              value={historySearch}
+              onChange={(event) => setHistorySearch(event.target.value)}
+            />
+          </div>
+          {hasHistoryFilter ? (
+            <button
+              className="button button-ghost btn-sm"
+              type="button"
+              style={{ alignSelf: "flex-end" }}
+              onClick={() => {
+                setHistoryDate("");
+                setHistorySearch("");
+              }}
+            >
+              Clear
+            </button>
+          ) : null}
+        </div>
+
+        {!historyRecipients.length ? (
+          <div className="empty-state">No earlier campaign sends yet.</div>
+        ) : !hasHistoryFilter ? (
+          <div className="empty-state">
+            Select a date or type an email above to load history.
+          </div>
+        ) : filteredHistory.length ? (
+          <RecipientsTable rows={filteredHistory} />
+        ) : (
+          <div className="empty-state">No recipients match this filter.</div>
+        )}
+      </div>
+    </AdminModal>
+    </>
   );
 }
