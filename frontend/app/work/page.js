@@ -2,7 +2,7 @@ import CtaBanner from "@/components/CtaBanner";
 import JsonLd from "@/components/JsonLd";
 import PageHero from "@/components/PageHero";
 import SectionIntro from "@/components/SectionIntro";
-import { portfolioProjects } from "@/lib/site-data";
+import { featuredProjects, portfolioProjects } from "@/lib/site-data";
 import { breadcrumbJsonLd, buildMetadata, serviceJsonLd } from "@/lib/seo.mjs";
 
 export const metadata = buildMetadata("/work");
@@ -22,6 +22,50 @@ export default function WorkPage() {
       />
 
       <section className="page-section">
+        <div className="shell stack-lg">
+          <SectionIntro
+            eyebrow="Featured Builds"
+            title="Products we've shipped"
+            text="Two of our own platforms, live in production. Explore them yourself — these aren't mockups, they're the real software."
+          />
+          <div className="work-grid">
+            {featuredProjects.map((project) => (
+              <article className="card work-card featured-work-card" key={project.title}>
+                <div className="work-card-head">
+                  <span className="work-sector">{project.sector}</span>
+                  <span className="work-metric">{project.metric}</span>
+                </div>
+                <h3>{project.title}</h3>
+                <p>{project.summary}</p>
+                <ul className="bullet-list compact">
+                  {project.highlights.map((highlight) => (
+                    <li key={highlight}>{highlight}</li>
+                  ))}
+                </ul>
+                <div className="tech-badge-row" style={{ justifyContent: "flex-start" }}>
+                  {project.tech.map((tech) => (
+                    <span className="tech-badge" key={tech}>
+                      {tech}
+                    </span>
+                  ))}
+                </div>
+                <div className="featured-work-actions">
+                  <a
+                    className="button button-primary btn-sm"
+                    href={project.liveUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    {project.liveLabel}
+                  </a>
+                </div>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="page-section section-tinted">
         <div className="shell stack-lg">
           <SectionIntro
             eyebrow="Project Portfolio"

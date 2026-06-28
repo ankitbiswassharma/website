@@ -879,6 +879,39 @@ export const portfolioProjects = [
   },
 ];
 
+export const featuredProjects = [
+  {
+    title: "Construction ERP V6",
+    sector: "Construction / EPC",
+    summary:
+      "A multi-tenant, modular-monolith ERP that runs an EPC contractor end to end — projects and buildings, BOQ and delivery challans, drawing submission workflows, procurement planning, and full execution planning with WBS, dependencies, EVM, and AI forecasting.",
+    highlights: [
+      "Real-time execution planning over WebSockets — WBS, Gantt, daily progress, and S-curve / EVM analytics",
+      "License-driven module enablement with company isolation and role-based access",
+      "Workflow Studio + runtime for configurable approval paths, plus Excel / Word / PDF report exports",
+    ],
+    tech: ["React", "Vite", "FastAPI", "PostgreSQL", "WebSockets"],
+    metric: "Live production deployment",
+    liveUrl: "https://oeeppl.muskit.in",
+    liveLabel: "View Live ERP",
+  },
+  {
+    title: "AI HVAC Load & Design Platform",
+    sector: "HVAC Engineering",
+    summary:
+      "An AI-integrated HVAC load calculator and design studio (HAP-style) that sizes heat loads and airflow, lays out diffusers, selects equipment, and estimates cost — then proposes cost-effective, balanced, and efficiency-first design concepts.",
+    highlights: [
+      "AI Design Studio compares alternative concepts and turns warnings into specific corrective actions",
+      "ISO 14644 cleanroom mode (ISO 5–9) sizing recirculation airflow, filtration, and pressure regimes",
+      "Local rule-based engineering core always works; optional OpenAI layer enhances the guidance",
+    ],
+    tech: ["Node.js", "JavaScript", "PostgreSQL", "OpenAI"],
+    metric: "Live at hvac.muskit.in",
+    liveUrl: "https://hvac.muskit.in",
+    liveLabel: "Open HVAC App",
+  },
+];
+
 export const faqGroups = [
   {
     category: "General",

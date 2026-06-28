@@ -4597,6 +4597,20 @@ html[data-theme="dark"] .hero-trust-item {
   color: var(--highlight);
 }
 
+.featured-work-card {
+  border-color: var(--border-strong);
+  background: linear-gradient(180deg, var(--surface-brand), var(--surface));
+}
+
+.featured-work-actions {
+  margin-top: auto;
+  padding-top: 6px;
+}
+
+.featured-work-actions .button {
+  width: fit-content;
+}
+
 /* ---- FAQ ----------------------------------------------------------- */
 .faq-group-eyebrow {
   font-size: 13px;
