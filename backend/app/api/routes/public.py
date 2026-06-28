@@ -1,3 +1,4 @@
+import json
 import uuid
 
 from fastapi import APIRouter, Depends, Header, HTTPException, Request, status
@@ -13,6 +14,8 @@ from app.schemas.company import PublicCompanyOut
 from app.schemas.quotation import PublicPaymentOrderOut, PublicQuotationView, QuotationOut
 from app.services.lead_service import lead_service
 from app.services.payment_service import payment_service
+from app.services.integration_service import integration_service
+from app.services.erp_purchase_service import record_purchase
 from app.repositories.quotation_repository import QuotationRepository
 
 
@@ -103,6 +106,33 @@ def verify_payment(payload: PaymentVerifyIn, db: Session = Depends(get_db)):
         event_source="checkout",
     )
     return PaymentVerifyOut(invoice_number=payment.invoice_number, lead_status=payment.lead.status.value)
+
+
+@router.post("/public/erp/purchase")
+async def record_erp_purchase(
+    request: Request,
+    x_muskit_signature: str | None = Header(default=None),
+    db: Session = Depends(get_db),
+):
+    """Record a paid purchase from the Musk-IT ERP as a Won lead + payment.
+
+    Authenticated by an HMAC signature over the raw body using the shared
+    INTEGRATIONS_INBOUND_SECRET (must match the ERP's WEBSITE_PURCHASE_SYNC_SECRET).
+    """
+    raw_body = await request.body()
+    if not integration_service.verify_inbound(raw_body, x_muskit_signature):
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid signature")
+
+    try:
+        payload = json.loads(raw_body.decode("utf-8")) if raw_body else {}
+    except (ValueError, UnicodeDecodeError):
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Invalid JSON body")
+
+    if not isinstance(payload, dict) or not str(payload.get("email") or "").strip():
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="email is required")
+
+    lead = record_purchase(db, payload)
+    return {"lead_id": lead.id, "status": "recorded"}
 
 
 @router.post("/public/payments/webhooks/razorpay", response_model=PaymentWebhookOut)
