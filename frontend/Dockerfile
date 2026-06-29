@@ -1,4 +1,8 @@
-FROM node:20-alpine
+# Debian/glibc base (not Alpine/musl): Next.js ships its SWC compiler as a
+# prebuilt native binary, and npm resolves the glibc (@next/swc-linux-x64-gnu)
+# variant. On Alpine that binary can't load (musl has no ld-linux-x86-64.so.2),
+# which breaks `next build`. A glibc base avoids that class of failure.
+FROM node:20-slim
 
 WORKDIR /app
 
