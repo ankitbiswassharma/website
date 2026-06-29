@@ -119,9 +119,12 @@ export default async function RootLayout({ children }) {
     >
       <body>
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
+        <a className="skip-link" href="#main-content">
+          Skip to main content
+        </a>
         <div className="app-shell">
           <Navbar />
-          <main>{children}</main>
+          <main id="main-content" tabIndex={-1}>{children}</main>
           <Footer />
         </div>
         <ScrollReveal />

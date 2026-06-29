@@ -104,16 +104,22 @@ export default function ConsultationForm() {
 
       <div className="form-grid">
         <div className="field">
-          <label>Full Name</label>
+          <label htmlFor="cf-full-name">Full Name</label>
           <input
+            id="cf-full-name"
+            name="full_name"
+            autoComplete="name"
             required
             value={form.full_name}
             onChange={(event) => updateField("full_name", event.target.value)}
           />
         </div>
         <div className="field">
-          <label>Work Email</label>
+          <label htmlFor="cf-email">Work Email</label>
           <input
+            id="cf-email"
+            name="email"
+            autoComplete="email"
             required
             type="email"
             value={form.email}
@@ -121,22 +127,31 @@ export default function ConsultationForm() {
           />
         </div>
         <div className="field">
-          <label>Phone Number</label>
+          <label htmlFor="cf-phone">Phone Number</label>
           <input
+            id="cf-phone"
+            name="phone"
+            type="tel"
+            autoComplete="tel"
             value={form.phone}
             onChange={(event) => updateField("phone", event.target.value)}
           />
         </div>
         <div className="field">
-          <label>Company / Organisation</label>
+          <label htmlFor="cf-company">Company / Organisation</label>
           <input
+            id="cf-company"
+            name="company"
+            autoComplete="organization"
             value={form.company}
             onChange={(event) => updateField("company", event.target.value)}
           />
         </div>
         <div className="field">
-          <label>What do you want to build?</label>
+          <label htmlFor="cf-project-type">What do you want to build?</label>
           <select
+            id="cf-project-type"
+            name="project_type"
             value={form.project_type}
             onChange={(event) => updateField("project_type", event.target.value)}
           >
@@ -149,8 +164,10 @@ export default function ConsultationForm() {
           </select>
         </div>
         <div className="field">
-          <label>Preferred Date</label>
+          <label htmlFor="cf-preferred-date">Preferred Date</label>
           <input
+            id="cf-preferred-date"
+            name="preferred_demo_date"
             type="date"
             min={todayIso()}
             value={form.preferred_demo_date}
@@ -179,8 +196,10 @@ export default function ConsultationForm() {
           </div>
         </div>
         <div className="field full">
-          <label>Tell us about your workflow (optional)</label>
+          <label htmlFor="cf-requirements">Tell us about your workflow (optional)</label>
           <textarea
+            id="cf-requirements"
+            name="client_requirements_html"
             placeholder="Describe your current workflow, where the manual work piles up, the tools you use, and what you'd like to build or automate."
             value={form.client_requirements_html}
             onChange={(event) =>

@@ -5894,6 +5894,30 @@ html[data-theme="dark"] .hero-trust-item {
   color: var(--muted);
 }
 
+/* ── Skip to main content (keyboard / screen-reader accessibility) ── */
+.skip-link {
+  position: absolute;
+  left: 1rem;
+  top: -3.5rem;
+  z-index: 1000;
+  padding: 0.65rem 1.1rem;
+  border-radius: 0.5rem;
+  background: var(--accent);
+  color: #ffffff;
+  font-weight: 600;
+  text-decoration: none;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
+  transition: top 0.15s ease;
+}
+.skip-link:focus {
+  top: 1rem;
+  outline: 2px solid #ffffff;
+  outline-offset: 2px;
+}
+main:focus {
+  outline: none;
+}
+
 /* ── Honeypot field (visually hidden, kept in the DOM for bots) ──── */
 .hp-field {
   position: absolute !important;

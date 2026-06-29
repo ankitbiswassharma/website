@@ -73,16 +73,22 @@ export default function LeadForm({
       </div>
       <div className="form-grid">
         <div className="field">
-          <label>Full Name</label>
+          <label htmlFor="lf-name">Full Name</label>
           <input
+            id="lf-name"
+            name="name"
+            autoComplete="name"
             required
             value={form.name}
             onChange={(event) => updateField("name", event.target.value)}
           />
         </div>
         <div className="field">
-          <label>Work Email</label>
+          <label htmlFor="lf-email">Work Email</label>
           <input
+            id="lf-email"
+            name="email"
+            autoComplete="email"
             required
             type="email"
             value={form.email}
@@ -90,22 +96,31 @@ export default function LeadForm({
           />
         </div>
         <div className="field">
-          <label>Phone Number</label>
+          <label htmlFor="lf-phone">Phone Number</label>
           <input
+            id="lf-phone"
+            name="phone"
+            type="tel"
+            autoComplete="tel"
             value={form.phone}
             onChange={(event) => updateField("phone", event.target.value)}
           />
         </div>
         <div className="field">
-          <label>Company / Organisation</label>
+          <label htmlFor="lf-company">Company / Organisation</label>
           <input
+            id="lf-company"
+            name="company_name"
+            autoComplete="organization"
             value={form.company_name}
             onChange={(event) => updateField("company_name", event.target.value)}
           />
         </div>
         <div className="field full">
-          <label>Describe the workflow and requirement</label>
+          <label htmlFor="lf-requirements">Describe the workflow and requirement</label>
           <textarea
+            id="lf-requirements"
+            name="requirements"
             required
             placeholder="Describe your current workflow, operational bottlenecks, reporting needs, user roles, and the kind of platform or module you want to build."
             value={form.requirements}

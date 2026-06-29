@@ -33,7 +33,12 @@ export default function ThemeToggle() {
   }
 
   return (
-    <button className="theme-toggle" type="button" onClick={toggleTheme}>
+    <button
+      className="theme-toggle"
+      type="button"
+      onClick={toggleTheme}
+      aria-label={theme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
+    >
       {mounted ? (theme === "dark" ? "Light mode" : "Dark mode") : "Theme"}
     </button>
   );
