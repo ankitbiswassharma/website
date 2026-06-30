@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<network-security-config>
+    <!-- Force HTTPS for the Musk-IT origin; no cleartext anywhere. -->
+    <domain-config cleartextTrafficPermitted="false">
+        <domain includeSubdomains="true">muskit.in</domain>
+    </domain-config>
+</network-security-config>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <!-- Stylised "M" centred within the 72dp adaptive-icon safe zone. -->
+    <path
+        android:fillColor="#2563EB"
+        android:pathData="M34,38 L42,38 L54,58 L66,38 L74,38 L74,72 L66,72 L66,52 L56,68 L52,68 L42,52 L42,72 L34,72 Z" />
+</vector>

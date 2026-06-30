@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Musk-IT Admin</string>
+    <string name="tagline">Build | Automate | Grow</string>
+    <string name="admin_console">Admin Console</string>
+    <string name="staff_portal">Staff Portal</string>
+    <string name="footer_note">Secure login - admin uses OTP, staff uses password + OTP</string>
+    <string name="downloading">Downloading file…</string>
+    <string name="download_started">Download started</string>
+    <string name="download_failed">Could not start download</string>
+    <string name="no_file_picker">No file picker available</string>
+    <string name="no_app_to_open">No app available to open this link</string>
+</resources>
