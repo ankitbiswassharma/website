@@ -14,18 +14,15 @@ android {
         versionCode = 1
         versionName = "1.0.0"
 
-        // ---- App configuration (edit here to repoint the app) ----
-        // Base site. Admin console + staff portal live under this origin.
-        buildConfigField("String", "BASE_URL", "\"https://muskit.in\"")
-        buildConfigField("String", "ADMIN_PATH", "\"/dashboard\"")
-        buildConfigField("String", "STAFF_PATH", "\"/staff\"")
-        // Hosts the WebView is allowed to keep in-app (others open in browser).
-        buildConfigField("String", "ALLOWED_HOSTS", "\"muskit.in,www.muskit.in\"")
+        // ---- App configuration ----
+        // API base for the native client. All admin/staff calls hit this origin.
+        buildConfigField("String", "API_BASE_URL", "\"https://muskit.in/api/v1/\"")
+        buildConfigField("String", "SITE_URL", "\"https://muskit.in\"")
+
+        vectorDrawables { useSupportLibrary = true }
     }
 
     signingConfigs {
-        // Release signing is supplied by CI / local keystore via env or gradle props.
-        // See README. Falls back gracefully when not present.
         create("release") {
             val storeFilePath = System.getenv("ANDROID_KEYSTORE_FILE")
                 ?: (project.findProperty("ANDROID_KEYSTORE_FILE") as String?)
@@ -54,8 +51,6 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
-            // Use the release keystore only when it was configured; otherwise
-            // the build still produces an unsigned release APK.
             val ks = System.getenv("ANDROID_KEYSTORE_FILE")
                 ?: (project.findProperty("ANDROID_KEYSTORE_FILE") as String?)
             if (ks != null) {
@@ -74,16 +69,46 @@ android {
     }
 
     buildFeatures {
+        compose = true
         buildConfig = true
-        viewBinding = true
+    }
+
+    composeOptions {
+        kotlinCompilerExtensionVersion = "1.5.14"
+    }
+
+    packaging {
+        resources {
+            excludes += "/META-INF/{AL2.0,LGPL2.1}"
+        }
     }
 }
 
 dependencies {
+    val composeBom = platform("androidx.compose:compose-bom:2024.06.00")
+    implementation(composeBom)
+
     implementation("androidx.core:core-ktx:1.13.1")
-    implementation("androidx.appcompat:appcompat:1.7.0")
     implementation("com.google.android.material:material:1.12.0")
-    implementation("androidx.constraintlayout:constraintlayout:2.1.4")
-    implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
-    implementation("androidx.webkit:webkit:1.11.0")
+    implementation("androidx.activity:activity-compose:1.9.0")
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.8.2")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.8.2")
+    implementation("androidx.lifecycle:lifecycle-runtime-compose:2.8.2")
+
+    implementation("androidx.compose.ui:ui")
+    implementation("androidx.compose.ui:ui-graphics")
+    implementation("androidx.compose.ui:ui-tooling-preview")
+    implementation("androidx.compose.material3:material3")
+    implementation("androidx.compose.material:material-icons-extended")
+    implementation("androidx.navigation:navigation-compose:2.7.7")
+
+    implementation("com.squareup.retrofit2:retrofit:2.11.0")
+    implementation("com.squareup.retrofit2:converter-moshi:2.11.0")
+    implementation("com.squareup.moshi:moshi:1.15.1")
+    implementation("com.squareup.moshi:moshi-kotlin:1.15.1")
+    implementation("com.squareup.okhttp3:okhttp:4.12.0")
+    implementation("com.squareup.okhttp3:logging-interceptor:4.12.0")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.8.1")
+
+    debugImplementation("androidx.compose.ui:ui-tooling")
 }
