@@ -71,6 +71,7 @@ jobs:
       SMTP_USER: ci@example.com
       SMTP_PASSWORD: ci-smtp-password
       TRAEFIK_CERT_EMAIL: ci@example.com
+      INTEGRATIONS_INBOUND_SECRET: ci-integrations-inbound-secret
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
