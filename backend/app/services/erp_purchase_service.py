@@ -8,6 +8,7 @@ Called by the signed endpoint POST /api/v1/public/erp/purchase.
 
 from __future__ import annotations
 
+import json
 import logging
 from datetime import timedelta
 from decimal import Decimal
@@ -27,6 +28,7 @@ from app.models.lead import Lead
 from app.models.payment import Payment
 from app.models.quotation import Quotation, QuotationItem
 from app.repositories.lead_repository import LeadRepository
+from app.services.pdf_service import PdfServiceUnavailableError, pdf_service
 from app.utils.formatting import (
     build_quotation_number,
     build_quotation_series,
@@ -38,6 +40,100 @@ from app.utils.formatting import (
 
 logger = logging.getLogger(__name__)
 lead_repository = LeadRepository()
+
+# The six modules shipped with a Musk-IT ERP annual license. Sourced from the
+# ERP marketing site (erp.muskit.in) so the quotation describes exactly what the
+# customer purchased. Rendered as descriptive sections in the quotation PDF.
+ERP_MODULES: list[tuple[str, str]] = [
+    (
+        "Drawing Tracker",
+        "Track every drawing, revision, and approval. Submission logs, overdue "
+        "alerts, and consultant replies — all in one place.",
+    ),
+    (
+        "BOQ Management",
+        "Handle any client BOQ format. Schema-driven parsing means adding a new "
+        "client format takes minutes, not days.",
+    ),
+    (
+        "Daily Task Tracker",
+        "Assign, track, and close tasks daily. Directly linked to drawings so "
+        "nothing falls through the cracks.",
+    ),
+    (
+        "Site Execution Tracker",
+        "MSP-style daily site progress log — digital. What was planned, what was "
+        "done, who was on site, every day.",
+    ),
+    (
+        "Manpower Planning",
+        "Plan and track labour deployment by trade and date. Planned vs actual "
+        "gaps visible in one dashboard.",
+    ),
+    (
+        "EVM Dashboard",
+        "Earned Value Management built in. CPI, SPI, and cost variance — "
+        "automatically calculated from your project data.",
+    ),
+]
+
+# What the annual license entitlement covers, beyond the modules themselves.
+ERP_LICENSE_INCLUSIONS = (
+    "All 6 modules included · Unlimited projects & users · Custom BOQ schema "
+    "setup · Priority WhatsApp support · Admin account · 1-year license. "
+    "Pricing is GST inclusive."
+)
+
+
+def _build_erp_sections(*, plan: str, is_founding: bool, valid_until) -> str:
+    """Serialize the ERP feature catalog into quotation `sections_json`."""
+    sections: list[dict[str, str]] = [
+        {
+            "title": "Modules included",
+            "content": "Six modules built around EPC workflows — all connected, "
+            "all in one system:",
+        }
+    ]
+    sections.extend({"title": title, "content": content} for title, content in ERP_MODULES)
+    sections.append(
+        {
+            "title": "Your annual license",
+            "content": (
+                f"{ERP_LICENSE_INCLUSIONS} "
+                f"Plan: {plan.title()}"
+                + (" (Founding rate)" if is_founding else "")
+                + f". License valid until {valid_until:%d %b %Y}."
+            ),
+        }
+    )
+    return json.dumps(sections)
+
+
+def _render_quotation_pdf(quotation: Quotation, lead: Lead) -> None:
+    """Render and attach the quotation PDF. Never raises — a PDF failure must not
+    break ERP purchase provisioning; the lead/payment are still recorded."""
+    context = {
+        "company_name": settings.company_name,
+        "company_tagline": settings.company_tagline,
+        "company_address": settings.company_address,
+        "company_website": settings.company_website,
+        "admin_name": settings.admin_name,
+        "admin_email": settings.admin_email,
+        "admin_phone": settings.admin_phone,
+        "lead": lead,
+        "quotation": quotation,
+        "items": quotation.items,
+        "sections": quotation.sections,
+        "payment_page_url": quotation.payment_page_url,
+    }
+    destination = settings.quotation_storage_dir / f"{quotation.quotation_number}.pdf"
+    try:
+        pdf_service.render_quotation(context, destination)
+        quotation.pdf_path = str(destination)
+    except PdfServiceUnavailableError as exc:
+        logger.warning("ERP quotation PDF not rendered (%s): %s", quotation.quotation_number, exc)
+    except Exception:  # pragma: no cover - defensive
+        logger.exception("Unexpected error rendering ERP quotation PDF %s", quotation.quotation_number)
 
 
 def _str(payload: dict, key: str) -> str | None:
@@ -81,6 +177,7 @@ def record_purchase(db: Session, payload: dict) -> Lead:
     )
     lead_repository.create(db, lead)
 
+    valid_until = (now + timedelta(days=settings.quote_validity_days)).date()
     series = build_quotation_series(company_code, lead_reference)
     quotation = Quotation(
         quotation_number=build_quotation_number(series, 0),
@@ -90,13 +187,24 @@ def record_purchase(db: Session, payload: dict) -> Lead:
         lead_id=lead.id,
         status=QuotationStatus.PAID,
         currency=currency,
-        title="Musk-IT ERP Annual License",
+        title="Musk-IT ERP — Annual License",
+        intro_message=(
+            f"Thank you for purchasing Musk-IT ERP. This is your paid quotation "
+            f"and tax invoice reference for the {plan.title()} plan"
+            + (" at the Founding rate" if is_founding else "")
+            + ". Your admin account and 1-year license are active."
+        ),
+        requirements_summary=(
+            "Musk-IT ERP is purpose-built for Indian EPC firms — drawings, BOQ, "
+            "site execution, and manpower in one connected system."
+        ),
         tax_label="GST",
         tax_rate=Decimal("0"),
         subtotal=total,
         tax_amount=Decimal("0"),
         total_amount=total,
-        valid_until=(now + timedelta(days=settings.quote_validity_days)).date(),
+        sections_json=_build_erp_sections(plan=plan, is_founding=is_founding, valid_until=valid_until),
+        valid_until=valid_until,
         paid_at=now,
         created_at=now,
         updated_at=now,
@@ -108,9 +216,12 @@ def record_purchase(db: Session, payload: dict) -> Lead:
         QuotationItem(
             quotation_id=quotation.id,
             sort_order=0,
-            title="Musk-IT ERP — Annual License (all modules)"
+            title="Musk-IT ERP — Annual License (all 6 modules)"
             + (" · Founding rate" if is_founding else ""),
-            description=f"Company code: {company_code or '—'}",
+            description=(
+                f"Unlimited projects & users · 1-year license · GST inclusive. "
+                f"Company code: {company_code or '—'}."
+            ),
             unit="license",
             quantity=Decimal("1"),
             unit_price=total,
@@ -158,6 +269,11 @@ def record_purchase(db: Session, payload: dict) -> Lead:
             "invoice_number": payment.invoice_number,
         },
     )
+
+    # Refresh so the quotation relationship (items) is loaded before rendering.
+    db.flush()
+    db.refresh(quotation)
+    _render_quotation_pdf(quotation, lead)
 
     db.commit()
     db.refresh(lead)
