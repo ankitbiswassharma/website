@@ -37,6 +37,10 @@ services:
       DATABASE_URL: postgresql+psycopg://${POSTGRES_USER:-muskit}:${POSTGRES_PASSWORD:-muskit_local_password}@db:5432/${POSTGRES_DB:-muskit_platform}
       ADMIN_SESSION_SECRET: ${ADMIN_SESSION_SECRET:-change-this-local-secret}
       EMAIL_PROVIDER: ${EMAIL_PROVIDER:-none}
+      # Shared HMAC secret for inbound ERP purchase sync (match the ERP's
+      # WEBSITE_PURCHASE_SYNC_SECRET to test the integration locally).
+      INTEGRATIONS_INBOUND_SECRET: ${INTEGRATIONS_INBOUND_SECRET:-local-dev-secret}
+      PUBLIC_BASE_URL: ${PUBLIC_BASE_URL:-http://localhost:8000}
     ports:
       - "${BACKEND_PORT:-8000}:8000"
     volumes:
