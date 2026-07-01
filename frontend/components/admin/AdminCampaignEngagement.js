@@ -338,7 +338,7 @@ export default function AdminCampaignEngagement({ session }) {
       onClose={() => setShowFailed(false)}
       eyebrow="Click Tracking"
       title="Failed sends"
-      description="Recipients whose email failed outright or bounced back after being accepted. The reason column shows the raw SMTP error or bounce diagnostic — use \"Check bounces\" above to pull in new non-delivery reports from the mailbox."
+      description="Recipients whose email failed outright or bounced back after being accepted. The reason column shows the raw SMTP error or bounce diagnostic — use 'Check bounces' above to pull in new non-delivery reports from the mailbox."
       size="xl"
     >
       {!failedRecipients.length ? (
