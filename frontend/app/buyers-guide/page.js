@@ -10,11 +10,13 @@ const GUIDE_PDF = "/downloads/musk-it-buyers-guide.pdf";
 
 const CONTENTS = [
   { n: "01", t: "Build vs. buy vs. customise", d: "How to choose the right path — and why most teams pick wrong by default." },
-  { n: "02", t: "The real cost of custom software", d: "The five costs to budget for. The build is rarely the biggest one." },
-  { n: "03", t: "10 questions to ask any partner", d: "The exact questions that surface lock-in, hidden costs, and weak teams." },
+  { n: "02", t: "The real cost of custom software", d: "The five costs to budget for, plus real INR pricing benchmarks by project type." },
+  { n: "03", t: "11 questions to ask any partner", d: "The exact questions that surface lock-in, hidden costs, and weak teams." },
   { n: "04", t: "Red flags that predict failure", d: "The warning signs to walk away from — before you sign anything." },
   { n: "05", t: "Owning your software", d: "Handover, documentation, and no lock-in: what to insist on." },
-  { n: "06", t: "An 8-step scoping checklist", d: "A practical checklist to scope your first project with confidence." },
+  { n: "06", t: "Real project, real numbers", d: "A live, currently-running case study — not a portfolio mockup." },
+  { n: "07", t: "Buying IT services the same way", d: "The same buyer discipline, applied to cloud, security, and managed IT." },
+  { n: "08", t: "An 8-step scoping checklist", d: "A practical checklist to scope your first project with confidence." },
 ];
 
 export default function BuyersGuidePage() {
@@ -32,7 +34,8 @@ export default function BuyersGuidePage() {
             </h1>
             <p className="guide-hero-sub">
               A practical, no-fluff guide to choosing, scoping, and budgeting custom software and IT
-              services — so you avoid the expensive mistakes most businesses make on their first project.
+              services — with real INR pricing benchmarks and a live case study, so you avoid the
+              expensive mistakes most businesses make on their first project.
             </p>
 
             {/* Book-cover mockup */}
@@ -41,13 +44,13 @@ export default function BuyersGuidePage() {
                 <span /><span /><span />
               </div>
               <div className="guide-cover-brand">Musk-IT</div>
-              <div className="guide-cover-pill">THE FREE GUIDE</div>
+              <div className="guide-cover-pill">THE FREE GUIDE · 2ND EDITION</div>
               <div className="guide-cover-title">
                 B2B Software &amp; IT
                 <br />
                 <span>Buyer&apos;s Guide</span>
               </div>
-              <div className="guide-cover-foot">muskit.in · 6 chapters · 4 pages</div>
+              <div className="guide-cover-foot">muskit.in · 8 chapters · 8 pages</div>
             </div>
           </div>
 

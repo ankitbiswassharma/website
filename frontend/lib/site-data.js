@@ -892,7 +892,7 @@ export const featuredProjects = [
     ],
     tech: ["React", "Vite", "FastAPI", "PostgreSQL", "WebSockets"],
     metric: "Live production deployment",
-    liveUrl: "https://oeeppl.muskit.in",
+    liveUrl: "https://erp.muskit.in",
     liveLabel: "View Live ERP",
   },
   {
