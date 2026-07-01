@@ -40,6 +40,14 @@ services:
       SMTP_FROM: ${SMTP_FROM:-}
       SMTP_FROM_ADDRESS: ${SMTP_FROM_ADDRESS:-}
       SMTP_FROM_NAME: ${SMTP_FROM_NAME:-Musk-IT}
+      # Bounce handling (IMAP poll of the sending mailbox). IMAP_USER/IMAP_PASSWORD
+      # default to SMTP_USER/SMTP_PASSWORD in the app if left unset here.
+      IMAP_HOST: ${IMAP_HOST:-}
+      IMAP_PORT: ${IMAP_PORT:-993}
+      IMAP_SSL: ${IMAP_SSL:-true}
+      IMAP_FOLDER: ${IMAP_FOLDER:-INBOX}
+      IMAP_USER: ${IMAP_USER:-}
+      IMAP_PASSWORD: ${IMAP_PASSWORD:-}
       RAZORPAY_KEY_ID: ${RAZORPAY_KEY_ID:-}
       RAZORPAY_KEY_SECRET: ${RAZORPAY_KEY_SECRET:-}
       RAZORPAY_WEBHOOK_SECRET: ${RAZORPAY_WEBHOOK_SECRET:-}

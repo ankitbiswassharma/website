@@ -105,6 +105,10 @@ export default function AdminCampaignEngagement({ session }) {
   const [showFailed, setShowFailed] = useState(false);
   const [showUnsubscribed, setShowUnsubscribed] = useState(false);
 
+  // Bounce check state
+  const [checkingBounces, setCheckingBounces] = useState(false);
+  const [bounceNotice, setBounceNotice] = useState("");
+
   async function loadEngagement() {
     if (!session.token) return;
     setLoading(true);
@@ -120,6 +124,28 @@ export default function AdminCampaignEngagement({ session }) {
       setError(e.message);
     } finally {
       setLoading(false);
+    }
+  }
+
+  async function handleCheckBounces() {
+    if (!session.token) return;
+    setCheckingBounces(true);
+    setBounceNotice("");
+    setError("");
+    try {
+      const result = await session.authFetch("/admin/campaigns/check-bounces", {
+        method: "POST",
+      });
+      setBounceNotice(
+        result.matched
+          ? `Found ${result.matched} new bounce${result.matched === 1 ? "" : "s"} out of ${result.scanned} unread message${result.scanned === 1 ? "" : "s"} scanned.`
+          : `No new bounces (scanned ${result.scanned} unread message${result.scanned === 1 ? "" : "s"}).`
+      );
+      await loadEngagement();
+    } catch (e) {
+      setError(e.message);
+    } finally {
+      setCheckingBounces(false);
     }
   }
 
@@ -151,7 +177,10 @@ export default function AdminCampaignEngagement({ session }) {
   }, [allRecipients, todayKey]);
 
   const failedRecipients = useMemo(
-    () => allRecipients.filter((row) => row.status === "failed" || row.status === "skipped"),
+    () =>
+      allRecipients.filter(
+        (row) => row.status === "failed" || row.status === "skipped" || row.status === "bounced"
+      ),
     [allRecipients]
   );
 
@@ -204,6 +233,15 @@ export default function AdminCampaignEngagement({ session }) {
             Unsubscribed{suppressions.length ? ` (${suppressions.length})` : ""}
           </button>
           <button
+            className="button btn-sm button-ghost"
+            type="button"
+            onClick={handleCheckBounces}
+            disabled={checkingBounces}
+            title="Poll the sending mailbox for non-delivery reports and mark matching recipients as bounced"
+          >
+            {checkingBounces ? "Checking…" : "Check bounces"}
+          </button>
+          <button
             className="button button-ghost btn-sm"
             type="button"
             onClick={loadEngagement}
@@ -215,6 +253,11 @@ export default function AdminCampaignEngagement({ session }) {
       </div>
 
       {error ? <div className="error-box">{error}</div> : null}
+      {bounceNotice ? (
+        <p className="muted" style={{ fontSize: 12, marginBottom: 0 }}>
+          {bounceNotice}
+        </p>
+      ) : null}
 
       {/* Today's recipients */}
       {todayRecipients.length ? (
@@ -295,7 +338,7 @@ export default function AdminCampaignEngagement({ session }) {
       onClose={() => setShowFailed(false)}
       eyebrow="Click Tracking"
       title="Failed sends"
-      description="Recipients whose email could not be delivered. The reason column shows the raw SMTP error — a wrong or non-existent address usually shows up here as a rejected-recipient/mailbox error, while connection or auth errors point to an SMTP or provider issue instead."
+      description="Recipients whose email failed outright or bounced back after being accepted. The reason column shows the raw SMTP error or bounce diagnostic — use \"Check bounces\" above to pull in new non-delivery reports from the mailbox."
       size="xl"
     >
       {!failedRecipients.length ? (

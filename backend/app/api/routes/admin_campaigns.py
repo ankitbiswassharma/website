@@ -5,12 +5,14 @@ from sqlalchemy.orm import Session
 from app.api.deps import get_admin_session
 from app.db.session import get_db
 from app.schemas.campaign import (
+    BounceCheckOut,
     CampaignEngagementSummary,
     CampaignRecipientOut,
     ColdOutreachIn,
     ColdOutreachResult,
     SuppressionOut,
 )
+from app.services.bounce_service import bounce_service
 from app.services.campaign_service import campaign_service, parse_emails
 
 
@@ -65,7 +67,7 @@ def list_campaign_recipients(
         is_opened = (recipient.open_count or 0) > 0 or is_clicked
         if recipient.status == "sent":
             sent += 1
-        elif recipient.status in {"failed", "skipped"}:
+        elif recipient.status in {"failed", "skipped", "bounced"}:
             failed += 1
         if is_opened:
             opened += 1
@@ -92,3 +94,16 @@ def list_suppressions(
     db: Session = Depends(get_db),
 ):
     return [SuppressionOut.model_validate(s) for s in campaign_service.list_suppressions(db)]
+
+
+@router.post("/check-bounces", response_model=BounceCheckOut)
+def check_bounces(
+    _: object = Depends(get_admin_session),
+    db: Session = Depends(get_db),
+):
+    """Poll the sending mailbox over IMAP for non-delivery reports and reconcile them
+    against recently-sent campaign recipients (see app/services/bounce_service.py)."""
+    result = bounce_service.check_bounces(db)
+    if result.error:
+        raise HTTPException(status_code=status.HTTP_502_BAD_GATEWAY, detail=result.error)
+    return BounceCheckOut(scanned=result.scanned, matched=result.matched, bounced_emails=result.bounced_emails)

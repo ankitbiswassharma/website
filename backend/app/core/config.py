@@ -54,6 +54,19 @@ class Settings(BaseSettings):
     sendgrid_from_email: str = Field(default="", alias="SENDGRID_FROM_EMAIL")
     sendgrid_from_name: str = Field(default="", alias="SENDGRID_FROM_NAME")
 
+    # Bounce handling: the SMTP relay has no bounce webhook, so non-delivery reports land
+    # back in the mailbox as regular email. We poll it over IMAP and match bounce messages
+    # against recently-sent campaign recipients. Defaults to the SMTP account/credentials
+    # unless IMAP_USER / IMAP_PASSWORD are set separately.
+    imap_host: str = Field(default="", alias="IMAP_HOST")
+    imap_port: int = Field(default=993, alias="IMAP_PORT")
+    imap_user: str = Field(default="", alias="IMAP_USER")
+    imap_password: str = Field(default="", alias="IMAP_PASSWORD")
+    imap_ssl: bool = Field(default=True, alias="IMAP_SSL")
+    imap_starttls: bool = Field(default=False, alias="IMAP_STARTTLS")
+    imap_folder: str = Field(default="INBOX", alias="IMAP_FOLDER")
+    imap_timeout: int = Field(default=30, alias="IMAP_TIMEOUT")
+
     company_name: str = Field(default="Musk-IT", alias="COMPANY_NAME")
     company_tagline: str = Field(default="Build | Automate | Grow", alias="COMPANY_TAGLINE")
     company_website: str = Field(default="https://muskit.in", alias="COMPANY_WEBSITE")
@@ -169,6 +182,26 @@ class Settings(BaseSettings):
     @property
     def razorpay_enabled(self) -> bool:
         return bool(self.razorpay_key_id and self.razorpay_key_secret)
+
+    @property
+    def imap_effective_user(self) -> str:
+        return self.imap_user or self.smtp_user
+
+    @property
+    def imap_effective_password(self) -> str:
+        return self.imap_password or self.smtp_password
+
+    @property
+    def imap_enabled(self) -> bool:
+        return bool(self.imap_host and self.imap_effective_user and self.imap_effective_password)
+
+    @property
+    def imap_use_ssl(self) -> bool:
+        return self.imap_ssl
+
+    @property
+    def imap_use_starttls(self) -> bool:
+        return self.imap_starttls and not self.imap_ssl
 
 
 settings = Settings()

@@ -66,3 +66,9 @@ class SuppressionOut(BaseModel):
     email: str
     reason: str
     created_at: datetime
+
+
+class BounceCheckOut(BaseModel):
+    scanned: int
+    matched: int
+    bounced_emails: list[str] = Field(default_factory=list)
