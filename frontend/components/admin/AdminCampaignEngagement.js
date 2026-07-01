@@ -25,7 +25,7 @@ function localDateKey(value) {
   return `${y}-${m}-${day}`;
 }
 
-function RecipientsTable({ rows }) {
+function RecipientsTable({ rows, showError = false }) {
   return (
     <div className="admin-table-wrap">
       <table className="dashboard-table">
@@ -37,6 +37,7 @@ function RecipientsTable({ rows }) {
             <th>Clicked link</th>
             <th>Sent</th>
             <th>Last click</th>
+            {showError ? <th>Reason</th> : null}
           </tr>
         </thead>
         <tbody>
@@ -76,6 +77,11 @@ function RecipientsTable({ rows }) {
               </td>
               <td className="muted" style={{ fontSize: 12 }}>{formatDateTime(row.sent_at)}</td>
               <td className="muted" style={{ fontSize: 12 }}>{formatDateTime(row.last_clicked_at)}</td>
+              {showError ? (
+                <td className="muted" style={{ fontSize: 12, maxWidth: 260 }}>
+                  {row.error_message || "—"}
+                </td>
+              ) : null}
             </tr>
           ))}
         </tbody>
@@ -94,6 +100,10 @@ export default function AdminCampaignEngagement({ session }) {
   const [showHistory, setShowHistory] = useState(false);
   const [historyDate, setHistoryDate] = useState("");
   const [historySearch, setHistorySearch] = useState("");
+
+  // Failed / Unsubscribed panel state
+  const [showFailed, setShowFailed] = useState(false);
+  const [showUnsubscribed, setShowUnsubscribed] = useState(false);
 
   async function loadEngagement() {
     if (!session.token) return;
@@ -140,6 +150,11 @@ export default function AdminCampaignEngagement({ session }) {
     return { todayRecipients: today, historyRecipients: history };
   }, [allRecipients, todayKey]);
 
+  const failedRecipients = useMemo(
+    () => allRecipients.filter((row) => row.status === "failed" || row.status === "skipped"),
+    [allRecipients]
+  );
+
   const hasHistoryFilter = Boolean(historyDate) || historySearch.trim().length > 0;
 
   const filteredHistory = useMemo(() => {
@@ -174,6 +189,21 @@ export default function AdminCampaignEngagement({ session }) {
             History{historyRecipients.length ? ` (${historyRecipients.length})` : ""}
           </button>
           <button
+            className="button btn-sm button-ghost"
+            type="button"
+            style={failedRecipients.length ? { borderColor: "var(--danger, #dc2626)", color: "var(--danger, #dc2626)" } : undefined}
+            onClick={() => setShowFailed(true)}
+          >
+            Failed{failedRecipients.length ? ` (${failedRecipients.length})` : ""}
+          </button>
+          <button
+            className="button btn-sm button-ghost"
+            type="button"
+            onClick={() => setShowUnsubscribed(true)}
+          >
+            Unsubscribed{suppressions.length ? ` (${suppressions.length})` : ""}
+          </button>
+          <button
             className="button button-ghost btn-sm"
             type="button"
             onClick={loadEngagement}
@@ -199,22 +229,6 @@ export default function AdminCampaignEngagement({ session }) {
           {allRecipients.length
             ? "No campaign emails sent today. Use History to view earlier sends."
             : "No campaign emails have been sent yet."}
-        </div>
-      ) : null}
-
-      {suppressions.length ? (
-        <div className="stack-sm" style={{ borderTop: "1px solid var(--border)", paddingTop: 16 }}>
-          <h3 style={{ marginBottom: 0, fontSize: 15 }}>
-            Unsubscribed ({suppressions.length})
-          </h3>
-          <p className="muted" style={{ fontSize: 12 }}>
-            These addresses opted out and are automatically skipped on future sends.
-          </p>
-          <div className="campaign-chip-row">
-            {suppressions.slice(0, 60).map((s) => (
-              <span className="campaign-chip" key={s.email}>{s.email}</span>
-            ))}
-          </div>
         </div>
       ) : null}
     </section>
@@ -274,6 +288,42 @@ export default function AdminCampaignEngagement({ session }) {
           <div className="empty-state">No recipients match this filter.</div>
         )}
       </div>
+    </AdminModal>
+
+    <AdminModal
+      open={showFailed}
+      onClose={() => setShowFailed(false)}
+      eyebrow="Click Tracking"
+      title="Failed sends"
+      description="Recipients whose email could not be delivered. The reason column shows the raw SMTP error — a wrong or non-existent address usually shows up here as a rejected-recipient/mailbox error, while connection or auth errors point to an SMTP or provider issue instead."
+      size="xl"
+    >
+      {!failedRecipients.length ? (
+        <div className="empty-state">No failed sends — every queued email was delivered by the SMTP server.</div>
+      ) : (
+        <RecipientsTable rows={failedRecipients} showError />
+      )}
+    </AdminModal>
+
+    <AdminModal
+      open={showUnsubscribed}
+      onClose={() => setShowUnsubscribed(false)}
+      eyebrow="Click Tracking"
+      title="Unsubscribed"
+      description="These addresses opted out and are automatically skipped on future sends."
+      size="xl"
+    >
+      {!suppressions.length ? (
+        <div className="empty-state">No one has unsubscribed yet.</div>
+      ) : (
+        <div className="campaign-chip-row">
+          {suppressions.map((s) => (
+            <span className="campaign-chip" key={s.email} title={formatDateTime(s.created_at)}>
+              {s.email}
+            </span>
+          ))}
+        </div>
+      )}
     </AdminModal>
     </>
   );
