@@ -3,6 +3,11 @@ services:
     image: postgres:16-alpine
     container_name: muskit_website_db
     restart: unless-stopped
+    # Postgres entrypoint starts as root then drops to `postgres` — that works
+    # under no-new-privileges (it drops, not gains, privileges). Don't cap_drop
+    # here: the entrypoint needs SETUID/SETGID/CHOWN.
+    security_opt:
+      - no-new-privileges:true
     environment:
       POSTGRES_DB: ${POSTGRES_DB:-muskit_platform}
       POSTGRES_USER: ${POSTGRES_USER:-muskit}
@@ -20,6 +25,11 @@ services:
       context: ./backend
     container_name: muskit_website_backend
     restart: unless-stopped
+    # Runs as non-root (UID 10001, see backend/Dockerfile); needs no capabilities.
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
     depends_on:
       db:
         condition: service_healthy
@@ -70,6 +80,11 @@ services:
         INTERNAL_API_BASE_URL: http://backend:8000
     container_name: muskit_website_frontend
     restart: unless-stopped
+    # Runs as non-root (`node` user, see frontend/Dockerfile); needs no capabilities.
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
     depends_on:
       - backend
     environment:
@@ -82,6 +97,8 @@ services:
     image: traefik:v3.1
     container_name: muskit_website_traefik
     restart: unless-stopped
+    security_opt:
+      - no-new-privileges:true
     command:
       - "--api.dashboard=false"
       - "--log.level=INFO"

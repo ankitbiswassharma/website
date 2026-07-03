@@ -32,7 +32,14 @@ lead_form_limiter = RateLimiter(max_calls=5, window_seconds=300)
 
 
 def client_ip(request) -> str:
+    """Best-effort client IP for rate limiting.
+
+    We sit behind exactly one trusted proxy (Traefik), which APPENDS the real
+    client IP to X-Forwarded-For. The first entry is attacker-controlled (they
+    can send their own XFF header), so taking it would let anyone spoof past
+    the rate limits — use the LAST entry instead.
+    """
     forwarded = request.headers.get("x-forwarded-for")
     if forwarded:
-        return forwarded.split(",")[0].strip()
+        return forwarded.split(",")[-1].strip()
     return request.client.host if request.client else "unknown"

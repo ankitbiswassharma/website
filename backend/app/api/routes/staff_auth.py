@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, Request
+from fastapi import APIRouter, Depends, HTTPException, Request, status
 from sqlalchemy.orm import Session
 
 from app.api.deps import get_staff_session
@@ -13,13 +13,27 @@ from app.schemas.user import (
     StaffSessionOut,
 )
 from app.services.user_service import user_service
+from app.utils.rate_limit import RateLimiter, client_ip
 
 
 router = APIRouter(prefix="/staff/auth", tags=["staff-auth"])
 
+# Per-IP guards on the staff login flow (password brute-force + OTP guessing).
+_login_limiter = RateLimiter(max_calls=5, window_seconds=300)
+_otp_verify_limiter = RateLimiter(max_calls=10, window_seconds=600)
+
+
+def _enforce(limiter: RateLimiter, request: Request) -> None:
+    if not limiter.allow(client_ip(request)):
+        raise HTTPException(
+            status_code=status.HTTP_429_TOO_MANY_REQUESTS,
+            detail="Too many login attempts. Please try again in a few minutes.",
+        )
+
 
 @router.post("/login", response_model=StaffOtpChallengeOut)
 def login(payload: StaffLoginIn, request: Request, db: Session = Depends(get_db)):
+    _enforce(_login_limiter, request)
     result = user_service.start_login(
         db,
         email=payload.email,
@@ -31,7 +45,8 @@ def login(payload: StaffLoginIn, request: Request, db: Session = Depends(get_db)
 
 
 @router.post("/verify-otp", response_model=StaffSessionOut)
-def verify_otp(payload: StaffOtpVerifyIn, db: Session = Depends(get_db)):
+def verify_otp(payload: StaffOtpVerifyIn, request: Request, db: Session = Depends(get_db)):
+    _enforce(_otp_verify_limiter, request)
     result = user_service.verify_login_otp(
         db,
         email=payload.email,

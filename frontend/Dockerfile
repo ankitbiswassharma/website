@@ -17,6 +17,12 @@ RUN npm ci
 COPY . /app
 RUN npm run build
 
+# Run as the unprivileged `node` user (ships with the base image). A root
+# container was the amplifier in the June 2026 React2Shell compromise.
+# `next start` needs write access to .next/cache (image optimizer, ISR).
+RUN chown -R node:node /app/.next
+USER node
+
 EXPOSE 3000
 
 CMD ["npm", "run", "start", "--", "--hostname", "0.0.0.0"]
