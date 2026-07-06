@@ -7,6 +7,7 @@ import Footer from "@/components/Footer";
 import JsonLd from "@/components/JsonLd";
 import Navbar from "@/components/Navbar";
 import ScrollReveal from "@/components/ScrollReveal";
+import TechBackground from "@/components/TechBackground";
 import WhatsAppButton from "@/components/WhatsAppButton";
 import {
   DEFAULT_DESCRIPTION,
@@ -122,6 +123,7 @@ export default async function RootLayout({ children }) {
         <a className="skip-link" href="#main-content">
           Skip to main content
         </a>
+        <TechBackground />
         <div className="app-shell">
           <Navbar />
           <main id="main-content" tabIndex={-1}>{children}</main>
