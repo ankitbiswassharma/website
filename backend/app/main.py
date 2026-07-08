@@ -30,10 +30,17 @@ async def lifespan(_: FastAPI):
     yield
 
 
+# Don't expose the interactive docs / OpenAPI schema publicly in production —
+# it enumerates every admin/staff/client route and their request payloads.
+_is_production = settings.app_env.strip().lower() == "production"
+
 app = FastAPI(
     title=f"{settings.company_name} SaaS Platform API",
     version="1.0.0",
     lifespan=lifespan,
+    docs_url=None if _is_production else "/docs",
+    redoc_url=None if _is_production else "/redoc",
+    openapi_url=None if _is_production else "/openapi.json",
 )
 
 app.add_middleware(

@@ -6,12 +6,14 @@ import json
 import secrets
 
 import httpx
+from fastapi import HTTPException, status
 from sqlalchemy.orm import Session
 
 from app.core.config import settings
 from app.core.security import utcnow
 from app.models.integration import InboundEvent, WebhookDelivery, WebhookEndpoint
 from app.repositories.integration_repository import IntegrationRepository
+from app.utils.net import UnsafeWebhookURL, assert_public_http_url
 
 # Outbound event types the platform can emit to subscribed webhook endpoints.
 OUTBOUND_EVENTS = [
@@ -97,6 +99,10 @@ class IntegrationService:
         event_types: list[str],
         description: str | None,
     ) -> WebhookEndpoint:
+        try:
+            assert_public_http_url(target_url)
+        except UnsafeWebhookURL as exc:
+            raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(exc)) from exc
         normalized = ",".join(sorted({event.strip() for event in event_types if event.strip()})) or "*"
         endpoint = WebhookEndpoint(
             name=name,
@@ -149,6 +155,9 @@ class IntegrationService:
             response_code: int | None = None
             error: str | None = None
             try:
+                # Re-validate at send time: guards endpoints stored before the
+                # registration check existed, and narrows the DNS-rebind window.
+                assert_public_http_url(endpoint.target_url)
                 response = httpx.post(
                     endpoint.target_url,
                     content=body,
