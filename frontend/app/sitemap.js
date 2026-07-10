@@ -1,4 +1,5 @@
 import { blogArticles } from "@/lib/blog-articles.mjs";
+import { solutions } from "@/lib/solutions.mjs";
 import { absoluteUrl, indexablePages } from "@/lib/seo.mjs";
 
 export default function sitemap() {
@@ -18,5 +19,12 @@ export default function sitemap() {
     priority: 0.7,
   }));
 
-  return [...pages, ...articles];
+  const solutionPages = solutions.map((solution) => ({
+    url: absoluteUrl(solution.path),
+    lastModified: now,
+    changeFrequency: "monthly",
+    priority: 0.7,
+  }));
+
+  return [...pages, ...articles, ...solutionPages];
 }

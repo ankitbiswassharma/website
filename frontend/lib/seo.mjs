@@ -136,6 +136,13 @@ export const indexablePages = [
     priority: 0.7,
   },
   {
+    path: "/solutions",
+    title: "Industry Software Solutions",
+    description:
+      "Custom software solutions mapped to your industry — ERP, CRM, automation, apps, cloud, security, and IT for manufacturing, retail, logistics, healthcare, professional services, and education.",
+    priority: 0.9,
+  },
+  {
     path: "/industries",
     title: "Industries We Build Software For",
     description:
