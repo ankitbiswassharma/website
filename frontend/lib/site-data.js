@@ -1085,3 +1085,47 @@ export const aboutCards = [
     ],
   },
 ];
+
+// ── Marketing / conversion configuration ──────────────────────────────────
+// All the copy for the site-wide "marketing stunt" components lives here so it
+// can be edited in one place. Keep messages honest — they are marketing hooks,
+// not fabricated claims about specific named clients.
+
+// Dismissible top announcement bar (scarcity + CTA).
+export const announcementBar = {
+  enabled: true,
+  id: "q3-2026-slots", // bump this to re-show the bar after a change
+  message: "Onboarding a limited number of new clients for Q3 — free scoping consultation included.",
+  emphasis: "Only a few sprint slots left",
+  ctaLabel: "Book a free call",
+  ctaHref: "/consultation",
+};
+
+// Rotating social-proof / activity toasts (bottom-left). These are marketing
+// prompts, not logs of specific real conversions — kept generic and truthful.
+export const socialProofToasts = {
+  enabled: true,
+  intervalMs: 9000,
+  startDelayMs: 6000,
+  items: [
+    { icon: "🔒", text: "Free IT & security audit", meta: "No obligation · report in 48h" },
+    { icon: "⚡", text: "We reply to new enquiries", meta: "Within one business day" },
+    { icon: "🚀", text: "New sprints kick off fast", meta: "Within 48 hours of scope sign-off" },
+    { icon: "🧩", text: "54 industry solutions", meta: "ERP, CRM, automation & more" },
+    { icon: "🤝", text: "You own the code", meta: "Full handover · no vendor lock-in" },
+    { icon: "📈", text: "Manufacturing team cut data entry ~70%", meta: "With a custom ERP build" },
+  ],
+};
+
+// Exit-intent offer modal + sticky mobile call-to-action.
+export const exitOffer = {
+  enabled: true,
+  eyebrow: "Before you go",
+  title: "Grab a free IT & security audit",
+  text: "We'll review your cloud, systems, and security and send back a prioritised findings report — no cost, no obligation.",
+  ctaLabel: "Claim my free audit",
+  ctaHref: "/security-audit",
+  dismissLabel: "No thanks",
+  stickyLabel: "Book a free consultation",
+  stickyHref: "/consultation",
+};

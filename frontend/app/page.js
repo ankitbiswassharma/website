@@ -2,6 +2,7 @@ import CtaBanner from "@/components/CtaBanner";
 import FeatureGrid from "@/components/FeatureGrid";
 import Hero from "@/components/Hero";
 import BentoShowcase from "@/components/BentoShowcase";
+import InteractiveShowcase from "@/components/InteractiveShowcase";
 import JsonLd from "@/components/JsonLd";
 import LeadForm from "@/components/LeadForm";
 import ProcessSteps from "@/components/ProcessSteps";
@@ -15,16 +16,28 @@ import {
   clientCommitments,
   problemItems,
   processSteps,
+  services,
   solutionItems,
 } from "@/lib/site-data";
 
 export const metadata = buildMetadata("/");
 
+// Interactive explorer tabs — derived from real service data so the tabbed
+// section stays in sync with what we offer (distinct from the bento above).
+const IX_ITEMS = services.slice(0, 6).map((service) => ({
+  id: service.slug,
+  eyebrow: service.eyebrow,
+  title: service.name,
+  text: service.summary,
+  metric: service.outcomes?.[0],
+  bullets: service.capabilities,
+}));
+
 const STATS = [
-  { num: "100%", label: "Custom-built around each client's workflows" },
-  { num: "Software + IT", label: "One partner for builds and the IT behind them" },
-  { num: "End-to-End", label: "From scoping and architecture to deployment and support" },
-  { num: "No Lock-In", label: "You own the code, the data, and the IP" },
+  { num: "48h", label: "From scope sign-off to sprint kickoff" },
+  { num: "54", label: "Industry solutions across 6 sectors" },
+  { num: "24h", label: "We reply to new enquiries within one business day" },
+  { num: "100%", label: "Code, data, and IP ownership — no lock-in" },
 ];
 
 const TECH = [
@@ -38,6 +51,19 @@ const TECH = [
   "Docker",
   "Tailwind CSS",
   "GraphQL",
+];
+
+const TECH_SECONDARY = [
+  "AWS",
+  "Azure",
+  "Google Cloud",
+  "Kubernetes",
+  "Terraform",
+  "Redis",
+  "Webhooks",
+  "OAuth",
+  "CI/CD",
+  "REST APIs",
 ];
 
 export default function HomePage() {
@@ -78,14 +104,15 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ── Tech strip ──────────────────────────────────────────── */}
+      {/* ── Tech strip (dual-direction marquee) ─────────────────── */}
       <section className="page-section" style={{ paddingBlock: "2rem" }}>
-        <div className="shell">
+        <div className="shell stack-sm">
           <TechMarquee items={TECH} />
+          <TechMarquee items={TECH_SECONDARY} reverse />
         </div>
       </section>
 
-      {/* ── Showcase ─────────────────────────────────────────────── */}
+      {/* ── Showcase (bento + interactive explorer) ──────────────── */}
       <section className="page-section section-dark">
         <div className="shell stack-lg">
           <SectionIntro
@@ -95,6 +122,7 @@ export default function HomePage() {
             centered
           />
           <BentoShowcase items={buildShowcaseItems} />
+          <InteractiveShowcase items={IX_ITEMS} />
         </div>
       </section>
 

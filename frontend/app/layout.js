@@ -1,11 +1,14 @@
 import { DM_Sans, Syne } from "next/font/google";
 import { cookies } from "next/headers";
 
+import AnnouncementBar from "@/components/AnnouncementBar";
 import BookCallWidget from "@/components/BookCallWidget";
 import ConsentBanner from "@/components/ConsentBanner";
+import ExitIntentOffer from "@/components/ExitIntentOffer";
 import Footer from "@/components/Footer";
 import JsonLd from "@/components/JsonLd";
 import Navbar from "@/components/Navbar";
+import SocialProofToasts from "@/components/SocialProofToasts";
 import ScrollReveal from "@/components/ScrollReveal";
 import TechBackground from "@/components/TechBackground";
 import WhatsAppButton from "@/components/WhatsAppButton";
@@ -125,6 +128,7 @@ export default async function RootLayout({ children }) {
         </a>
         <TechBackground />
         <div className="app-shell">
+          <AnnouncementBar />
           <Navbar />
           <main id="main-content" tabIndex={-1}>{children}</main>
           <Footer />
@@ -132,6 +136,8 @@ export default async function RootLayout({ children }) {
         <ScrollReveal />
         <BookCallWidget />
         <WhatsAppButton />
+        <SocialProofToasts />
+        <ExitIntentOffer />
         <JsonLd data={[organizationJsonLd(), websiteJsonLd(), localBusinessJsonLd()]} />
         <ConsentBanner />
       </body>

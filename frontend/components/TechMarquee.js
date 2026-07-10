@@ -3,11 +3,11 @@
  * CSS translateX(-50%) loop is seamless. Pauses on hover; animation is
  * disabled under prefers-reduced-motion (handled in globals.css).
  */
-export default function TechMarquee({ items }) {
+export default function TechMarquee({ items, reverse = false }) {
   const loop = [...items, ...items];
   return (
     <div className="tech-marquee" aria-label="Technologies we work with">
-      <div className="tech-marquee-track">
+      <div className={`tech-marquee-track${reverse ? " is-reverse" : ""}`}>
         {loop.map((t, i) => (
           <span
             className="tech-badge"

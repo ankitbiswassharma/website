@@ -1,5 +1,16 @@
 import Link from "next/link";
 
+import RotatingWords from "@/components/RotatingWords";
+
+const HERO_ROTATING = [
+  "ERP systems",
+  "CRM platforms",
+  "dashboards",
+  "workflow automation",
+  "web & mobile apps",
+  "API integrations",
+];
+
 export default function Hero() {
   return (
     <section className="hero">
@@ -13,9 +24,12 @@ export default function Hero() {
             Now onboarding new clients for Q3
           </div>
           <h1>
-            Custom Software &amp; IT Solutions,
+            We build your{" "}
+            <span className="text-gradient hero-rotating-slot">
+              <RotatingWords words={HERO_ROTATING} />
+            </span>
             <br />
-            <span className="text-gradient">Built Around Your Business.</span>
+            and run the IT behind it.
           </h1>
           <p>
             We build the software your business actually runs on — ERP, CRM,
