@@ -5,28 +5,32 @@ import { usePathname } from "next/navigation";
 
 const EXCLUDED_PREFIXES = ["/dashboard", "/staff", "/portal", "/enterprise-login", "/pay"];
 
+/**
+ * Ambient network constellation rendered on a full-viewport canvas behind the
+ * app. Drifting nodes connect into a soft multi-colour mesh with the occasional
+ * data pulse travelling a link. Tuned to be subtle premium texture — richer on
+ * the dark default, whisper-quiet on light. (Satellites were removed; they read
+ * as clip-art against the new vibrant design.)
+ */
 const THEMES = {
   light: {
-    node: "79, 70, 229", // indigo
-    accent: "8, 145, 178", // cyan
-    satellite: "55, 48, 163",
-    link: "79, 70, 229",
-    pulse: "16, 185, 129",
-    nodeAlpha: 0.35,
-    linkAlpha: 0.14,
-    satAlpha: 0.5,
-    orbitAlpha: 0.07,
+    // indigo, violet, cyan — matches the vibrant token palette
+    palette: ["79, 70, 229", "124, 58, 237", "8, 145, 178"],
+    link: "99, 90, 210",
+    pulse: "8, 145, 178",
+    pulseAlt: "5, 150, 105",
+    nodeAlpha: 0.5,
+    glowAlpha: 0.05,
+    linkAlpha: 0.12,
   },
   dark: {
-    node: "129, 140, 248",
-    accent: "34, 211, 238",
-    satellite: "165, 180, 252",
+    palette: ["129, 140, 248", "167, 139, 250", "34, 211, 238"],
     link: "129, 140, 248",
-    pulse: "52, 211, 153",
-    nodeAlpha: 0.45,
+    pulse: "34, 211, 238",
+    pulseAlt: "52, 211, 153",
+    nodeAlpha: 0.72,
+    glowAlpha: 0.09,
     linkAlpha: 0.16,
-    satAlpha: 0.65,
-    orbitAlpha: 0.1,
   },
 };
 
@@ -48,7 +52,6 @@ export default function TechBackground() {
     let rafId = 0;
     let running = true;
     let nodes = [];
-    let satellites = [];
     let pulses = [];
     let theme = THEMES[document.documentElement.dataset.theme === "dark" ? "dark" : "light"];
 
@@ -59,26 +62,19 @@ export default function TechBackground() {
     observer.observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
 
     function seed() {
-      const count = Math.min(90, Math.max(35, Math.round((width * height) / 26000)));
-      nodes = Array.from({ length: count }, () => ({
-        x: Math.random() * width,
-        y: Math.random() * height,
-        vx: (Math.random() - 0.5) * 0.22,
-        vy: (Math.random() - 0.5) * 0.22,
-        r: 1 + Math.random() * 1.6,
-        server: Math.random() < 0.12, // a few "server" squares among the dots
-      }));
-      const satCount = width < 720 ? 2 : 3;
-      satellites = Array.from({ length: satCount }, (_, i) => ({
-        cx: width * (0.2 + 0.3 * i + Math.random() * 0.1),
-        cy: height * (0.25 + Math.random() * 0.5),
-        rx: 90 + Math.random() * 130,
-        ry: 34 + Math.random() * 46,
-        angle: Math.random() * Math.PI * 2,
-        speed: 0.0016 + Math.random() * 0.0012,
-        tilt: (Math.random() - 0.5) * 0.9,
-        size: 5 + Math.random() * 3,
-      }));
+      const count = Math.min(78, Math.max(28, Math.round((width * height) / 30000)));
+      nodes = Array.from({ length: count }, () => {
+        const hub = Math.random() < 0.14; // a few brighter "hub" nodes
+        return {
+          x: Math.random() * width,
+          y: Math.random() * height,
+          vx: (Math.random() - 0.5) * 0.18,
+          vy: (Math.random() - 0.5) * 0.18,
+          r: hub ? 2.2 + Math.random() * 1.4 : 1 + Math.random() * 1.3,
+          hub,
+          color: Math.floor(Math.random() * theme.palette.length),
+        };
+      });
       pulses = [];
     }
 
@@ -95,59 +91,34 @@ export default function TechBackground() {
       if (reduceMotion.matches) drawFrame(0);
     }
 
-    function satellitePos(s) {
-      const cos = Math.cos(s.angle);
-      const sin = Math.sin(s.angle);
-      const x = s.cx + cos * s.rx * Math.cos(s.tilt) - sin * s.ry * Math.sin(s.tilt);
-      const y = s.cy + cos * s.rx * Math.sin(s.tilt) + sin * s.ry * Math.cos(s.tilt);
-      return { x, y };
-    }
-
-    function drawSatellite(x, y, size, angle) {
-      ctx.save();
-      ctx.translate(x, y);
-      ctx.rotate(angle * 0.5);
-      const c = `rgba(${theme.satellite}, ${theme.satAlpha})`;
-      ctx.fillStyle = c;
-      ctx.strokeStyle = c;
-      ctx.lineWidth = 1;
-      // body
-      ctx.fillRect(-size / 2, -size / 2, size, size);
-      // panels
-      ctx.fillRect(-size * 2.1, -size / 4, size * 1.3, size / 2);
-      ctx.fillRect(size * 0.8, -size / 4, size * 1.3, size / 2);
-      // panel struts
-      ctx.beginPath();
-      ctx.moveTo(-size * 0.8, 0);
-      ctx.lineTo(-size / 2, 0);
-      ctx.moveTo(size / 2, 0);
-      ctx.lineTo(size * 0.8, 0);
-      ctx.stroke();
-      ctx.restore();
-    }
-
     function spawnPulse() {
-      if (nodes.length < 2 || pulses.length > 5) return;
+      if (nodes.length < 2 || pulses.length > 6) return;
       const a = nodes[Math.floor(Math.random() * nodes.length)];
       const b = nodes[Math.floor(Math.random() * nodes.length)];
       const dist = Math.hypot(a.x - b.x, a.y - b.y);
-      if (a === b || dist > 260 || dist < 40) return;
-      pulses.push({ a, b, t: 0, speed: 0.008 + Math.random() * 0.008 });
+      if (a === b || dist > 240 || dist < 40) return;
+      pulses.push({
+        a,
+        b,
+        t: 0,
+        speed: 0.008 + Math.random() * 0.007,
+        alt: Math.random() < 0.4,
+      });
     }
 
     function drawFrame(dt) {
       ctx.clearRect(0, 0, width, height);
-      const linkDist = 140;
+      const linkDist = 155;
 
-      // move + draw nodes
-      for (const n of nodes) {
-        if (dt) {
+      // move nodes (wrap around edges)
+      if (dt) {
+        for (const n of nodes) {
           n.x += n.vx * dt;
           n.y += n.vy * dt;
-          if (n.x < -20) n.x = width + 20;
-          if (n.x > width + 20) n.x = -20;
-          if (n.y < -20) n.y = height + 20;
-          if (n.y > height + 20) n.y = -20;
+          if (n.x < -24) n.x = width + 24;
+          if (n.x > width + 24) n.x = -24;
+          if (n.y < -24) n.y = height + 24;
+          if (n.y > height + 24) n.y = -24;
         }
       }
 
@@ -171,16 +142,27 @@ export default function TechBackground() {
         }
       }
 
-      // nodes
+      // nodes — soft glow halo + crisp core
       for (const n of nodes) {
-        if (n.server) {
-          ctx.fillStyle = `rgba(${theme.accent}, ${theme.nodeAlpha})`;
-          ctx.fillRect(n.x - 2.5, n.y - 2.5, 5, 5);
-        } else {
-          ctx.fillStyle = `rgba(${theme.node}, ${theme.nodeAlpha})`;
+        const rgb = theme.palette[n.color];
+        const glow = n.hub ? theme.glowAlpha * 1.8 : theme.glowAlpha;
+        ctx.fillStyle = `rgba(${rgb}, ${glow})`;
+        ctx.beginPath();
+        ctx.arc(n.x, n.y, n.r * 4.5, 0, Math.PI * 2);
+        ctx.fill();
+
+        ctx.fillStyle = `rgba(${rgb}, ${n.hub ? Math.min(1, theme.nodeAlpha + 0.2) : theme.nodeAlpha})`;
+        ctx.beginPath();
+        ctx.arc(n.x, n.y, n.r, 0, Math.PI * 2);
+        ctx.fill();
+
+        // subtle ring on hub nodes
+        if (n.hub) {
+          ctx.strokeStyle = `rgba(${rgb}, ${theme.nodeAlpha * 0.4})`;
+          ctx.lineWidth = 1;
           ctx.beginPath();
-          ctx.arc(n.x, n.y, n.r, 0, Math.PI * 2);
-          ctx.fill();
+          ctx.arc(n.x, n.y, n.r + 3.5, 0, Math.PI * 2);
+          ctx.stroke();
         }
       }
 
@@ -195,44 +177,15 @@ export default function TechBackground() {
         const x = p.a.x + (p.b.x - p.a.x) * p.t;
         const y = p.a.y + (p.b.y - p.a.y) * p.t;
         const fade = Math.sin(p.t * Math.PI);
-        ctx.fillStyle = `rgba(${theme.pulse}, ${0.55 * fade})`;
+        const rgb = p.alt ? theme.pulseAlt : theme.pulse;
+        ctx.fillStyle = `rgba(${rgb}, ${0.16 * fade})`;
         ctx.beginPath();
-        ctx.arc(x, y, 2.2, 0, Math.PI * 2);
+        ctx.arc(x, y, 5.5, 0, Math.PI * 2);
         ctx.fill();
-      }
-
-      // satellites + orbit paths + downlinks
-      for (const s of satellites) {
-        if (dt) s.angle += s.speed * dt * 0.06;
-        // orbit path
-        ctx.strokeStyle = `rgba(${theme.satellite}, ${theme.orbitAlpha})`;
-        ctx.setLineDash([3, 7]);
+        ctx.fillStyle = `rgba(${rgb}, ${0.7 * fade})`;
         ctx.beginPath();
-        ctx.ellipse(s.cx, s.cy, s.rx, s.ry, s.tilt, 0, Math.PI * 2);
-        ctx.stroke();
-        ctx.setLineDash([]);
-
-        const pos = satellitePos(s);
-        // downlink to nearest node
-        let nearest = null;
-        let best = 200 * 200;
-        for (const n of nodes) {
-          const d2 = (n.x - pos.x) ** 2 + (n.y - pos.y) ** 2;
-          if (d2 < best) {
-            best = d2;
-            nearest = n;
-          }
-        }
-        if (nearest) {
-          ctx.strokeStyle = `rgba(${theme.accent}, 0.12)`;
-          ctx.setLineDash([2, 5]);
-          ctx.beginPath();
-          ctx.moveTo(pos.x, pos.y);
-          ctx.lineTo(nearest.x, nearest.y);
-          ctx.stroke();
-          ctx.setLineDash([]);
-        }
-        drawSatellite(pos.x, pos.y, s.size, s.angle);
+        ctx.arc(x, y, 2, 0, Math.PI * 2);
+        ctx.fill();
       }
     }
 
@@ -244,7 +197,7 @@ export default function TechBackground() {
       const dt = Math.min(now - last, 50);
       last = now;
       pulseTimer += dt;
-      if (pulseTimer > 600) {
+      if (pulseTimer > 700) {
         pulseTimer = 0;
         spawnPulse();
       }

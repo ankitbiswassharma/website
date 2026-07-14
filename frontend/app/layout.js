@@ -39,7 +39,7 @@ const syne = Syne({
   display: "swap",
 });
 
-const DEFAULT_THEME = "light";
+const DEFAULT_THEME = "dark";
 const THEME_COOKIE = "muskit-theme";
 
 const themeScript = `
@@ -112,7 +112,10 @@ export const metadata = {
 
 export default async function RootLayout({ children }) {
   const cookieStore = await cookies();
-  const initialTheme = cookieStore.get(THEME_COOKIE)?.value === "dark" ? "dark" : DEFAULT_THEME;
+  // Dark is the default, but honour a returning visitor's explicit choice.
+  const cookieTheme = cookieStore.get(THEME_COOKIE)?.value;
+  const initialTheme =
+    cookieTheme === "light" || cookieTheme === "dark" ? cookieTheme : DEFAULT_THEME;
 
   return (
     <html

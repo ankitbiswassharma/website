@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 
-const DEFAULT_THEME = "light";
+const DEFAULT_THEME = "dark";
 const THEME_COOKIE = "muskit-theme";
 
 function persistTheme(theme) {
