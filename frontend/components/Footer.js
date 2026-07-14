@@ -74,7 +74,7 @@ export default function Footer() {
 
         <div className="footer-bottom">
           <p className="footer-copyright">
-            © {new Date().getFullYear()} Muskan Chhetri | Musk-IT | All Rights Reserved
+            © {new Date().getFullYear()} Muskan Chhetri | Ankit Biswas Sharma | Musk-IT | All Rights Reserved
           </p>
           <nav className="footer-legal-links" aria-label="Legal">
             <a href="/privacy-policy.html">Privacy Policy</a>
