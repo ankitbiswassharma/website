@@ -10,6 +10,11 @@ import SectionIntro from "@/components/SectionIntro";
 import StatsStrip from "@/components/StatsStrip";
 import TechMarquee from "@/components/TechMarquee";
 import TrustStrip from "@/components/TrustStrip";
+import ImpactBand from "@/components/ImpactBand";
+import WhyUsCompare from "@/components/WhyUsCompare";
+import IntegrationsWall from "@/components/IntegrationsWall";
+import GuaranteeStrip from "@/components/GuaranteeStrip";
+import HomeFaq from "@/components/HomeFaq";
 import { buildMetadata, serviceJsonLd } from "@/lib/seo.mjs";
 import {
   buildShowcaseItems,
@@ -38,6 +43,14 @@ const STATS = [
   { num: "54", label: "Industry solutions across 6 sectors" },
   { num: "24h", label: "We reply to new enquiries within one business day" },
   { num: "100%", label: "Code, data, and IP ownership — no lock-in" },
+];
+
+// Punchy metrics for the gradient impact band.
+const IMPACT_STATS = [
+  { num: "100%", label: "Code & IP ownership handed to you" },
+  { num: "48h", label: "Sprint kickoff after scope sign-off" },
+  { num: "6", label: "Sectors with ready-built solutions" },
+  { num: "24/7", label: "Managed cloud, security & monitoring" },
 ];
 
 const TECH = [
@@ -104,6 +117,13 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* ── Impact band (gradient metrics) ──────────────────────── */}
+      <section className="page-section" style={{ paddingBlock: "2.5rem" }}>
+        <div className="shell">
+          <ImpactBand items={IMPACT_STATS} />
+        </div>
+      </section>
+
       {/* ── Tech strip (dual-direction marquee) ─────────────────── */}
       <section className="page-section" style={{ paddingBlock: "2rem" }}>
         <div className="shell stack-sm">
@@ -126,6 +146,18 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* ── Why us (comparison table) ───────────────────────────── */}
+      <section className="page-section section-tinted">
+        <div className="shell stack-lg">
+          <SectionIntro
+            eyebrow="Why Musk-IT"
+            title="The speed of a startup, the ownership of in-house"
+            text="Hiring a team is slow and expensive. Agencies template your product and license it back. We give you custom software built around your workflows — that you own outright — and run the IT behind it."
+          />
+          <WhyUsCompare />
+        </div>
+      </section>
+
       {/* ── Process ──────────────────────────────────────────────── */}
       <section className="page-section" id="how-it-works">
         <div className="shell stack-lg">
@@ -135,6 +167,33 @@ export default function HomePage() {
             text="Our process is designed for speed without shortcuts. Every engagement follows the same clear path so you always know what's happening and what's next."
           />
           <ProcessSteps items={processSteps} />
+        </div>
+      </section>
+
+      {/* ── Integrations wall ───────────────────────────────────── */}
+      <section className="page-section section-tinted">
+        <div className="shell stack-lg">
+          <SectionIntro
+            eyebrow="Plugs Into Your Stack"
+            eyebrowClassName="eyebrow-cyan"
+            title="Connects with the tools you already run on"
+            text="Payments, CRM, ERP, accounting, cloud, messaging — whatever you already use, we integrate with it over first-party connectors, REST, GraphQL, or signed webhooks."
+          />
+          <IntegrationsWall />
+        </div>
+      </section>
+
+      {/* ── Guarantees / trust ──────────────────────────────────── */}
+      <section className="page-section">
+        <div className="shell stack-lg">
+          <SectionIntro
+            eyebrow="Our Commitments"
+            eyebrowClassName="eyebrow-emerald"
+            title="Low-risk by design"
+            text="Every engagement comes with the same guarantees — so choosing us is an easy, reversible decision."
+            centered
+          />
+          <GuaranteeStrip />
         </div>
       </section>
 
@@ -154,6 +213,20 @@ export default function HomePage() {
               submitLabel="Request a Consultation"
             />
           </div>
+        </div>
+      </section>
+
+      {/* ── FAQ ──────────────────────────────────────────────────── */}
+      <section className="page-section">
+        <div className="shell stack-lg">
+          <SectionIntro
+            eyebrow="Questions"
+            eyebrowClassName="eyebrow-amber"
+            title="Everything you might be wondering"
+            text="Still unsure about something? Book a free call and we'll answer it directly."
+            centered
+          />
+          <HomeFaq />
         </div>
       </section>
 

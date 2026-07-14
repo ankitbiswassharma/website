@@ -365,6 +365,18 @@ export const faqItems = [
     q: "Do you work with existing codebases?",
     a: "Yes. Many of our engagements involve jumping into an existing product. We start with a codebase review as part of the consulting discovery phase.",
   },
+  {
+    q: "Who owns the code and data at the end?",
+    a: "You do — completely. Every engagement hands over full source code, documentation, and infrastructure access. There's no proprietary lock-in and nothing held hostage.",
+  },
+  {
+    q: "How does pricing work?",
+    a: "We scope each engagement up front and agree a fixed, transparent price before any work starts — so there are no surprise invoices. For ongoing work we offer predictable monthly sprint-based plans.",
+  },
+  {
+    q: "Do you also run the IT after launch?",
+    a: "Yes. Beyond building the software, we can run the cloud infrastructure, security, monitoring, and support behind it — one accountable partner instead of stitching vendors together.",
+  },
 ];
 
 export const docsItems = [
@@ -1094,10 +1106,10 @@ export const aboutCards = [
 // Dismissible top announcement bar (scarcity + CTA).
 export const announcementBar = {
   enabled: true,
-  id: "q3-2026-slots", // bump this to re-show the bar after a change
-  message: "Onboarding a limited number of new clients for Q3 — free scoping consultation included.",
-  emphasis: "Only a few sprint slots left",
-  ctaLabel: "Book a free call",
+  id: "q3-2026-slots-v2", // bump this to re-show the bar after a change
+  message: "Free IT & security audit + scoping call included — kick off within 48 hours.",
+  emphasis: "Q3 onboarding is filling up",
+  ctaLabel: "Claim your slot",
   ctaHref: "/consultation",
 };
 
@@ -1109,11 +1121,13 @@ export const socialProofToasts = {
   startDelayMs: 6000,
   items: [
     { icon: "🔒", text: "Free IT & security audit", meta: "No obligation · report in 48h" },
-    { icon: "⚡", text: "We reply to new enquiries", meta: "Within one business day" },
-    { icon: "🚀", text: "New sprints kick off fast", meta: "Within 48 hours of scope sign-off" },
+    { icon: "⚡", text: "24-hour reply, guaranteed", meta: "Real answer within one business day" },
+    { icon: "🚀", text: "Sprints kick off in 48 hours", meta: "From scope sign-off to build" },
     { icon: "🧩", text: "54 industry solutions", meta: "ERP, CRM, automation & more" },
-    { icon: "🤝", text: "You own the code", meta: "Full handover · no vendor lock-in" },
+    { icon: "🤝", text: "You own 100% of the code", meta: "Full handover · zero lock-in" },
     { icon: "📈", text: "Manufacturing team cut data entry ~70%", meta: "With a custom ERP build" },
+    { icon: "🛡️", text: "Secure by default", meta: "Managed cloud, hardening & monitoring" },
+    { icon: "💬", text: "One partner, end to end", meta: "We build it and run the IT behind it" },
   ],
 };
 
@@ -1121,8 +1135,8 @@ export const socialProofToasts = {
 export const exitOffer = {
   enabled: true,
   eyebrow: "Before you go",
-  title: "Grab a free IT & security audit",
-  text: "We'll review your cloud, systems, and security and send back a prioritised findings report — no cost, no obligation.",
+  title: "Get a free IT & security audit — worth ₹25,000",
+  text: "We'll review your cloud, systems, and security and send back a prioritised findings report within 48 hours — no cost, no obligation, yours to keep.",
   ctaLabel: "Claim my free audit",
   ctaHref: "/security-audit",
   dismissLabel: "No thanks",
