@@ -1,3 +1,4 @@
+import Link from "next/link";
 import CtaBanner from "@/components/CtaBanner";
 import FeatureGrid from "@/components/FeatureGrid";
 import Hero from "@/components/Hero";
@@ -15,6 +16,7 @@ import WhyUsCompare from "@/components/WhyUsCompare";
 import IntegrationsWall from "@/components/IntegrationsWall";
 import GuaranteeStrip from "@/components/GuaranteeStrip";
 import HomeFaq from "@/components/HomeFaq";
+import { blogCards } from "@/lib/blog-articles.mjs";
 import { buildMetadata, serviceJsonLd } from "@/lib/seo.mjs";
 import {
   buildShowcaseItems,
@@ -194,6 +196,24 @@ export default function HomePage() {
             centered
           />
           <GuaranteeStrip />
+        </div>
+      </section>
+
+      {/* ── Insights / From the blog ─────────────────────────────── */}
+      <section className="page-section">
+        <div className="shell stack-lg">
+          <SectionIntro
+            eyebrow="Insights"
+            eyebrowClassName="eyebrow-cyan"
+            title="Practical reading on software, cost, and delivery"
+            text="Guides we write for founders and operators weighing a build — how much custom software costs, when to build instead of buy, and how to connect the tools you already run on."
+          />
+          <FeatureGrid items={blogCards.slice(-3)} variant="service" />
+          <div style={{ textAlign: "center" }}>
+            <Link className="button button-primary" href="/blog">
+              Read all articles
+            </Link>
+          </div>
         </div>
       </section>
 
